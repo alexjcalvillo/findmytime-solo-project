@@ -14,50 +14,40 @@ import { Link } from 'react-router-dom';
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
 // and then instead of `props.user.username` you could use `user.username`
-class SetUpStep1 extends Component {
+class SetUpStep2 extends Component {
   state = {
-    wakeup: {
-      details: '',
-      timeStart: '',
-      timeEnd: '',
-    },
+    details: '',
+    timeStart: '',
+    timeEnd: '',
   };
 
   handleInput = (input) => (event) => {
     this.setState({
-      wakeup: {
-        [input]: event.target.value,
-      },
+      [input]: event.target.value,
     });
   };
 
   handleTimeRange(times) {
     console.log(times);
-    // this.setState({
-    //   wakeup: {
-    //     ...this.state.wakeup,
-    //     timeStart: times[0],
-    //     timeEnd: times[1],
-    //   },
-    // });
+    this.setState({
+      timeStart: times[0],
+      timeEnd: times[1],
+    });
   }
 
   handleNext = () => {
-    this.props.dispatch({
-      type: 'SET_WAKEUP',
-      payload: this.state.wakeup,
-    });
     this.props.history.push('/setup-2');
   };
 
   render() {
+    console.log(this.props.store.wakeup);
     return (
       <div className="setupForm">
         <div className="formHeading">
-          <h1>Welcome, {this.props.user.username}: SetUp Step 1</h1>
+          <h1>Welcome, {this.props.user.username}: SetUp Step 2</h1>
         </div>
         <div className="inner">
-          <h4>WakeUp Routines:</h4>
+          <h4>WindDown Routines:</h4>
           <label htmlFor="details">Routine Details</label>
           <br />
           <textarea
@@ -80,11 +70,11 @@ class SetUpStep1 extends Component {
         </div>
         {/* <p>{this.props.store.wakeup}</p> */}
 
-        <button onClick={this.handleNext}>Next</button>
+        {/* <button onClick={this.handleNext}>Next</button> */}
       </div>
     );
   }
 }
 
 // this allows us to use <App /> in index.js
-export default connect(mapStoreToProps)(SetUpStep1);
+export default connect(mapStoreToProps)(SetUpStep2);
