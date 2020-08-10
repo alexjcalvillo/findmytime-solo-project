@@ -20,6 +20,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import SetUp from '../pages/SetUp/SetUp';
+import SetUpStep1 from '../pages/SetupSteps/SetUpStep1/SetUpStep1';
 
 import './App.css';
 
@@ -48,6 +49,7 @@ class App extends Component {
             they will see the info page instead. */}
             <ProtectedRoute exact path="/info" component={InfoPage} />
             <ProtectedRoute exact path="/setup" component={SetUp} />
+            <ProtectedRoute exact path="/setup-1" component={SetUpStep1} />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will be redirected to the authRedirect path provided. */}
             <ProtectedRoute
