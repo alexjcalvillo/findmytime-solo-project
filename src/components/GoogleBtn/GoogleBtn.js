@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
+// import custom styling
+import './GoogleBtn.css';
+
 const CLIENT_ID =
   '129021208394-bp1f5i16igv01sp39vsj7be64ub2mu03.apps.googleusercontent.com';
 
@@ -45,7 +48,7 @@ class GoogleBtn extends Component {
 
   render() {
     return (
-      <div>
+      <div className="centered-self">
         {this.state.isLogined ? (
           <GoogleLogout
             clientId={CLIENT_ID}
