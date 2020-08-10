@@ -16,35 +16,35 @@ class GoogleBtn extends Component {
       accessToken: '',
     };
 
-    this.login = this.login.bind(this);
-    this.handleLoginFailure = this.handleLoginFailure.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
+    // this.login = this.login.bind(this);
+    // this.handleLoginFailure = this.handleLoginFailure.bind(this);
+    // this.logout = this.logout.bind(this);
+    // this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
   }
 
-  login(response) {
+  login = (response) => {
     if (response.accessToken) {
       this.setState((state) => ({
         isLogined: true,
         accessToken: response.accessToken,
       }));
     }
-  }
+  };
 
-  logout(response) {
+  logout = (response) => {
     this.setState((state) => ({
       isLogined: false,
       accessToken: '',
     }));
-  }
+  };
 
-  handleLoginFailure(response) {
+  handleLoginFailure = (response) => {
     alert('Failed to log in');
-  }
+  };
 
-  handleLogoutFailure(response) {
+  handleLogoutFailure = (response) => {
     alert('Failed to log out');
-  }
+  };
 
   render() {
     return (
