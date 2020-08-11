@@ -13,6 +13,7 @@ class UserPage extends Component {
       <div className="formPanel">
         <h1 id="welcome">Welcome, {this.props.store.user.username}!</h1>
         <p>Your ID is: {this.props.store.user.id}</p>
+        {/* TODO: Conditionally render setup based on if user has events saved (first login) */}
         <SetupBtn className="log-in" />
         {/* <button onClick={this.setupAccount}>Go to Setup</button> */}
         <LogOutButton className="log-in" />

@@ -25,6 +25,7 @@ import SetUpStep2 from '../pages/SetupSteps/SetUpStep2/SetUpStep2';
 
 import './App.css';
 import SetUpConfirm from '../pages/SetupSteps/SetUpConfirm/SetUpConfirm';
+import SetUpGoogle from '../pages/SetupSteps/SetUpGoogle/SetUpGoogle';
 
 class App extends Component {
   componentDidMount() {
@@ -57,6 +58,11 @@ class App extends Component {
               exact
               path="/setup-confirm"
               component={SetUpConfirm}
+            />
+            <ProtectedRoute
+              exact
+              path="/setup-google"
+              component={SetUpGoogle}
             />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will be redirected to the authRedirect path provided. */}

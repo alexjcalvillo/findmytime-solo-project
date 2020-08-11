@@ -28,6 +28,10 @@ class GoogleBtn extends Component {
         isLogined: true,
         accessToken: response.accessToken,
       }));
+      this.props.dispatch({
+        type: 'GET_GOOGLE_CALENDAR',
+        payload: this.state.accessToken,
+      });
     }
   };
 
