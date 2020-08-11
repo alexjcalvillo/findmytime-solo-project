@@ -43,6 +43,7 @@ class LoginForm extends Component {
           <label htmlFor="username">
             Username:
             <input
+              className="login-input"
               type="text"
               name="username"
               required
@@ -55,6 +56,7 @@ class LoginForm extends Component {
           <label htmlFor="password">
             Password:
             <input
+              className="login-input"
               type="password"
               name="password"
               required

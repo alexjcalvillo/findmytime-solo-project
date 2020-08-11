@@ -16,6 +16,7 @@ body {
 }
 
 .formPanel {
+  text-align: center;
   box-sizing: border-box;
   width: 400px;
   max-width: 100%;
@@ -26,17 +27,20 @@ body {
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 }
 
-input {
-  margin: 5px;
+.login-input {
+  height: 1.5rem;
+  width: 50%;
+  margin: auto;
   margin-bottom: 10px;
+  display: block;
 }
 
 .log-in,
 .log-out,
 .register {
-  background-color: #05c7f2;
-  border: 1px solid #034c8c;
-  border-width: 1px 1px 3px 1px;
+  background-color: #a1bcd300;
+  border: 1px solid #d96055;
+  border-width: 1px 1px 1px 1px;
   border-radius: 4px;
   color: #f8f8f8;
   min-height: 50px;
@@ -48,7 +52,7 @@ input {
 .log-in:hover,
 .log-out:hover,
 .register:hover {
-  background-color: #034c8c;
+  background-color: #d96055;
 }
 
 /* This line makes the "Register" and "Login" buttons look like links */
