@@ -36,7 +36,7 @@ class SetUpStep2 extends Component {
   }
 
   handleNext = () => {
-    this.props.history.push('/setup-2');
+    this.props.history.push('/setup-confirm');
   };
 
   render() {
@@ -46,8 +46,19 @@ class SetUpStep2 extends Component {
         <div className="formHeading">
           <h1>Welcome, {this.props.user.username}: SetUp Step 2</h1>
         </div>
-        <div className="inner">
+        <div className="inner" style={{ overflow: 'scroll' }}>
           <h4>WindDown Routines:</h4>
+          <p>
+            I'm baby polaroid affogato try-hard, pabst taiyaki pitchfork
+            portland blog cardigan edison bulb. +1 cred hoodie VHS, bitters
+            ennui skateboard chia chartreuse cliche air plant put a bird on it
+            meh. Lumbersexual tumblr thundercats bicycle rights mixtape
+            readymade XOXO kale chips pinterest kombucha. Migas typewriter lyft
+            subway tile, trust fund polaroid vice try-hard edison bulb godard 3
+            wolf moon green juice keffiyeh meggings crucifix. Cray readymade
+            flannel, af try-hard XOXO pug ennui tbh pok pok.
+          </p>
+          <hr />
           <label htmlFor="details">Routine Details</label>
           <br />
           <textarea
@@ -63,14 +74,24 @@ class SetUpStep2 extends Component {
             onChange={(value) => this.handleTimeRange(value)}
             value={this.state.timeStart}
           />
+
           <br />
           <select>
             <option value="daily">Daily</option>
           </select>
+          <button
+            className="log-in"
+            style={{
+              display: 'block',
+              marginLeft: '80%',
+              // bottom: '50px',
+              color: 'black',
+            }}
+            onClick={this.handleNext}
+          >
+            Next
+          </button>
         </div>
-        {/* <p>{this.props.store.wakeup}</p> */}
-
-        {/* <button onClick={this.handleNext}>Next</button> */}
       </div>
     );
   }
