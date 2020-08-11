@@ -9,35 +9,74 @@ import { Link } from 'react-router-dom';
 // const UserPage = ({ user }) => (
 // and then instead of `props.user.username` you could use `user.username`
 class SetUpGoogle extends Component {
-  state = {};
+  state = {
+    events: [],
+  };
+
+  componentDidMount() {
+    // this.props.dispatch({
+    //   type: 'GET_GOOGLE_CALENDAR',
+    //   payload: this.props.store.google,
+    // });
+    // this.setState({
+    //   accessToken: this.props.store.google,
+    // });
+    this.getEvents();
+  }
+
+  getEvents = () => {
+    function start() {
+      window.gapi.client
+        .init({
+          apiKey: 'AIzaSyBlgNuGbplqSIBBSWHlGQaCCKVZU7PyoL0',
+          CLIENT_ID:
+            '129021208394-bp1f5i16igv01sp39vsj7be64ub2mu03.apps.googleusercontent.com',
+          clientSecret: 'h-kdqqnmQsLVEHHeAn2rOCGo',
+        })
+        .then(function () {
+          return window.gapi.client.request({
+            path: `https://www.googleapis.com/calendar/v3/calendars/'primary'/events`,
+          });
+        })
+        .then(
+          (response) => {
+            let events = response.result.items;
+            this.setState(
+              {
+                events,
+              },
+              () => {
+                console.log(this.state.events);
+              }
+            );
+          },
+          function (reason) {
+            console.log(reason);
+          }
+        );
+    }
+    window.gapi.load('client', start);
+  };
   render() {
-    console.log(this.props.store.wakeup);
     return (
       <div className="setupForm">
         <div className="formHeading">
-          <h1>
-            Welcome, {this.props.user.username} to the Setup Confirmation Page
-          </h1>
+          <h1>Welcome, {this.props.user.username} to the Setup Google</h1>
         </div>
         <div className="inner">
-          <h3>Does this look correct?</h3>
-          <h4>WakeUp Routines:</h4>
-          <ul>
-            <li>
-              {this.props.store.wakeup.startTime} -{' '}
-              {this.props.store.wakeup.endTime}
-            </li>
-            <li>{this.props.store.wakeup.notes}</li>
-          </ul>
-
-          <h4>WindDown Routines:</h4>
-          <ul>
-            <li>
-              {this.props.store.winddown.startTime} -{' '}
-              {this.props.store.winddown.endTime}
-            </li>
-            <li>{this.props.store.winddown.notes}</li>
-          </ul>
+          <h3>See your token?</h3>
+          <p>
+            {this.state.events.map((event, index) => {
+              return (
+                <div>
+                  <p>{event.summary}</p>
+                  <p>
+                    {event.start.dateTime} - {event.end.dateTime}
+                  </p>
+                </div>
+              );
+            })}
+          </p>
           <Link to="/admin">
             <button className="log-in">Looks Good!</button>
           </Link>

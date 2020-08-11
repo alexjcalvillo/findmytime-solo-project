@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-
+import { connect } from 'react-redux';
 // import custom styling
 import './GoogleBtn.css';
+import { Link } from 'react-router-dom';
 
 const CLIENT_ID =
   '129021208394-bp1f5i16igv01sp39vsj7be64ub2mu03.apps.googleusercontent.com';
+
+const API_KEY = 'AIzaSyBlgNuGbplqSIBBSWHlGQaCCKVZU7PyoL0';
+const SCOPES = [
+  'https://www.googleapis.com/auth/calendar.readonly',
+  'https://www.googleapis.com/auth/calendar.events.readonly',
+];
 
 class GoogleBtn extends Component {
   constructor(props) {
@@ -14,6 +21,7 @@ class GoogleBtn extends Component {
     this.state = {
       isLogined: false,
       accessToken: '',
+      tokenId: '',
     };
 
     // this.login = this.login.bind(this);
@@ -23,11 +31,17 @@ class GoogleBtn extends Component {
   }
 
   login = (response) => {
-    if (response.accessToken) {
+    console.log(response);
+    if (response.accessToken || response.tokenId) {
       this.setState((state) => ({
         isLogined: true,
         accessToken: response.accessToken,
+        authToken: response.tokenId,
       }));
+      this.props.dispatch({
+        type: 'SET_USER_TOKEN',
+        payload: this.state.accessToken,
+      });
       this.props.dispatch({
         type: 'GET_GOOGLE_CALENDAR',
         payload: this.state.accessToken,
@@ -50,6 +64,10 @@ class GoogleBtn extends Component {
     alert('Failed to log out');
   };
 
+  handleImport = (event) => {
+    this.props.history.push('/setup-google');
+  };
+
   render() {
     return (
       <div className="centered-self">
@@ -62,8 +80,10 @@ class GoogleBtn extends Component {
           ></GoogleLogout>
         ) : (
           <GoogleLogin
+            accessType="offline"
             clientId={CLIENT_ID}
             buttonText="Login"
+            scope="https://www.googleapis.com/auth/calendar.events.readonly"
             onSuccess={this.login}
             onFailure={this.handleLoginFailure}
             cookiePolicy={'single_host_origin'}
@@ -72,8 +92,11 @@ class GoogleBtn extends Component {
         )}
         {this.state.accessToken ? (
           <h5>
-            Your Access Token: <br />
-            <br /> {this.state.accessToken}
+            Login Success! <br />
+            <br />
+            <Link to="/setup-google">
+              <button>Continue to Import</button>
+            </Link>
           </h5>
         ) : null}
       </div>
@@ -81,4 +104,4 @@ class GoogleBtn extends Component {
   }
 }
 
-export default GoogleBtn;
+export default connect()(GoogleBtn);
