@@ -4,22 +4,13 @@ import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
 // importing react-time-picker
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
-// navigation purposes
-import { Link } from 'react-router-dom';
 
-// Google Import option starts here
-// import GoogleBtn from '../../../GoogleBtn/GoogleBtn';
-
-// let value = '';
-// this could also be written with destructuring parameters as:
-// const UserPage = ({ user }) => (
-// and then instead of `props.user.username` you could use `user.username`
+// steps 1 and 2 have similar setup with differences in reducers and titling
 class SetUpStep1 extends Component {
   state = {
     wakeup: {
       details: '',
-      timeStart: '',
-      timeEnd: '',
+      timeRange: [],
     },
   };
 
@@ -31,21 +22,23 @@ class SetUpStep1 extends Component {
     });
   };
 
-  handleTimeRange(times) {
-    console.log(times);
-    // this.setState({
-    //   wakeup: {
-    //     ...this.state.wakeup,
-    //     timeStart: times[0],
-    //     timeEnd: times[1],
-    //   },
-    // });
-  }
+  handleTimeRange = ([startTime, endTime]) => {
+    if (startTime !== undefined) {
+      this.props.dispatch({
+        type: 'SET_WAKEUP_START_TIME',
+        payload: { startTime },
+      });
+    }
+    this.props.dispatch({
+      type: 'SET_WAKEUP_END_TIME',
+      payload: { endTime },
+    });
+  };
 
   handleNext = () => {
     this.props.dispatch({
-      type: 'SET_WAKEUP',
-      payload: this.state.wakeup,
+      type: 'SET_WAKEUP_ROUTINE_NOTES',
+      payload: this.state.wakeup.details,
     });
     this.props.history.push('/setup-2');
   };
@@ -69,9 +62,9 @@ class SetUpStep1 extends Component {
           <br />
           <TimeRangePicker
             required
+            disableClock
             maxDetail={'minute'}
-            onChange={(value) => this.handleTimeRange(value)}
-            value={this.state.timeStart}
+            onChange={this.handleTimeRange}
           />
           <br />
           <select>
