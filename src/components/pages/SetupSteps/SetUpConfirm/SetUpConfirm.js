@@ -21,12 +21,25 @@ class SetUpConfirm extends Component {
         </div>
         <div className="inner">
           <h3>Does this look correct?</h3>
+          <h4>WakeUp Routines:</h4>
           <ul>
-            <li>{this.props.store.wakeup.startTime}</li>
+            <li>
+              {this.props.store.wakeup.startTime} -{' '}
+              {this.props.store.wakeup.endTime}
+            </li>
+            <li>{this.props.store.wakeup.notes}</li>
           </ul>
 
-          <Link to="/setup-1">
-            <button className="log-in">Begin Guided Setup</button>
+          <h4>WindDown Routines:</h4>
+          <ul>
+            <li>
+              {this.props.store.winddown.startTime} -{' '}
+              {this.props.store.winddown.endTime}
+            </li>
+            <li>{this.props.store.winddown.notes}</li>
+          </ul>
+          <Link to="/admin">
+            <button className="log-in">Looks Good!</button>
           </Link>
           <br />
           <hr />

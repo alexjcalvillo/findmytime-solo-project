@@ -8,17 +8,12 @@ import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 // steps 1 and 2 have similar setup with differences in reducers and titling
 class SetUpStep1 extends Component {
   state = {
-    wakeup: {
-      details: '',
-      timeRange: [],
-    },
+    notes: '',
   };
 
   handleInput = (input) => (event) => {
     this.setState({
-      wakeup: {
-        [input]: event.target.value,
-      },
+      [input]: event.target.value,
     });
   };
 
@@ -38,7 +33,7 @@ class SetUpStep1 extends Component {
   handleNext = () => {
     this.props.dispatch({
       type: 'SET_WAKEUP_ROUTINE_NOTES',
-      payload: this.state.wakeup.details,
+      payload: this.state.notes,
     });
     this.props.history.push('/setup-2');
   };
@@ -75,7 +70,7 @@ class SetUpStep1 extends Component {
             id="details"
             type="text"
             placeholder="details"
-            onChange={this.handleInput('details')}
+            onChange={this.handleInput('notes')}
           />
           <br />
           <TimeRangePicker

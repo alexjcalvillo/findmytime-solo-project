@@ -16,9 +16,7 @@ import { Link } from 'react-router-dom';
 // and then instead of `props.user.username` you could use `user.username`
 class SetUpStep2 extends Component {
   state = {
-    details: '',
-    timeStart: '',
-    timeEnd: '',
+    notes: '',
   };
 
   handleInput = (input) => (event) => {
@@ -27,20 +25,28 @@ class SetUpStep2 extends Component {
     });
   };
 
-  handleTimeRange(times) {
-    console.log(times);
-    this.setState({
-      timeStart: times[0],
-      timeEnd: times[1],
+  handleTimeRange = ([startTime, endTime]) => {
+    if (startTime !== undefined) {
+      this.props.dispatch({
+        type: 'SET_WINDDOWN_START_TIME',
+        payload: { startTime },
+      });
+    }
+    this.props.dispatch({
+      type: 'SET_WINDDOWN_END_TIME',
+      payload: { endTime },
     });
-  }
+  };
 
   handleNext = () => {
+    this.props.dispatch({
+      type: 'SET_WINDDOWN_ROUTINE_NOTES',
+      payload: this.state.notes,
+    });
     this.props.history.push('/setup-confirm');
   };
 
   render() {
-    console.log(this.props.store.wakeup);
     return (
       <div className="setupForm">
         <div className="formHeading">
@@ -65,7 +71,7 @@ class SetUpStep2 extends Component {
             id="details"
             type="text"
             placeholder="details"
-            onChange={this.handleInput('details')}
+            onChange={this.handleInput('notes')}
           />
           <br />
           <TimeRangePicker
@@ -84,7 +90,6 @@ class SetUpStep2 extends Component {
             style={{
               display: 'block',
               marginLeft: '80%',
-              // bottom: '50px',
               color: 'black',
             }}
             onClick={this.handleNext}
