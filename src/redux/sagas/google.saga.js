@@ -16,20 +16,33 @@ function* pullGoogleEvents(action) {
           'https://www.googleapis.com/auth/calendar.readonly',
           'https://www.googleapis.com/auth/calendar.events.readonly',
         ],
+        orderBy: 'startTime',
+        singleEvents: true,
       }
     );
     console.log(response);
-    // yield put({
-    //   type: 'SET_GOOGLE_EVENTS',
-    //   payload: response.data,
-    // });
+    yield put({
+      type: 'SET_GOOGLE_EVENTS',
+      payload: response.data.items,
+    });
   } catch (err) {
     console.log(`Error with GET ${err}`);
   }
 }
 
+function* postGoogleEvent(action) {
+  try {
+    yield axios.post('/api/calendar/google_calendar/add-event', {
+      event: action.payload,
+    });
+  } catch (err) {
+    console.log(`yikes: ${err}`);
+  }
+}
+
 function* googleSaga() {
   yield takeLatest('GET_GOOGLE_CALENDAR', pullGoogleEvents);
+  yield takeLatest('ADD_GOOGLE_EVENT', postGoogleEvent);
 }
 
 export default googleSaga;

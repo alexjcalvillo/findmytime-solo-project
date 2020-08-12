@@ -1,9 +1,9 @@
-const googleCalendar = (state = {}, action) => {
+const googleCalendar = (state = [], action) => {
   switch (action.type) {
     case 'SET_GOOGLE_EVENTS':
-      return { calendar: action.payload };
+      return action.payload;
     case 'UNSET_GOOGLE_EVENTS':
-      return {};
+      return [];
     default:
       return state;
   }

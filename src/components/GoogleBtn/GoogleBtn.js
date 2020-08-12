@@ -64,19 +64,20 @@ class GoogleBtn extends Component {
 
   render() {
     return (
-      <div className="centered-self">
+      <div>
         {this.state.isLogined ? (
-          <GoogleLogout
-            clientId={CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={this.logout}
-            onFailure={this.handleLogoutFailure}
-          ></GoogleLogout>
+          <h5>
+            Login Success! <br />
+            <br />
+            <Link to="/setup-google">
+              <button className="log-in">Continue to Import</button>
+            </Link>
+          </h5>
         ) : (
           <GoogleLogin
             accessType="offline"
             clientId={CLIENT_ID}
-            buttonText="Login"
+            buttonText="Login to Import Your Calendar"
             scope="https://www.googleapis.com/auth/calendar.events.readonly"
             onSuccess={this.login}
             onFailure={this.handleLoginFailure}
@@ -84,15 +85,6 @@ class GoogleBtn extends Component {
             responseType="code,token"
           />
         )}
-        {this.state.accessToken ? (
-          <h5>
-            Login Success! <br />
-            <br />
-            <Link to="/setup-google">
-              <button>Continue to Import</button>
-            </Link>
-          </h5>
-        ) : null}
       </div>
     );
   }

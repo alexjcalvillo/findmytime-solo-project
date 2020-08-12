@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
+import * as moment from 'moment';
+
 // navigation purposes
 import { Link } from 'react-router-dom';
 
@@ -10,72 +12,74 @@ import { Link } from 'react-router-dom';
 // and then instead of `props.user.username` you could use `user.username`
 class SetUpGoogle extends Component {
   state = {
-    events: [],
+    events: this.props.store.googleCalendar,
   };
 
-  componentDidMount() {
-    // this.props.dispatch({
-    //   type: 'GET_GOOGLE_CALENDAR',
-    //   payload: this.props.store.google,
-    // });
-    // this.setState({
-    //   accessToken: this.props.store.google,
-    // });
-    this.getEvents();
-  }
+  componentDidMount() {}
 
-  getEvents = () => {
-    function start() {
-      window.gapi.client
-        .init({
-          apiKey: 'AIzaSyBlgNuGbplqSIBBSWHlGQaCCKVZU7PyoL0',
-          CLIENT_ID:
-            '129021208394-bp1f5i16igv01sp39vsj7be64ub2mu03.apps.googleusercontent.com',
-        })
-        .then(function () {
-          return window.gapi.client.request({
-            path: `https://www.googleapis.com/calendar/v3/calendars/'primary'/events`,
-          });
-        })
-        .then(
-          (response) => {
-            let events = response.result.items;
-            this.setState(
-              {
-                events,
-              },
-              () => {
-                console.log(this.state.events);
-              }
-            );
-          },
-          function (reason) {
-            console.log(reason);
-          }
-        );
-    }
-    window.gapi.load('client', start);
+  addEvent = (index) => (event) => {
+    console.log('adding event', index);
+    const currentEvent = this.state.events[index];
+    const event_date = moment(currentEvent.start.dateTime).format('YYYY-MM-DD');
+    const start_time = moment(currentEvent.start.dateTime).format('hh:mm');
+    const end_time = moment(currentEvent.end.dateTime).format('hh:mm');
+    const dataToAdd = {
+      event_type: 'Task/Event',
+      event_title: currentEvent.summary,
+      event_details: currentEvent.description,
+      event_date,
+      start_time,
+      end_time,
+      recurring: currentEvent.recurrence || null,
+      recurring_event_id: 1,
+      profile_id: this.props.store.user.id,
+    };
+    this.props.dispatch({ type: 'ADD_GOOGLE_EVENT', payload: dataToAdd });
   };
+
   render() {
+    const date = new Date();
+    console.log(date);
     return (
       <div className="setupForm">
         <div className="formHeading">
           <h1>Welcome, {this.props.user.username} to the Setup Google</h1>
         </div>
         <div className="inner">
-          <h3>See your token?</h3>
-          <p>
+          <h3>
+            Select the Events you would like to import to your FindMyTime
+            Calendar
+          </h3>
+          <ul style={{ listStyle: 'none', margin: '0', padding: '0' }}>
             {this.state.events.map((event, index) => {
               return (
-                <div>
+                <li key={index}>
                   <p>{event.summary}</p>
                   <p>
-                    {event.start.dateTime} - {event.end.dateTime}
+                    Start:{' '}
+                    {moment(event.start.dateTime).format('DD-MM-YYYY hh:mm a')}
+                    <br />
+                    End:{' '}
+                    {moment(event.end.dateTime).format('DD-MM-YYYY hh:mm a')}
                   </p>
-                </div>
+                  <p
+                    style={{
+                      border: '1px solid black',
+                      borderRadius: '2px',
+                      overflow: 'scroll',
+                    }}
+                  >
+                    Details: {event.description}
+                  </p>
+                  <p>Recurring?</p> {event.recurrence && <p>True</p>}
+                  <button className="log-in" onClick={this.addEvent(index)}>
+                    Add Event?
+                  </button>
+                  <hr />
+                </li>
               );
             })}
-          </p>
+          </ul>
           <Link to="/admin">
             <button className="log-in">Looks Good!</button>
           </Link>
