@@ -20,6 +20,10 @@ class SetUpGoogle extends Component {
   addEvent = (index) => (event) => {
     console.log('adding event', index);
     const currentEvent = this.state.events[index];
+
+    if (currentEvent.recurrence) {
+    }
+
     const event_date = moment(currentEvent.start.dateTime).format('YYYY-MM-DD');
     const start_time = moment(currentEvent.start.dateTime).format('hh:mm');
     const end_time = moment(currentEvent.end.dateTime).format('hh:mm');
@@ -80,7 +84,7 @@ class SetUpGoogle extends Component {
               );
             })}
           </ul>
-          <Link to="/admin">
+          <Link to="/google-confirm">
             <button className="log-in">Looks Good!</button>
           </Link>
           <br />

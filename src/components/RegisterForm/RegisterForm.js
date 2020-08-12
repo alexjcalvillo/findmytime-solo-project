@@ -6,6 +6,8 @@ class RegisterForm extends Component {
   state = {
     username: '',
     password: '',
+    firstName: '',
+    lastName: '',
   };
 
   registerUser = (event) => {
@@ -35,6 +37,7 @@ class RegisterForm extends Component {
             {this.props.errors.registrationMessage}
           </h3>
         )}
+
         <div>
           <label htmlFor="username">
             Username:

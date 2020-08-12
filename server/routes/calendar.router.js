@@ -5,7 +5,20 @@ const router = express.Router();
 /**
  * GET route template
  */
-router.get('/', (req, res) => {});
+router.get('/google_calendar/:id', (req, res) => {
+  const profileId = Number(req.params.id);
+  const query = `SELECT * FROM "google_import" WHERE profile_id = $1;`;
+
+  pool
+    .query(query, [profileId])
+    .then((dbResponse) => {
+      const events = dbResponse.rows;
+      res.send(events);
+    })
+    .catch((err) => {
+      console.log(`Can't get events. ${err}`);
+    });
+});
 
 /**
  * POST route template

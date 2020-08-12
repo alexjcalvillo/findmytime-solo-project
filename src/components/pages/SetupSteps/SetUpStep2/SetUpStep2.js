@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
+import styles from './SetUpStep2.module.css';
+
 // importing react-time-picker
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 // navigation purposes
@@ -52,50 +54,74 @@ class SetUpStep2 extends Component {
         <div className="formHeading">
           <h1>Welcome, {this.props.user.username}: SetUp Step 2</h1>
         </div>
-        <div className="inner" style={{ overflow: 'scroll' }}>
-          <h4>WindDown Routines:</h4>
-          <p>
-            I'm baby polaroid affogato try-hard, pabst taiyaki pitchfork
-            portland blog cardigan edison bulb. +1 cred hoodie VHS, bitters
-            ennui skateboard chia chartreuse cliche air plant put a bird on it
-            meh. Lumbersexual tumblr thundercats bicycle rights mixtape
-            readymade XOXO kale chips pinterest kombucha. Migas typewriter lyft
-            subway tile, trust fund polaroid vice try-hard edison bulb godard 3
-            wolf moon green juice keffiyeh meggings crucifix. Cray readymade
-            flannel, af try-hard XOXO pug ennui tbh pok pok.
-          </p>
-          <hr />
-          <label htmlFor="details">Routine Details</label>
-          <br />
-          <textarea
-            id="details"
-            type="text"
-            placeholder="details"
-            onChange={this.handleInput('notes')}
-          />
-          <br />
-          <TimeRangePicker
-            required
-            maxDetail={'minute'}
-            onChange={(value) => this.handleTimeRange(value)}
-            value={this.state.timeStart}
-          />
+        <div className="inner">
+          <div id={styles.wrapper}>
+            <div id={styles.left}></div>
+            <div id={styles.right}>
+              <h4>WindDown Routines:</h4>
+              <p>
+                I'm baby polaroid affogato try-hard, pabst taiyaki pitchfork
+                portland blog cardigan edison bulb. +1 cred hoodie VHS, bitters
+                ennui skateboard chia chartreuse cliche air plant put a bird on
+                it meh. Lumbersexual tumblr thundercats bicycle rights mixtape
+                readymade XOXO kale chips pinterest kombucha. Migas typewriter
+                lyft subway tile, trust fund polaroid vice try-hard edison bulb
+                godard 3 wolf moon green juice keffiyeh meggings crucifix. Cray
+                readymade flannel, af try-hard XOXO pug ennui tbh pok pok.
+              </p>
+              <hr />
+              <label htmlFor="details">Routine Details</label>
+              <p style={{ fontSize: '0.8rem', WebkitTextEmphasis: '' }}>
+                The kinds of things you might want to think about: What time do
+                you want to wake up? What are some "must-haves" in the morning?
+                For us, coffee is mandatory; roughly 15 minutes to get up and
+                make it, plus read and enjoy it.
+              </p>
+              <br />
+              <textarea
+                id="details"
+                type="text"
+                placeholder="details"
+                onChange={this.handleInput('notes')}
+              />
+              <br />
+              <p>
+                Start Time & End Time
+                <br />
+                (remember this is to block off daily time to get up and ready
+                for your day!)
+              </p>
+              <TimeRangePicker
+                required
+                maxDetail={'minute'}
+                onChange={(value) => this.handleTimeRange(value)}
+                value={this.state.timeStart}
+              />
 
-          <br />
-          <select>
-            <option value="daily">Daily</option>
-          </select>
-          <button
-            className="log-in"
-            style={{
-              display: 'block',
-              marginLeft: '80%',
-              color: 'black',
-            }}
-            onClick={this.handleNext}
-          >
-            Next
-          </button>
+              <br />
+              <label htmlFor="frequency">Frequency</label>
+              <p>
+                How often? This is probably going to be daily, but if you want
+                to sleep in on the weekends, we don't blame you!
+              </p>
+              <select id="frequency">
+                <option value="daily">Daily</option>
+              </select>
+              <button
+                className="log-in"
+                style={{
+                  float: 'right',
+                  position: 'relative',
+                  bottom: '1.4rem',
+                  right: '0px',
+                  color: 'black',
+                }}
+                onClick={this.handleNext}
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );

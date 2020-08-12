@@ -40,9 +40,27 @@ function* postGoogleEvent(action) {
   }
 }
 
+function* getGoogleEvents(action) {
+  try {
+    const response = yield axios.get(
+      `/api/calendar/google_calendar/${action.payload}`
+    );
+    yield put({
+      type: 'UNSET_GOOGLE_EVENTS',
+    });
+    yield put({
+      type: 'SET_GOOGLE_EVENTS',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log(`Getting nada here ${err}`);
+  }
+}
+
 function* googleSaga() {
   yield takeLatest('GET_GOOGLE_CALENDAR', pullGoogleEvents);
   yield takeLatest('ADD_GOOGLE_EVENT', postGoogleEvent);
+  yield takeLatest('GET_GOOGLE_EVENTS', getGoogleEvents);
 }
 
 export default googleSaga;

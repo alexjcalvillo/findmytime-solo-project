@@ -45,58 +45,68 @@ class SetUpStep1 extends Component {
           <h1>Welcome, {this.props.user.username}: SetUp Step 1</h1>
         </div>
         <div className="inner">
-          <h4>WakeUp Routines:</h4>
-          <p>
-            I'm baby polaroid affogato try-hard, pabst taiyaki pitchfork
-            portland blog cardigan edison bulb. +1 cred hoodie VHS, bitters
-            ennui skateboard chia chartreuse cliche air plant put a bird on it
-            meh. Lumbersexual tumblr thundercats bicycle rights mixtape
-            readymade XOXO kale chips pinterest kombucha. Migas typewriter lyft
-            subway tile, trust fund polaroid vice try-hard edison bulb godard 3
-            wolf moon green juice keffiyeh meggings crucifix. Cray readymade
-            flannel, af try-hard XOXO pug ennui tbh pok pok.
-          </p>
-          <p>
-            Air plant truffaut palo santo copper mug fashion axe vape food truck
-            chia dreamcatcher. Intelligentsia scenester pok pok, post-ironic
-            four loko farm-to-table sriracha. Messenger bag lo-fi chillwave,
-            kinfolk thundercats microdosing freegan pabst swag dreamcatcher.
-            Readymade godard meh, knausgaard microdosing man bun hot chicken.
-          </p>
-          <hr />
-          <label htmlFor="details">Routine Details</label>
-          <br />
-          <textarea
-            id="details"
-            type="text"
-            placeholder="details"
-            onChange={this.handleInput('notes')}
-          />
-          <br />
-          <TimeRangePicker
-            required
-            disableClock
-            maxDetail={'minute'}
-            onChange={this.handleTimeRange}
-          />
-          <br />
-          <select>
-            <option value="daily">Daily</option>
-          </select>
-          <br />
+          <div id="wrapper">
+            <div id="left"></div>
+            <div id="right">
+              <h4>WakeUp Routines:</h4>
+              <p>
+                We are going to start with your morning routine! Trust us, we
+                know you don't want to wake up, but the key to a strong,
+                productive day is a great start. So let's plan it out.
+              </p>
+              <hr />
+              <label htmlFor="details">Routine Details</label>
+              <p style={{ fontSize: '0.8rem', WebkitTextEmphasis: '' }}>
+                The kinds of things you might want to think about: What time do
+                you want to wake up? What are some "must-haves" in the morning?
+                For us, coffee is mandatory; roughly 15 minutes to get up and
+                make it, plus read and enjoy it.
+              </p>
+              <br />
+              <textarea
+                id="details"
+                type="text"
+                placeholder="details"
+                onChange={this.handleInput('notes')}
+              />
+              <br />
+              <p>
+                Start Time & End Time
+                <br />
+                (remember this is to block off daily time to get up and ready
+                for your day!)
+              </p>
+              <TimeRangePicker
+                required
+                disableClock
+                maxDetail={'minute'}
+                onChange={this.handleTimeRange}
+              />
+              <br />
+              <label htmlFor="frequency">Frequency</label>
+              <p>
+                How often? This is probably going to be daily, but if you want
+                to sleep in on the weekends, we don't blame you!
+              </p>
+              <select id="frequency">
+                <option value="daily">Daily</option>
+              </select>
+              <br />
 
-          <button
-            className="log-in"
-            style={{
-              float: 'right',
-              position: 'relative',
-              bottom: '50px',
-              color: 'black',
-            }}
-            onClick={this.handleNext}
-          >
-            Next
-          </button>
+              <button
+                className="log-in"
+                style={{
+                  float: 'right',
+                  position: 'relative',
+                  bottom: '50px',
+                  color: 'black',
+                }}
+                onClick={this.handleNext}
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
         {/* <p>{this.props.store.wakeup}</p> */}
       </div>
