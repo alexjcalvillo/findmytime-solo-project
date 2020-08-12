@@ -8,12 +8,6 @@ import { Link } from 'react-router-dom';
 const CLIENT_ID =
   '129021208394-bp1f5i16igv01sp39vsj7be64ub2mu03.apps.googleusercontent.com';
 
-const API_KEY = 'AIzaSyBlgNuGbplqSIBBSWHlGQaCCKVZU7PyoL0';
-const SCOPES = [
-  'https://www.googleapis.com/auth/calendar.readonly',
-  'https://www.googleapis.com/auth/calendar.events.readonly',
-];
-
 class GoogleBtn extends Component {
   constructor(props) {
     super(props);

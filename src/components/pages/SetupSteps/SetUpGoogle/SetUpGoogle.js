@@ -31,7 +31,6 @@ class SetUpGoogle extends Component {
           apiKey: 'AIzaSyBlgNuGbplqSIBBSWHlGQaCCKVZU7PyoL0',
           CLIENT_ID:
             '129021208394-bp1f5i16igv01sp39vsj7be64ub2mu03.apps.googleusercontent.com',
-          clientSecret: 'h-kdqqnmQsLVEHHeAn2rOCGo',
         })
         .then(function () {
           return window.gapi.client.request({
