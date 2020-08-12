@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
+import styles from './SetUpStep1.module.css';
+
 // importing react-time-picker
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 
@@ -46,17 +48,19 @@ class SetUpStep1 extends Component {
         </div>
         <div className="inner">
           <div id="wrapper">
-            <div id="left"></div>
+            <div id={styles.left}></div>
             <div id="right">
-              <h4>WakeUp Routines:</h4>
+              <h2 style={{ textDecoration: 'underline' }}>WakeUp Routines:</h2>
               <p>
                 We are going to start with your morning routine! Trust us, we
                 know you don't want to wake up, but the key to a strong,
                 productive day is a great start. So let's plan it out.
               </p>
               <hr />
-              <label htmlFor="details">Routine Details</label>
-              <p style={{ fontSize: '0.8rem', WebkitTextEmphasis: '' }}>
+              <label htmlFor="details">
+                <h4>Routine Details</h4>
+              </label>
+              <p style={{ fontSize: '0.8rem' }}>
                 The kinds of things you might want to think about: What time do
                 you want to wake up? What are some "must-haves" in the morning?
                 For us, coffee is mandatory; roughly 15 minutes to get up and
@@ -70,9 +74,9 @@ class SetUpStep1 extends Component {
                 onChange={this.handleInput('notes')}
               />
               <br />
-              <p>
-                Start Time & End Time
-                <br />
+
+              <h4>Start Time & End Time</h4>
+              <p style={{ fontSize: '0.8rem' }}>
                 (remember this is to block off daily time to get up and ready
                 for your day!)
               </p>
@@ -83,11 +87,15 @@ class SetUpStep1 extends Component {
                 onChange={this.handleTimeRange}
               />
               <br />
-              <label htmlFor="frequency">Frequency</label>
+              <br />
+              <label htmlFor="frequency">
+                <h4>Frequency</h4>
+              </label>
               <p>
                 How often? This is probably going to be daily, but if you want
                 to sleep in on the weekends, we don't blame you!
               </p>
+
               <select id="frequency">
                 <option value="daily">Daily</option>
               </select>

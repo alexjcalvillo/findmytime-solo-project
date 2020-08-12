@@ -22,14 +22,19 @@ class SetUp extends Component {
           <h1>Welcome, {this.props.user.username} to the Setup Page</h1>
         </div>
         <div className="inner">
-          <h3>Let's get your schedule:</h3>
-          <Link to="/setup-1">
-            <button className="log-in">Begin Guided Setup</button>
-          </Link>
-          <br />
-          <hr />
-          <h3>Or let Google do the work:</h3>
-          <GoogleBtn />
+          <div id="wrapper">
+            <div id="left"></div>
+            <div id="right">
+              <h3>Let's get your schedule:</h3>
+              <Link to="/setup-1">
+                <button className="log-in">Begin Guided Setup</button>
+              </Link>
+              <br />
+              <hr />
+              <h3>Or let Google do the work:</h3>
+              <GoogleBtn />
+            </div>
+          </div>
         </div>
       </div>
     );

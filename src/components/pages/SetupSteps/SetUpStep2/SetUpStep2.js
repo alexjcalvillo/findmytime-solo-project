@@ -60,14 +60,10 @@ class SetUpStep2 extends Component {
             <div id={styles.right}>
               <h4>WindDown Routines:</h4>
               <p>
-                I'm baby polaroid affogato try-hard, pabst taiyaki pitchfork
-                portland blog cardigan edison bulb. +1 cred hoodie VHS, bitters
-                ennui skateboard chia chartreuse cliche air plant put a bird on
-                it meh. Lumbersexual tumblr thundercats bicycle rights mixtape
-                readymade XOXO kale chips pinterest kombucha. Migas typewriter
-                lyft subway tile, trust fund polaroid vice try-hard edison bulb
-                godard 3 wolf moon green juice keffiyeh meggings crucifix. Cray
-                readymade flannel, af try-hard XOXO pug ennui tbh pok pok.
+                Let's wrap up our day with a great WindDown routine. Better
+                sleep = a better you! This routine adjusts your body from the
+                busyness of the day and signals it's time to go to sleep. This
+                let's you fall asleep even faster. So let's plan it out.
               </p>
               <hr />
               <label htmlFor="details">Routine Details</label>
