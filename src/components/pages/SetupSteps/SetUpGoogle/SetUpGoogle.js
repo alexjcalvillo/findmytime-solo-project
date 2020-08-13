@@ -4,6 +4,7 @@ import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
 import * as moment from 'moment';
 
+import styles from './SetUpGoogle.module.css';
 // navigation purposes
 import { Link } from 'react-router-dom';
 
@@ -49,33 +50,51 @@ class SetUpGoogle extends Component {
         <div className="formHeading">
           <h1>Welcome, {this.props.user.username} to the Setup Google</h1>
         </div>
-        <div className="inner">
+        <div className={styles.innerGoogle}>
           <h3>
             Select the Events you would like to import to your FindMyTime
             Calendar
           </h3>
-          <ul style={{ listStyle: 'none', margin: '0', padding: '0' }}>
+          <ul>
             {this.state.events.map((event, index) => {
               return (
-                <li key={index}>
-                  <p>{event.summary}</p>
-                  <p>
+                <li
+                  key={index}
+                  style={{
+                    listStyle: 'none',
+                    margin: '0 0 2.5% 0',
+                    padding: '1.5%',
+                    border: '1px solid #444',
+                    borderRadius: '4px',
+                    boxShadow: '1px 0px 4px',
+                  }}
+                >
+                  <p style={{ textDecoration: 'underline' }}>{event.summary}</p>
+                  <p
+                    style={{
+                      background: 'linear-gradient(90deg, #f2f2f2, #444)',
+                      opacity: '0.9',
+                    }}
+                  >
                     Start:{' '}
                     {moment(event.start.dateTime).format('DD-MM-YYYY hh:mm a')}
                     <br />
                     End:{' '}
                     {moment(event.end.dateTime).format('DD-MM-YYYY hh:mm a')}
                   </p>
+                  Details:
                   <p
                     style={{
-                      border: '1px solid black',
-                      borderRadius: '2px',
+                      border: '1px solid #444',
+                      borderRadius: '4px',
+                      height: '150px',
                       overflow: 'scroll',
                     }}
                   >
-                    Details: {event.description}
+                    {event.description}
                   </p>
-                  <p>Recurring?</p> {event.recurrence && <p>True</p>}
+                  <p>Recurring?</p>{' '}
+                  {event.recurrence ? <p>True</p> : <p>False</p>}
                   <button className="log-in" onClick={this.addEvent(index)}>
                     Add Event?
                   </button>

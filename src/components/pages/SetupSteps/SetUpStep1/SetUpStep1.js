@@ -133,7 +133,7 @@ class SetUpStep1 extends Component {
                 style={{
                   float: 'right',
                   position: 'relative',
-                  bottom: '50px',
+                  bottom: '1.5%',
                   color: 'black',
                 }}
                 onClick={this.handleNext}

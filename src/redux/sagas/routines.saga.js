@@ -15,7 +15,7 @@ function* getUserRoutines(action) {
     const response = yield axios.get(`/api/calendar/events/${action.payload}`);
     console.log(response.data);
     yield put({
-      type: 'SET_INITIAL_ROUTINES',
+      type: 'SET_EVENTS',
       payload: response.data,
     });
   } catch (err) {

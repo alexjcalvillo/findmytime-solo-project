@@ -1,0 +1,12 @@
+.innerConfirm {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  padding-bottom: 1.5%;
+}
+
+.innerConfirm > ul,
+li {
+  list-style-type: none;
+  padding: 0;
+}
