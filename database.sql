@@ -49,3 +49,17 @@ CREATE TABLE "google_import" (
 	"recurring_event_id" INT REFERENCES "frequency",
 	"profile_id" INT REFERENCES "user_profile"
 );
+
+-- Testing queries while in development
+
+INSERT INTO "google_import" ("event_type", "event_title", "event_details", "event_date", "start_time", "end_time", "recurring", "recurring_event_id", "profile_id")
+VALUES ();
+
+SELECT * FROM google_import WHERE profile_id = 2;
+
+SELECT "user_profile".first_name, "user_profile".last_name FROM "user_profile"
+JOIN "user" ON "user".id = "user_profile".user_id
+WHERE "user".id = 3;
+
+SELECT * FROM events
+WHERE events.profile_id = 2 AND events.event_type = 'wakeup' OR events.event_type = 'winddown';

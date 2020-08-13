@@ -22,6 +22,10 @@
 
 .inner {
   width: 90%;
+  /* margin: 0 7.5%;
+  padding: 0 7.5% 5.5%;
+  border: 1px solid black;
+  border-radius: 6px; */
 }
 
 .inner textarea {

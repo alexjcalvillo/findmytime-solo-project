@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
+import moment from 'moment';
 
 import styles from './SetUpStep1.module.css';
 
@@ -13,6 +14,7 @@ class SetUpStep1 extends Component {
     wakeup: {
       type: 'wakeup',
       startTime: '',
+      date: moment(new Date()).format('YYYY-MM-DD'),
       endTime: '',
       details: '',
       recurring: true,

@@ -37,7 +37,7 @@ class SetUpConfirm extends Component {
               {this.props.store.wakeup.startTime} -{' '}
               {this.props.store.wakeup.endTime}
             </li>
-            <li>{this.props.store.wakeup.notes}</li>
+            <li>{this.props.store.wakeup.details}</li>
           </ul>
 
           <h4>WindDown Routines:</h4>
@@ -46,7 +46,7 @@ class SetUpConfirm extends Component {
               {this.props.store.winddown.startTime} -{' '}
               {this.props.store.winddown.endTime}
             </li>
-            <li>{this.props.store.winddown.notes}</li>
+            <li>{this.props.store.winddown.details}</li>
           </ul>
           <Link to="/admin">
             <button className="log-in" onClick={this.setRoutines}>

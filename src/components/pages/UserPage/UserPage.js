@@ -4,24 +4,50 @@ import LogOutButton from '../../LogOutButton/LogOutButton';
 import mapStoreToProps from '../../../redux/mapStoreToProps';
 import SetupBtn from '../../SetupBtn/SetupBtn';
 
+import styles from './UserPage.module.css';
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
 // and then instead of `props.user.username` you could use `user.username`
 class UserPage extends Component {
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'FETCH_USER_PROFILE',
+      payload: this.props.store.user.id,
+    });
+    this.props.dispatch({
+      type: 'FETCH_EVENTS',
+      payload: this.props.store.user.id,
+    });
+  }
   render() {
     return (
       <div className="setupForm">
         <div className="formHeading">
           <h1 id="welcome">Welcome, {this.props.store.user.username}!</h1>
         </div>
-        <div className="inner">
+        <div className={styles.innerUser}>
           <p>Your ID is: {this.props.store.user.id}</p>
           {/* TODO: Conditionally render setup based on if user has events saved (first login) */}
-          <SetupBtn className="log-in" />
-          {/* <button onClick={this.setupAccount}>Go to Setup</button> */}
-          <LogOutButton className="log-in" />
-          {/* TODO: Conditionally render based on if user has events saved - they can't launch without some type of setup */}
-          <button className="log-in">Launch FindMyTime</button>
+          {this.props.store.user.profile ? (
+            <div>
+              <h1>Your information:</h1>
+              <p>
+                Name: {this.props.store.user.profile.first_name}{' '}
+                {this.props.store.user.profile.last_name}
+              </p>
+            </div>
+          ) : (
+            <p>
+              Must be your first time here! Let's help you get situated and set
+              up your profile
+            </p>
+          )}
+          {this.props.store.eventsReducer.length > 1 ? (
+            <button className="log-in">Launch FindMyTime</button>
+          ) : (
+            <SetupBtn className="log-in" />
+          )}
+          <br />
         </div>
       </div>
     );

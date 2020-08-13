@@ -10,8 +10,22 @@ function* postUserRoutines(action) {
   }
 }
 
+function* getUserRoutines(action) {
+  try {
+    const response = yield axios.get(`/api/calendar/events/${action.payload}`);
+    console.log(response.data);
+    yield put({
+      type: 'SET_INITIAL_ROUTINES',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log(`Nope. ${err}`);
+  }
+}
+
 function* routineSaga() {
   yield takeLatest('SET_ROUTINES', postUserRoutines);
+  yield takeLatest('FETCH_EVENTS', getUserRoutines);
 }
 
 export default routineSaga;

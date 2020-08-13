@@ -4,8 +4,10 @@ import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
 import styles from './SetUpStep2.module.css';
 
-// importing react-time-picker
+// importing 3rd party comps/functions
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+import moment from 'moment';
+
 // navigation purposes
 import { Link } from 'react-router-dom';
 
@@ -18,32 +20,57 @@ import { Link } from 'react-router-dom';
 // and then instead of `props.user.username` you could use `user.username`
 class SetUpStep2 extends Component {
   state = {
-    notes: '',
+    winddown: {
+      type: 'winddown',
+      startTime: '',
+      date: moment(new Date()).format('YYYY-MM-DD'),
+      endTime: '',
+      details: '',
+      recurring: true,
+      recurring_event_id: 1,
+      profile_id: this.props.store.user.id,
+    },
   };
 
   handleInput = (input) => (event) => {
     this.setState({
-      [input]: event.target.value,
+      winddown: {
+        ...this.state.winddown,
+        [input]: event.target.value,
+      },
     });
   };
 
   handleTimeRange = ([startTime, endTime]) => {
     if (startTime !== undefined) {
-      this.props.dispatch({
-        type: 'SET_WINDDOWN_START_TIME',
-        payload: { startTime },
+      // this.props.dispatch({
+      //   type: 'SET_WAKEUP_START_TIME',
+      //   payload: { startTime },
+      // });
+      this.setState({
+        winddown: {
+          ...this.state.winddown,
+          startTime,
+        },
+      });
+    } else {
+      this.setState({
+        winddown: {
+          ...this.state.winddown,
+          endTime,
+        },
       });
     }
-    this.props.dispatch({
-      type: 'SET_WINDDOWN_END_TIME',
-      payload: { endTime },
-    });
+    // this.props.dispatch({
+    //   type: 'SET_WAKEUP_END_TIME',
+    //   payload: { endTime },
+    // });
   };
 
   handleNext = () => {
     this.props.dispatch({
-      type: 'SET_WINDDOWN_ROUTINE_NOTES',
-      payload: this.state.notes,
+      type: 'SET_WINDDOWN_ROUTINES',
+      payload: this.state.winddown,
     });
     this.props.history.push('/setup-confirm');
   };
@@ -78,7 +105,7 @@ class SetUpStep2 extends Component {
                 id="details"
                 type="text"
                 placeholder="details"
-                onChange={this.handleInput('notes')}
+                onChange={this.handleInput('details')}
               />
               <br />
               <p>
@@ -108,8 +135,8 @@ class SetUpStep2 extends Component {
                 style={{
                   float: 'right',
                   position: 'relative',
-                  bottom: '1.4rem',
-                  right: '0px',
+                  bottom: '1.5%',
+                  right: '-50px',
                   color: 'black',
                 }}
                 onClick={this.handleNext}

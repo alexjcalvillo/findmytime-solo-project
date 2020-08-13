@@ -5,6 +5,7 @@ import wakeup from './wakeup.reducer';
 import winddown from './winddown.reducer';
 import google from './google.reducer';
 import googleCalendar from './googleCalendar.reducer';
+import eventsReducer from './events.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   winddown, // will hold winddown routine infor from Step 2 of SetUp form
   google, // holds accessToken of user connecting with Google
   googleCalendar, // holds imported calendar events
+  eventsReducer, // for now holds initial routines
 });
 
 export default rootReducer;

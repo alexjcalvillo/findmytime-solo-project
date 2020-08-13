@@ -24,8 +24,22 @@ function* fetchUser() {
   }
 }
 
+function* fetchProfile(action) {
+  try {
+    const response = yield axios.get(`/api/user/profile/${action.payload}`);
+    console.log(response.data);
+    yield put({
+      type: 'SET_USER_PROFILE',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('FETCH_USER_PROFILE', fetchProfile);
 }
 
 export default userSaga;
