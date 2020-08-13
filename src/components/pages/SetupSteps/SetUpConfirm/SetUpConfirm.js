@@ -10,6 +10,16 @@ import { Link } from 'react-router-dom';
 // and then instead of `props.user.username` you could use `user.username`
 class SetUpConfirm extends Component {
   state = {};
+
+  setRoutines = () => {
+    this.props.dispatch({
+      type: 'SET_ROUTINES',
+      payload: {
+        wakeup: this.props.store.wakeup,
+        winddown: this.props.store.winddown,
+      },
+    });
+  };
   render() {
     console.log(this.props.store.wakeup);
     return (
@@ -39,7 +49,9 @@ class SetUpConfirm extends Component {
             <li>{this.props.store.winddown.notes}</li>
           </ul>
           <Link to="/admin">
-            <button className="log-in">Looks Good!</button>
+            <button className="log-in" onClick={this.setRoutines}>
+              Looks Good!
+            </button>
           </Link>
           <br />
           <hr />

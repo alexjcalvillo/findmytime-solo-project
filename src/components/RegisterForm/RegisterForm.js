@@ -31,13 +31,14 @@ class RegisterForm extends Component {
   render() {
     return (
       <form className="formPanel" onSubmit={this.registerUser}>
-        <h2>Register User</h2>
-        {this.props.errors.registrationMessage && (
-          <h3 className="alert" role="alert">
-            {this.props.errors.registrationMessage}
-          </h3>
-        )}
-
+        <div className="formHeading">
+          <h2>Register User</h2>
+          {this.props.errors.registrationMessage && (
+            <h3 className="alert" role="alert">
+              {this.props.errors.registrationMessage}
+            </h3>
+          )}
+        </div>
         <div>
           <label htmlFor="username">
             Username:

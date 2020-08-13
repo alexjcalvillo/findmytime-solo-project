@@ -10,37 +10,62 @@ import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 // steps 1 and 2 have similar setup with differences in reducers and titling
 class SetUpStep1 extends Component {
   state = {
-    notes: '',
+    wakeup: {
+      type: 'wakeup',
+      startTime: '',
+      endTime: '',
+      details: '',
+      recurring: true,
+      recurring_event_id: 1,
+      profile_id: this.props.store.user.id,
+    },
   };
 
   handleInput = (input) => (event) => {
     this.setState({
-      [input]: event.target.value,
+      wakeup: {
+        ...this.state.wakeup,
+        [input]: event.target.value,
+      },
     });
   };
 
   handleTimeRange = ([startTime, endTime]) => {
     if (startTime !== undefined) {
-      this.props.dispatch({
-        type: 'SET_WAKEUP_START_TIME',
-        payload: { startTime },
+      // this.props.dispatch({
+      //   type: 'SET_WAKEUP_START_TIME',
+      //   payload: { startTime },
+      // });
+      this.setState({
+        wakeup: {
+          ...this.state.wakeup,
+          startTime,
+        },
+      });
+    } else {
+      this.setState({
+        wakeup: {
+          ...this.state.wakeup,
+          endTime,
+        },
       });
     }
-    this.props.dispatch({
-      type: 'SET_WAKEUP_END_TIME',
-      payload: { endTime },
-    });
+    // this.props.dispatch({
+    //   type: 'SET_WAKEUP_END_TIME',
+    //   payload: { endTime },
+    // });
   };
 
   handleNext = () => {
     this.props.dispatch({
-      type: 'SET_WAKEUP_ROUTINE_NOTES',
-      payload: this.state.notes,
+      type: 'SET_WAKEUP_ROUTINES',
+      payload: this.state.wakeup,
     });
     this.props.history.push('/setup-2');
   };
 
   render() {
+    console.log(this.state.wakeup);
     return (
       <div className="setupForm">
         <div className="formHeading">
@@ -71,7 +96,7 @@ class SetUpStep1 extends Component {
                 id="details"
                 type="text"
                 placeholder="details"
-                onChange={this.handleInput('notes')}
+                onChange={this.handleInput('details')}
               />
               <br />
 
@@ -96,8 +121,8 @@ class SetUpStep1 extends Component {
                 to sleep in on the weekends, we don't blame you!
               </p>
 
-              <select id="frequency">
-                <option value="daily">Daily</option>
+              <select id="frequency" onChange={this.handleInput('frequency')}>
+                <option value="1">Daily</option>
               </select>
               <br />
 

@@ -33,12 +33,14 @@ class LoginForm extends Component {
   render() {
     return (
       <form className="formPanel" onSubmit={this.login}>
-        <h2>Login</h2>
-        {this.props.store.errors.loginMessage && (
-          <h3 className="alert" role="alert">
-            {this.props.store.errors.loginMessage}
-          </h3>
-        )}
+        <div className="formHeading">
+          <h2>Login</h2>
+          {this.props.store.errors.loginMessage && (
+            <h3 className="alert" role="alert">
+              {this.props.store.errors.loginMessage}
+            </h3>
+          )}
+        </div>
         <div>
           <label htmlFor="username">
             Username:

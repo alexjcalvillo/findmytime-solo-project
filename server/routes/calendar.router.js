@@ -49,4 +49,10 @@ router.post('/google_calendar/add-event', (req, res) => {
     });
 });
 
+router.post('/self-add-routine', (req, res) => {
+  const wakeup = req.body.wakeup;
+  const winddown = req.body.winddown;
+  console.log(wakeup, winddown);
+});
+
 module.exports = router;
