@@ -5,6 +5,7 @@ import mapStoreToProps from '../../../redux/mapStoreToProps';
 import SetupBtn from '../../SetupBtn/SetupBtn';
 
 import styles from './UserPage.module.css';
+import RRuleSelector from '../../RRuleSelector/RRuleSelector';
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
 // and then instead of `props.user.username` you could use `user.username`
@@ -19,11 +20,26 @@ class UserPage extends Component {
       payload: this.props.store.user.id,
     });
   }
+
+  launchApp = () => {
+    this.props.history.push('/main-view');
+  };
   render() {
     return (
       <div className="setupForm">
         <div className="formHeading">
           <h1 id="welcome">Welcome, {this.props.store.user.username}!</h1>
+        </div>
+        <div
+          style={{
+            margin: 'auto',
+            width: '50%',
+            border: '1px solid blue',
+            borderRadius: '5px',
+            padding: '15px',
+          }}
+        >
+          <RRuleSelector />
         </div>
         <div className={styles.innerUser}>
           <p>Your ID is: {this.props.store.user.id}</p>
@@ -43,7 +59,9 @@ class UserPage extends Component {
             </p>
           )}
           {this.props.store.eventsReducer.length > 1 ? (
-            <button className="log-in">Launch FindMyTime</button>
+            <button className="log-in" onClick={this.launchApp}>
+              Launch FindMyTime
+            </button>
           ) : (
             <SetupBtn className="log-in" />
           )}

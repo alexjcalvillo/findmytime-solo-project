@@ -118,7 +118,6 @@ class SetUpStep2 extends Component {
                 required
                 maxDetail={'minute'}
                 onChange={(value) => this.handleTimeRange(value)}
-                value={this.state.timeStart}
               />
 
               <br />

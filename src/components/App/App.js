@@ -27,6 +27,7 @@ import './App.css';
 import SetUpConfirm from '../pages/SetupSteps/SetUpConfirm/SetUpConfirm';
 import SetUpGoogle from '../pages/SetupSteps/SetUpGoogle/SetUpGoogle';
 import GoogleConfirm from '../pages/SetupSteps/GoogleConfirm/GoogleConfirm';
+import MainView from '../pages/MainView/MainView';
 
 class App extends Component {
   componentDidMount() {
@@ -70,6 +71,7 @@ class App extends Component {
               path="/google-confirm"
               component={GoogleConfirm}
             />
+            <ProtectedRoute exact path="/main-view" component={MainView} />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will be redirected to the authRedirect path provided. */}
             <ProtectedRoute

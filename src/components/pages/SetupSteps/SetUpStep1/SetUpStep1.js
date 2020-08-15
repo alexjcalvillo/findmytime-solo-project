@@ -7,6 +7,7 @@ import styles from './SetUpStep1.module.css';
 
 // importing react-time-picker
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+import RRuleSelector from '../../../RRuleSelector/RRuleSelector';
 
 // steps 1 and 2 have similar setup with differences in reducers and titling
 class SetUpStep1 extends Component {
@@ -112,6 +113,7 @@ class SetUpStep1 extends Component {
                 disableClock
                 maxDetail={'minute'}
                 onChange={this.handleTimeRange}
+                format={'H:m:a'}
               />
               <br />
               <br />
@@ -123,9 +125,7 @@ class SetUpStep1 extends Component {
                 to sleep in on the weekends, we don't blame you!
               </p>
 
-              <select id="frequency" onChange={this.handleInput('frequency')}>
-                <option value="1">Daily</option>
-              </select>
+              <RRuleSelector />
               <br />
 
               <button
