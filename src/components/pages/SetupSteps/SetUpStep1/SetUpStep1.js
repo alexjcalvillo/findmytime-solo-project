@@ -18,8 +18,7 @@ class SetUpStep1 extends Component {
       date: moment(new Date()).format('YYYY-MM-DD'),
       endTime: '',
       details: '',
-      recurring: true,
-      recurring_event_id: 1,
+      recurring: this.props.store.recurring,
       profile_id: this.props.store.user.id,
     },
   };
@@ -67,8 +66,18 @@ class SetUpStep1 extends Component {
     this.props.history.push('/setup-2');
   };
 
+  getRecurring = () => (recurring) => {
+    console.log(recurring);
+    this.setState({
+      wakeup: {
+        ...this.state.wakeup,
+        recurring,
+      },
+    });
+  };
+
   render() {
-    console.log(this.state.wakeup);
+    console.log(this.state.wakeup.recurring);
     return (
       <div className="setupForm">
         <div className="formHeading">
@@ -125,7 +134,7 @@ class SetUpStep1 extends Component {
                 to sleep in on the weekends, we don't blame you!
               </p>
 
-              <RRuleSelector />
+              <RRuleSelector getRecurring={this.getRecurring()} />
               <br />
 
               <button

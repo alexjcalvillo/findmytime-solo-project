@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // imports items for creating new rrule string
 import { RRule, RRuleSet, rrulestr } from 'rrule';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import mapStoreToProps from '../../redux/mapStoreToProps';
 
 class RRuleSelector extends Component {
   state = {
@@ -81,9 +83,15 @@ class RRuleSelector extends Component {
     });
 
     const recurring = rule.toString();
+    this.props.getRecurring(recurring);
+    // this.props.dispatch({
+    //   type: 'SET_RECURRING_RULE',
+    //   payload: recurring,
+    // });
   };
 
   render() {
+    console.log(this.state.freq);
     return (
       <div>
         <div>
@@ -111,57 +119,66 @@ class RRuleSelector extends Component {
               <option value={7}>7</option>
             </select>
             <br />
-            <div>
-              <label htmlFor="sun">Sunday</label>
-              <input
-                type="checkbox"
-                id="sun"
-                value={RRule.SU}
-                onChange={this.handleCheck('SU')}
-              ></input>
-              <label htmlFor="mon">Monday</label>
-              <input
-                type="checkbox"
-                id="mon"
-                value={RRule.MO}
-                onClick={this.handleCheck('MO')}
-              ></input>
-              <label htmlFor="tues">Tuesday</label>
-              <input
-                type="checkbox"
-                id="tues"
-                value={RRule.TU}
-                onClick={this.handleCheck('TU')}
-              ></input>
-              <label htmlFor="wed">Wednesday</label>
-              <input
-                type="checkbox"
-                id="wed"
-                value={RRule.WE}
-                onClick={this.handleCheck('WE')}
-              ></input>
-              <label htmlFor="thur">Thursday</label>
-              <input
-                type="checkbox"
-                id="thur"
-                value={RRule.TH}
-                onClick={this.handleCheck('TH')}
-              ></input>
-              <label htmlFor="fri">Friday</label>
-              <input
-                type="checkbox"
-                id="fri"
-                value={RRule.FR}
-                onClick={this.handleCheck('FR')}
-              ></input>
-              <label htmlFor="sat">Saturday</label>
-              <input
-                type="checkbox"
-                id="sat"
-                value={RRule.SA}
-                onClick={this.handleCheck('SA')}
-              ></input>
-            </div>
+            {
+              <div>
+                <input
+                  type="checkbox"
+                  id="sun"
+                  value={RRule.SU}
+                  onChange={this.handleCheck('SU')}
+                ></input>
+                <label htmlFor="sun">Sunday</label>
+                <br />
+
+                <input
+                  type="checkbox"
+                  id="mon"
+                  value={RRule.MO}
+                  onClick={this.handleCheck('MO')}
+                ></input>
+                <label htmlFor="mon">Monday</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="tues"
+                  value={RRule.TU}
+                  onClick={this.handleCheck('TU')}
+                ></input>
+                <label htmlFor="tues">Tuesday</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="wed"
+                  value={RRule.WE}
+                  onClick={this.handleCheck('WE')}
+                ></input>
+                <label htmlFor="wed">Wednesday</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="thur"
+                  value={RRule.TH}
+                  onClick={this.handleCheck('TH')}
+                ></input>
+                <label htmlFor="thur">Thursday</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="fri"
+                  value={RRule.FR}
+                  onClick={this.handleCheck('FR')}
+                ></input>
+                <label htmlFor="fri">Friday</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="sat"
+                  value={RRule.SA}
+                  onClick={this.handleCheck('SA')}
+                ></input>
+                <label htmlFor="sat">Saturday</label>
+              </div>
+            }
             <DatePicker
               selected={this.state.startDate}
               onChange={(date) => this.setStartDate(date)}
@@ -178,4 +195,4 @@ class RRuleSelector extends Component {
   }
 }
 
-export default RRuleSelector;
+export default connect(mapStoreToProps)(RRuleSelector);
