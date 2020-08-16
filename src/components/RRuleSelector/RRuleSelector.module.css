@@ -1,0 +1,13 @@
+.dateBtn {
+  background-color: #a1bcd300;
+  height: 25px;
+  width: 150px;
+  padding: 3px 10px;
+  border: 1px solid #d96055;
+  border-radius: 4px;
+}
+
+.dateBtn:hover {
+  cursor: pointer;
+  background-color: #d96055;
+}

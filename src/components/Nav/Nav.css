@@ -8,14 +8,14 @@
 
 .nav {
   margin: 0 0 30px;
-  background: linear-gradient(90deg, #a8cae8, #034c8c);
+  background-color: #05c7f2;
   overflow: hidden;
 }
 
 .nav-link {
   float: left;
   color: black;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;

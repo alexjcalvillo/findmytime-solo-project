@@ -5,6 +5,7 @@ import { RRule, RRuleSet, rrulestr } from 'rrule';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import mapStoreToProps from '../../redux/mapStoreToProps';
+import styles from './RRuleSelector.module.css';
 
 class RRuleSelector extends Component {
   state = {
@@ -24,6 +25,7 @@ class RRuleSelector extends Component {
   };
 
   setStartDate(date) {
+    console.log(date);
     this.setState({
       startDate: date,
     });
@@ -179,14 +181,31 @@ class RRuleSelector extends Component {
                 <label htmlFor="sat">Saturday</label>
               </div>
             }
+            Start Date/Time:
+            <br />
             <DatePicker
+              className={styles.dateBtn}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="MMMM d, yyyy h:mm aa"
               selected={this.state.startDate}
               onChange={(date) => this.setStartDate(date)}
             />
+            <br />
+            End Date/Time:
+            <br />
             <DatePicker
+              className={styles.dateBtn}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="MMMM d, yyyy h:mm aa"
+              // customInput={ExampleCustomInput}
               selected={this.state.endDate}
               onChange={(date) => this.setEndDate(date)}
             />
+            <br />
             <input type="submit" value="Submit" />
           </form>
         </div>
