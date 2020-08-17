@@ -32,6 +32,10 @@ function* fetchProfile(action) {
       type: 'SET_USER_PROFILE',
       payload: response.data,
     });
+    yield put({
+      type: 'FETCH_EVENTS',
+      payload: response.data.id,
+    });
   } catch (err) {
     console.log(err);
   }

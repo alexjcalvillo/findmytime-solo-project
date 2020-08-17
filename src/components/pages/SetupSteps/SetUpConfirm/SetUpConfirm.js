@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
+import { RRule, RRuleSet, rrulestr } from 'rrule';
+import moment from 'moment';
+
 import styles from './SetUpConfirm.module.css';
 import { Grid, Container, Typography } from '@material-ui/core/';
 
 // navigation purposes
 import { Link } from 'react-router-dom';
 
-// this could also be written with destructuring parameters as:
-// const UserPage = ({ user }) => (
-// and then instead of `props.user.username` you could use `user.username`
 class SetUpConfirm extends Component {
   state = {};
 
@@ -25,6 +25,9 @@ class SetUpConfirm extends Component {
   };
   render() {
     console.log(this.props.store.wakeup);
+    const recurring = rrulestr(this.props.store.winddown.recurring);
+    const recurringText = recurring.toText();
+    console.log(recurringText);
     return (
       <Container maxWidth="sm" className={styles.headingBox}>
         <Grid container spacing={8}>
@@ -38,18 +41,22 @@ class SetUpConfirm extends Component {
             <h4>WakeUp Routines:</h4>
             <ul>
               <li>
-                Routine Time: {this.props.store.wakeup.startDate} -{' '}
-                {this.props.store.wakeup.endDate}
+                Routine Time:{' '}
+                {moment(this.props.store.wakeup.startDate).format('HH:mm')} -{' '}
+                {moment(this.props.store.wakeup.endDate).format('HH:mm')}
               </li>
               <li>{this.props.store.wakeup.details}</li>
-              {this.props.store.winddown.recurring && <li>Frequency: Daily</li>}
+              {this.props.store.winddown.recurring && (
+                <li>Frequency:{recurringText}</li>
+              )}
             </ul>
 
             <h4>WindDown Routines:</h4>
             <ul>
               <li>
-                Routine: {this.props.store.winddown.startTime} -{' '}
-                {this.props.store.winddown.endTime}
+                Routine:{' '}
+                {moment(this.props.store.winddown.startDate).format('HH:mm')} -{' '}
+                {moment(this.props.store.winddown.endDate).format('HH:mm')}
               </li>
               <li>{this.props.store.winddown.details}</li>
               {this.props.store.winddown.recurring && <li>Frequency: Daily</li>}

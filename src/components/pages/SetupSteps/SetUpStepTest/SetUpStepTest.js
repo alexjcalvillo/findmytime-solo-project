@@ -47,7 +47,7 @@ class SetUpStepTest extends Component {
       endDate: '',
       details: '',
       recurring: '',
-      profile_id: this.props.store.user.id,
+      profile_id: this.props.store.user.profile.id,
       freq: '',
     },
   };

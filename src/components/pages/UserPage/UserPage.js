@@ -17,10 +17,6 @@ class UserPage extends Component {
       type: 'FETCH_USER_PROFILE',
       payload: this.props.store.user.id,
     });
-    this.props.dispatch({
-      type: 'FETCH_EVENTS',
-      payload: this.props.store.user.id,
-    });
   }
 
   launchApp = () => {

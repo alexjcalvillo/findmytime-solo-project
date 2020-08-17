@@ -32,7 +32,7 @@ router.post('/register', (req, res, next) => {
 router.get('/profile/:id', rejectUnauthenticated, (req, res, next) => {
   const userId = Number(req.params.id);
 
-  const query = `SELECT "user_profile"."first_name", "user_profile"."last_name", "user_profile"."email" FROM "user_profile"
+  const query = `SELECT "user_profile"."first_name", "user_profile"."last_name", "user_profile"."email", user_profile.id FROM "user_profile"
   JOIN "user" ON "user"."id" = "user_profile"."user_id"
   WHERE "user"."id" = $1;`;
 

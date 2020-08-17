@@ -24,13 +24,15 @@ router.get('/google_calendar/:id', (req, res) => {
 });
 
 router.get('/events/:id', rejectUnauthenticated, (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
+  console.log(id);
 
   const query = `SELECT * FROM events
-  WHERE events.profile_id = $1 AND (events.event_type = 'wakeup' OR events.event_type = 'winddown');`;
+  WHERE events.profile_id = $1;`;
   pool
     .query(query, [id])
     .then((dbResponse) => {
+      console.log(dbResponse.rows);
       res.send(dbResponse.rows);
     })
     .catch((err) => {

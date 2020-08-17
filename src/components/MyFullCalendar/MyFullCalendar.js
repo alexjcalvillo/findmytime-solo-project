@@ -49,26 +49,15 @@ class MyFullCalendar extends Component {
             // events={this.props.events}
             events={[
               {
+                date: '2020-08-17T05:00:00',
+                details: 'wakeuping test',
+                // end: '2020-08-17T22:00:00.585Z',
+                event_type: 'Routine',
+                recurring:
+                  'DTSTART:20200817T160000Z↵RRULE:FREQ=DAILY;UNTIL=20200817T170000Z',
+                // start: '2020-08-17T21:00:00.428Z',
+                duration: '01:45',
                 title: 'wakeup',
-                startTime: '05:00:00',
-                endTime: '06:15:00',
-                allDay: false,
-                // daysOfWeek: [1, 2, 3, 4, 5],
-                borderColor: 'green',
-                backgroundColor: 'blue',
-                rrule:
-                  'DTSTART:20200816T100000Z RRULE:FREQ=DAILY;UNTIL=20200816T111500Z',
-                duration: '01:15',
-              },
-              {
-                title: 'winddown',
-                startTime: '20:00:00',
-                endTime: '21:00:00',
-                allDay: false,
-                // daysOfWeek: [1, 2, 3, 4, 5],
-                borderColor: 'green',
-                backgroundColor: 'blue',
-                duration: '01:00',
               },
             ]}
           />

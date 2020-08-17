@@ -19,7 +19,7 @@ class MainView extends Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'FETCH_EVENTS',
-      payload: this.props.store.user.id,
+      payload: this.props.store.user.profile.id,
     });
     this.setState({
       myEventsList: this.props.store.eventsReducer.map((event, index) => {
@@ -91,7 +91,7 @@ class MainView extends Component {
             </Grid>
           </Grid>
           <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
-            <MyFullCalendar />
+            <MyFullCalendar events={this.props.store.eventsReducer} />
           </Grid>
         </Grid>
       </Container>
