@@ -1,20 +1,7 @@
-#wrapper {
-  display: flex;
-}
-
-#left {
-  flex: 0 0 45%;
-  background-image: url('https://images.unsplash.com/photo-1567699745900-14005ea26d9a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=680&q=80');
-  background-size: cover;
-  opacity: 0.9;
-  background-color: #034c8c;
-  border-bottom-left-radius: 4px;
-}
-
-#right {
-  flex: 1;
-  margin-left: 10%;
-  color: #444;
+.titleSched {
+  text-align: center;
+  border-bottom: 1px solid #d96055;
+  border-radius: 4px;
 }
 
 .innerForm {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // import custom styling
 import './GoogleBtn.css';
 import { Link } from 'react-router-dom';
+import mapStoreToProps from '../../redux/mapStoreToProps';
 
 const CLIENT_ID =
   '129021208394-bp1f5i16igv01sp39vsj7be64ub2mu03.apps.googleusercontent.com';
@@ -16,12 +17,8 @@ class GoogleBtn extends Component {
       isLogined: false,
       accessToken: '',
       tokenId: '',
+      profileObj: {},
     };
-
-    // this.login = this.login.bind(this);
-    // this.handleLoginFailure = this.handleLoginFailure.bind(this);
-    // this.logout = this.logout.bind(this);
-    // this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
   }
 
   login = (response) => {
@@ -31,10 +28,14 @@ class GoogleBtn extends Component {
         isLogined: true,
         accessToken: response.accessToken,
         authToken: response.tokenId,
+        profileObj: response.profileObj,
       }));
       this.props.dispatch({
-        type: 'SET_USER_TOKEN',
-        payload: this.state.accessToken,
+        type: 'SET_USER_DATA',
+        payload: {
+          accessToken: this.state.accessToken,
+          profileObj: this.state.profileObj,
+        },
       });
       this.props.dispatch({
         type: 'GET_GOOGLE_CALENDAR',
@@ -62,16 +63,32 @@ class GoogleBtn extends Component {
     this.props.history.push('/setup-google');
   };
 
+  saveGoogleProfile = () => {
+    const data = {
+      fname: this.state.profileObj.givenName,
+      lname: this.state.profileObj.familyName,
+      email: this.state.profileObj.email,
+      id: this.props.store.user.id,
+    };
+    this.props.dispatch({
+      type: 'REGISTER_PROFILE',
+      payload: data,
+    });
+  };
+
   render() {
     return (
       <div>
         {this.state.isLogined ? (
           <h5>
-            Login Success! <br />
-            <br />
             <Link to="/setup-google">
-              <button className="log-in">Continue to Import</button>
+              <button className="log-in" onClick={this.saveGoogleProfile}>
+                Continue to Import
+              </button>
             </Link>
+            <br />
+            Login Success!
+            <br />
           </h5>
         ) : (
           <GoogleLogin
@@ -90,4 +107,4 @@ class GoogleBtn extends Component {
   }
 }
 
-export default connect()(GoogleBtn);
+export default connect(mapStoreToProps)(GoogleBtn);

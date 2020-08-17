@@ -32,9 +32,9 @@ router.post('/register', (req, res, next) => {
 router.get('/profile/:id', rejectUnauthenticated, (req, res, next) => {
   const userId = Number(req.params.id);
 
-  const query = `SELECT "user_profile".first_name, "user_profile".last_name FROM "user_profile"
-  JOIN "user" ON "user".id = "user_profile".user_id
-  WHERE "user".id = $1;`;
+  const query = `SELECT "user_profile"."first_name", "user_profile"."last_name", "user_profile"."email" FROM "user_profile"
+  JOIN "user" ON "user"."id" = "user_profile"."user_id"
+  WHERE "user"."id" = $1;`;
 
   pool
     .query(query, [userId])
@@ -44,6 +44,23 @@ router.get('/profile/:id', rejectUnauthenticated, (req, res, next) => {
     })
     .catch((err) => {
       console.log(`Broke: ${err}`);
+      res.sendStatus(500);
+    });
+});
+
+router.post('/profile/info', rejectUnauthenticated, (req, res, next) => {
+  const profile = req.body;
+  console.log(profile);
+  const query = `INSERT INTO "user_profile" ("first_name", "last_name", "email", "user_id")
+  VALUES ($1, $2, $3, $4);`;
+
+  pool
+    .query(query, [profile.fname, profile.lname, profile.email, profile.id])
+    .then((dbResponse) => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log(`Didn't work, ${err}`);
       res.sendStatus(500);
     });
 });

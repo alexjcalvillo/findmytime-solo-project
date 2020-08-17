@@ -56,22 +56,34 @@ class MainView extends Component {
     });
   }
   render() {
-    console.log(this.state.myEventsList);
-    console.log();
     return (
-      <Container maxWidth="lg" disableGutters={true} className="setupForm">
+      <Container maxWidth="lg" className="setupForm">
         <Grid container spacing={2}>
           <Grid item lg={12}>
             <Typography variant="h2" component="h2">
               The Main View
             </Typography>
           </Grid>
-          <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
+          <Grid
+            item
+            xl={4}
+            lg={4}
+            md={4}
+            sm={4}
+            xs={12}
+            className={styles.sideBar}
+          >
             <Grid item lg={12}>
               <Typography variant="overline">Today's Routines:</Typography>
               {this.props.store.eventsReducer.map((event, index) => {
                 return (
-                  <Grid item lg={10} key={index} className={styles.itemToday}>
+                  <Grid
+                    item
+                    lg={10}
+                    key={index}
+                    style={{ marginTop: '25px' }}
+                    className={styles.itemToday}
+                  >
                     {event.title}
                   </Grid>
                 );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
 import moment from 'moment';
 
@@ -79,15 +80,31 @@ class SetUpStepTest extends Component {
   }
 
   handleNext = () => {
-    this.setRecurring();
+    if (this.state.event.type === '' || undefined) {
+      alert('Please complete the event information');
+      return;
+    } else if (this.state.event.endDate === '' || undefined) {
+      alert('Please complete the event information');
+      return;
+    } else if (this.state.event.details === '' || undefined) {
+      alert('Please complete the event information');
+      return;
+    }
+    const recurring = this.setRecurring();
+    const data = { ...this.state.event, recurring };
+    this.props.handleNext(data);
     // this.props.dispatch({
     //   type: 'SET_WAKEUP_ROUTINES',
-    //   payload: this.state.event,
+    //   payload: { ...this.state.event, recurring },
     // });
     // this.props.history.push('/setup-2');
   };
 
   setRecurring() {
+    if (this.state.event.freq === '' || undefined) {
+      alert('Please select your frequency.');
+      return;
+    }
     const rule = new RRule({
       freq: this.state.event.freq,
       interval: this.state.interval,
@@ -96,32 +113,27 @@ class SetUpStepTest extends Component {
       until: this.state.event.endDate || null,
     });
     const recurring = rule.toString();
-    this.setState({
-      event: {
-        ...this.state.event,
-        recurring,
-      },
-    });
+    return recurring;
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <Container
-          maxWidth="md"
-          disableGutters={true}
+          maxWidth={this.props.maxWidth}
           className="setupForm"
           id={styles.background}
         >
-          {/* <Grid item xs={12} md={12} lg={12} className="formHeading">
-            <div>
-              <Typography variant="h2" component="h1">
-                Welcome, {this.props.user.username}: SetUp Step 1
+          <Grid container spacing={1}>
+            <Grid item lg={12}>
+              <Typography
+                variant="h2"
+                component="h2"
+                className={styles.titleSched}
+              >
+                Schedule an event
               </Typography>
-            </div>
-          </Grid> */}
-          <Grid container spacing={2}>
+            </Grid>
             <Grid
               item
               lg={6}
@@ -131,9 +143,6 @@ class SetUpStepTest extends Component {
               style={{ borderRight: '1px solid #888' }}
             >
               <div className={styles.innerForm}>
-                <Typography variant="h4" component="h4">
-                  Schedule an event
-                </Typography>
                 <label htmlFor="title">Title: </label>
                 <br />
                 <input
@@ -149,13 +158,16 @@ class SetUpStepTest extends Component {
                   id="freq"
                   onChange={this.handleInput('freq')}
                 >
+                  <option value={undefined}>
+                    Select how often this routine will be
+                  </option>
                   <option value={RRule.DAILY}>Every Day</option>
                   <option value={RRule.WEEKLY}>Every Week</option>
                   <option value={RRule.MONTHLY}>Every Month</option>
                   <option value={RRule.YEARLY}>Every Year</option>
                 </select>
                 <br />
-                <div style={{ display: 'inline-block', width: '50%' }}>
+                <div style={{ display: 'inline-block', width: '66%' }}>
                   <label htmlFor="start">Start Date/Time:*</label>
 
                   <br />
@@ -194,7 +206,7 @@ class SetUpStepTest extends Component {
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <div
                 className={styles.innerForm}
-                style={{ marginTop: '8%', borderBottom: '1px solid #888' }}
+                style={{ marginTop: '1.5%', borderBottom: '1px solid #888' }}
               >
                 <label htmlFor="type">Type of Event: </label>
                 <br />
@@ -203,6 +215,7 @@ class SetUpStepTest extends Component {
                   id="type"
                   onChange={this.handleInput('type')}
                 >
+                  <option value="">Select the type of event</option>
                   <option value="Routine">Routine</option>
                   <option value="Habit">Habit</option>
                   <option value="Task">Task</option>
@@ -231,4 +244,4 @@ class SetUpStepTest extends Component {
 }
 
 // this allows us to use <App /> in index.js
-export default connect(mapStoreToProps)(SetUpStepTest);
+export default connect(mapStoreToProps)(withRouter(SetUpStepTest));

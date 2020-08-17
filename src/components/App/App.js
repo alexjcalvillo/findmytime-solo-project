@@ -29,6 +29,7 @@ import SetUpGoogle from '../pages/SetupSteps/SetUpGoogle/SetUpGoogle';
 import GoogleConfirm from '../pages/SetupSteps/GoogleConfirm/GoogleConfirm';
 import MainView from '../pages/MainView/MainView';
 import SetUpStepTest from '../pages/SetupSteps/SetUpStepTest/SetUpStepTest';
+import ProfileBuild from '../pages/ProfileBuild/ProfileBuild';
 
 class App extends Component {
   componentDidMount() {
@@ -54,6 +55,11 @@ class App extends Component {
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will see the info page instead. */}
             <ProtectedRoute exact path="/info" component={InfoPage} />
+            <ProtectedRoute
+              exact
+              path="/setup-profile"
+              component={ProfileBuild}
+            />
             <ProtectedRoute exact path="/setup" component={SetUp} />
             <ProtectedRoute exact path="/setup-1" component={SetUpStep1} />
             <ProtectedRoute exact path="/setup-2" component={SetUpStep2} />

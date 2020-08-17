@@ -1,9 +1,9 @@
-const google = (state = '', action) => {
+const google = (state = {}, action) => {
   switch (action.type) {
-    case 'SET_USER_TOKEN':
+    case 'SET_USER_DATA':
       return action.payload;
-    case 'UNSET_USER_TOKEN':
-      return '';
+    case 'UNSET_USER_DATA':
+      return {};
     default:
       return state;
   }

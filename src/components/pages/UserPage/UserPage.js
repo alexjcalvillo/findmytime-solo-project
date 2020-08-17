@@ -5,6 +5,8 @@ import mapStoreToProps from '../../../redux/mapStoreToProps';
 import SetupBtn from '../../SetupBtn/SetupBtn';
 
 import styles from './UserPage.module.css';
+import { Grid, Container, Typography } from '@material-ui/core/';
+
 import RRuleSelector from '../../RRuleSelector/RRuleSelector';
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
@@ -26,39 +28,40 @@ class UserPage extends Component {
   };
   render() {
     return (
-      <div className="setupForm">
-        <div className="formHeading">
-          <h1 id="welcome">Welcome, {this.props.store.user.username}!</h1>
-        </div>
-        <div
-          style={{
-            margin: 'auto',
-            width: '50%',
-            border: '1px solid blue',
-            borderRadius: '5px',
-            padding: '15px',
-          }}
-        >
-          <RRuleSelector />
-        </div>
-        <div className={styles.innerUser}>
-          <p>Your ID is: {this.props.store.user.id}</p>
+      <Container maxWidth="lg" spacing={2} className="setupForm">
+        <Grid item lg={12}>
+          <Typography variant="h4" component="h4" id="welcome">
+            Welcome, {this.props.store.user.username}!
+          </Typography>
+        </Grid>
+
+        <Grid item lg={8} className={styles.innerUser}>
+          <Typography variant="body1">
+            Your ID is: {this.props.store.user.id}
+          </Typography>
           {/* TODO: Conditionally render setup based on if user has events saved (first login) */}
           {this.props.store.user.profile ? (
-            <div>
-              <h1>Your information:</h1>
-              <p>
+            <Grid item>
+              <Typography variant="h3" component="h3">
+                Your information:
+              </Typography>
+              <Typography variant="body1">
                 Name: {this.props.store.user.profile.first_name}{' '}
                 {this.props.store.user.profile.last_name}
-              </p>
-            </div>
+              </Typography>
+              <Typography variant="body1">
+                Email:
+                {this.props.store.user.profile.email}
+              </Typography>
+            </Grid>
           ) : (
-            <p>
+            <Typography variant="body1">
               Must be your first time here! Let's help you get situated and set
               up your profile
-            </p>
+            </Typography>
           )}
-          {this.props.store.eventsReducer.length > 1 ? (
+          {this.props.store.eventsReducer.length > 1 &&
+          this.props.store.user.profile ? (
             <button className="log-in" onClick={this.launchApp}>
               Launch FindMyTime
             </button>
@@ -66,8 +69,8 @@ class UserPage extends Component {
             <SetupBtn className="log-in" />
           )}
           <br />
-        </div>
-      </div>
+        </Grid>
+      </Container>
     );
   }
 }

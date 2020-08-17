@@ -22,8 +22,17 @@ function* registerUser(action) {
   }
 }
 
+function* registerProfile(action) {
+  try {
+    yield axios.post(`/api/user/profile/info`, action.payload);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* registrationSaga() {
   yield takeLatest('REGISTER', registerUser);
+  yield takeLatest('REGISTER_PROFILE', registerProfile);
 }
 
 export default registrationSaga;

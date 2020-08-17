@@ -72,26 +72,26 @@ router.post('/self-add-routine', (req, res) => {
   const winddown = req.body.winddown;
   console.log(wakeup, winddown);
 
-  const query = `INSERT INTO "events" ("event_type", "event_title", "event_details", "event_date", "start_time", "end_time", "recurring", "profile_id")
+  const query = `INSERT INTO "events" ("event_type", "title", "details", "date", "start", "end", "recurring", "profile_id")
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8),
   ($9, $10, $11, $12, $13, $14, $15, $16);`;
 
   pool
     .query(query, [
       wakeup.type,
-      wakeup.type,
+      wakeup.title,
       wakeup.details,
       wakeup.date,
-      wakeup.startTime,
-      wakeup.endTime,
+      wakeup.startDate,
+      wakeup.endDate,
       wakeup.recurring,
       wakeup.profile_id,
       winddown.type,
       winddown.type,
       winddown.details,
       winddown.date,
-      winddown.startTime,
-      winddown.endTime,
+      winddown.startDate,
+      winddown.endDate,
       winddown.recurring,
       winddown.profile_id,
     ])
