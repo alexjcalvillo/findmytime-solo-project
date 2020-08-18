@@ -37,7 +37,7 @@ class SetUpGoogle extends Component {
       end_time,
       recurring: currentEvent.recurrence || null,
       recurring_event_id: 1,
-      profile_id: this.props.store.user.id,
+      profile_id: this.props.store.user.profile.id,
     };
     this.props.dispatch({ type: 'ADD_GOOGLE_EVENT', payload: dataToAdd });
   };

@@ -64,22 +64,27 @@ class GoogleBtn extends Component {
   };
 
   saveGoogleProfile = () => {
-    const data = {
-      fname: this.state.profileObj.givenName,
-      lname: this.state.profileObj.familyName,
-      email: this.state.profileObj.email,
-      id: this.props.store.user.id,
-    };
-    this.props.dispatch({
-      type: 'REGISTER_PROFILE',
-      payload: data,
-    });
+    if (this.props.store.user.profile !== '') {
+      return;
+    } else {
+      const data = {
+        fname: this.state.profileObj.givenName,
+        lname: this.state.profileObj.familyName,
+        email: this.state.profileObj.email,
+        id: this.props.store.user.id,
+        profilePic: this.props.store.google.profileObj.imageUrl,
+      };
+      this.props.dispatch({
+        type: 'REGISTER_PROFILE',
+        payload: data,
+      });
+    }
   };
 
   render() {
     return (
       <div>
-        {this.state.isLogined ? (
+        {this.state.isLogined && this.props.store.googleCalendar.length > 1 ? (
           <h5>
             <Link to="/setup-google">
               <button className="log-in" onClick={this.saveGoogleProfile}>

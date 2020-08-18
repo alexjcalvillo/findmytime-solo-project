@@ -46,8 +46,8 @@ router.get('/events/:id', rejectUnauthenticated, (req, res) => {
 router.post('/google_calendar/add-event', (req, res) => {
   console.log('POSTING', req.body);
   const event = req.body.event;
-  const query = `INSERT INTO "google_import" ("event_type", "event_title", "event_details", "event_date", "start_time", "end_time", "recurring", "recurring_event_id", "profile_id")
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
+  const query = `INSERT INTO "google_import" ("event_type", "title", "details", "date", "start", "end", "recurring", "profile_id")
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
   pool
     .query(query, [
       event.event_type,
@@ -57,7 +57,6 @@ router.post('/google_calendar/add-event', (req, res) => {
       event.start_time,
       event.end_time,
       event.recurring,
-      event.recurring_event_id,
       event.profile_id,
     ])
     .then((dbResponse) => {
@@ -89,7 +88,7 @@ router.post('/self-add-routine', (req, res) => {
       wakeup.recurring,
       wakeup.profile_id,
       winddown.type,
-      winddown.type,
+      winddown.title,
       winddown.details,
       winddown.date,
       winddown.startDate,

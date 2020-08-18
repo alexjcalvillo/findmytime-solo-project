@@ -20,16 +20,16 @@ import moment from 'moment';
 // and then instead of `props.user.username` you could use `user.username`
 class SetUpStep2 extends Component {
   state = {
-    winddown: {
-      type: 'winddown',
-      startTime: '',
-      date: moment(new Date()).format('YYYY-MM-DD'),
-      endTime: '',
-      details: '',
-      recurring: true,
-      recurring_event_id: 1,
-      profile_id: this.props.store.user.id,
-    },
+    // winddown: {
+    //   type: 'winddown',
+    //   startTime: '',
+    //   date: moment(new Date()).format('YYYY-MM-DD'),
+    //   endTime: '',
+    //   details: '',
+    //   recurring: true,
+    //   recurring_event_id: 1,
+    //   profile_id: this.props.store.user.id,
+    // },
   };
 
   handleInput = (input) => (event) => {

@@ -13,10 +13,10 @@ import RRuleSelector from '../../RRuleSelector/RRuleSelector';
 // and then instead of `props.user.username` you could use `user.username`
 class UserPage extends Component {
   componentDidMount() {
-    this.props.dispatch({
-      type: 'FETCH_USER_PROFILE',
-      payload: this.props.store.user.id,
-    });
+    // this.props.dispatch({
+    //   type: 'FETCH_USER_PROFILE',
+    //   payload: this.props.store.user.id,
+    // });
   }
 
   launchApp = () => {
@@ -24,7 +24,7 @@ class UserPage extends Component {
   };
   render() {
     return (
-      <Container maxWidth="lg" spacing={2} className="setupForm">
+      <Container maxWidth="sm" spacing={2} className="setupForm">
         <Grid item lg={12}>
           <Typography variant="h4" component="h4" id="welcome">
             Welcome, {this.props.store.user.username}!
@@ -49,6 +49,13 @@ class UserPage extends Component {
                 Email:
                 {this.props.store.user.profile.email}
               </Typography>
+              <img
+                src={this.props.user.profile.profile_pic_path}
+                alt="visual display of the user as chosen by the user"
+                style={{ borderRadius: '50%' }}
+              />
+              <br />
+              Profile Picture
             </Grid>
           ) : (
             <Typography variant="body1">

@@ -47,19 +47,7 @@ class MyFullCalendar extends Component {
             }}
             timeZone="local"
             // events={this.props.events}
-            events={[
-              {
-                date: '2020-08-17T05:00:00',
-                details: 'wakeuping test',
-                // end: '2020-08-17T22:00:00.585Z',
-                event_type: 'Routine',
-                recurring:
-                  'DTSTART:20200817T160000Z↵RRULE:FREQ=DAILY;UNTIL=20200817T170000Z',
-                // start: '2020-08-17T21:00:00.428Z',
-                duration: '01:45',
-                title: 'wakeup',
-              },
-            ]}
+            events={this.props.events}
           />
         </div>
       </div>

@@ -32,7 +32,7 @@ router.post('/register', (req, res, next) => {
 router.get('/profile/:id', rejectUnauthenticated, (req, res, next) => {
   const userId = Number(req.params.id);
 
-  const query = `SELECT "user_profile"."first_name", "user_profile"."last_name", "user_profile"."email", user_profile.id FROM "user_profile"
+  const query = `SELECT "user_profile"."first_name", "user_profile"."last_name", "user_profile"."email", "user_profile"."profile_pic_path", user_profile.id FROM "user_profile"
   JOIN "user" ON "user"."id" = "user_profile"."user_id"
   WHERE "user"."id" = $1;`;
 
@@ -51,11 +51,17 @@ router.get('/profile/:id', rejectUnauthenticated, (req, res, next) => {
 router.post('/profile/info', rejectUnauthenticated, (req, res, next) => {
   const profile = req.body;
   console.log(profile);
-  const query = `INSERT INTO "user_profile" ("first_name", "last_name", "email", "user_id")
-  VALUES ($1, $2, $3, $4);`;
+  const query = `INSERT INTO "user_profile" ("first_name", "last_name", "email", "user_id", "profile_pic_path")
+  VALUES ($1, $2, $3, $4, $5);`;
 
   pool
-    .query(query, [profile.fname, profile.lname, profile.email, profile.id])
+    .query(query, [
+      profile.fname,
+      profile.lname,
+      profile.email,
+      profile.id,
+      profile.profilePic,
+    ])
     .then((dbResponse) => {
       res.sendStatus(201);
     })

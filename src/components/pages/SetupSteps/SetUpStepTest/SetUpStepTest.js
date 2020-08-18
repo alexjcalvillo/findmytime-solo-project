@@ -71,6 +71,26 @@ class SetUpStepTest extends Component {
     });
   }
   setEndDate(date) {
+    // const start = moment(this.state.event.startDate).format('YYYY-MM-DD');
+    // const end = moment(date).format('YYYY-MM-DD');
+    // console.log(start, end);
+    // if (end === start) {
+    //   const newDate = null;
+    //   const duration = moment
+    //     .duration(
+    //       moment(this.state.event.end).format('HH:mm:ss'),
+    //       moment(this.state.event.start).format('HH:mm:ss')
+    //     )
+    //     .asHours();
+    //   console.log(duration);
+    //   this.setState({
+    //     event: {
+    //       ...this.state.event,
+    //       endDate: newDate,
+    //       duration,
+    //     },
+    //   });
+    // } else {
     this.setState({
       event: {
         ...this.state.event,
@@ -109,7 +129,7 @@ class SetUpStepTest extends Component {
       freq: this.state.event.freq,
       interval: this.state.interval,
       byweekday: [],
-      dtstart: this.state.event.startDate || new Date(),
+      dtstart: this.state.event.startDate || null,
       until: this.state.event.endDate || null,
     });
     const recurring = rule.toString();
@@ -117,6 +137,7 @@ class SetUpStepTest extends Component {
   }
 
   render() {
+    console.log(this.state.event);
     return (
       <div>
         <Container
