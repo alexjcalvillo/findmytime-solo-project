@@ -37,6 +37,10 @@ function* fetchProfile(action) {
       type: 'FETCH_EVENTS',
       payload: response.data.id,
     });
+    yield put({
+      type: 'GET_EVENT_BY_DAYS',
+      payload: this.props.store.user.profile.id,
+    });
   } catch (err) {
     console.log(err);
   }

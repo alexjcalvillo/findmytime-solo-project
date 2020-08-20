@@ -23,9 +23,28 @@ function* getUserRoutines(action) {
   }
 }
 
+function* getEventsWithDays(action) {
+  try {
+    const response = yield axios(`/api/calendar/days/${action.payload}`);
+    console.log(response.data);
+    // const days = response.data.map((num, index) => {
+
+    //   return num.num;
+    // });
+    // console.log(days);
+    yield put({
+      type: 'SET_EVENT_DAYS',
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* routineSaga() {
   yield takeLatest('SET_ROUTINES', postUserRoutines);
   yield takeLatest('FETCH_EVENTS', getUserRoutines);
+  yield takeLatest('GET_EVENT_BY_DAYS', getEventsWithDays);
 }
 
 export default routineSaga;

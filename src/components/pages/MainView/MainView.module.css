@@ -15,9 +15,12 @@
 
 .itemToday {
   margin-top: 100px;
+  margin-left: 5px;
   border: none;
   border-radius: 6px;
-  background-color: #9de3ff;
+  background: linear-gradient(to top, #05aff2, #9de3ff);
+  box-shadow: 1px 6px 3px rgb(0, 0, 0, 0.2);
+
   padding: 15px;
 }
 

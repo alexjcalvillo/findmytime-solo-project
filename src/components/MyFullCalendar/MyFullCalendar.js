@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 
 import styles from './MyFullCalendar.module.css';
+// Material UI
+import { Tooltip } from '@material-ui/core';
 // Full Calendar imports
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -21,6 +23,15 @@ rrule: {
       */
 
 class MyFullCalendar extends Component {
+  handleMouseOver = (task) => {
+    console.log(task);
+    console.log(task.event.extendedProps.details);
+    return (
+      <div style="position:absolute; width:100%; height:100%; top:-1px; text-align:right; z-index:100">
+        {task.event.extendedProps.details}
+      </div>
+    );
+  };
   render() {
     console.log(this.props.events);
     console.log(this.props.googleEvents);
@@ -45,6 +56,7 @@ class MyFullCalendar extends Component {
             timeZone="local"
             // events={this.props.events}
             events={this.props.events}
+            eventMouseEnter={(task) => this.props.hover(task)}
           />
         </div>
       </div>

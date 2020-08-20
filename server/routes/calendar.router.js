@@ -5,6 +5,20 @@ const {
 } = require('../modules/authentication-middleware');
 const router = express.Router();
 
+// let array = [];
+
+function queryNum(n, array) {
+  if (n <= 0) {
+    return;
+  } else {
+    let day = n + 1;
+    let queryValues = `($1, $${day})`;
+    array.push(queryValues);
+    queryNum(n - 1, array);
+    console.log(array);
+  }
+}
+
 /**
  * GET route template
  */
@@ -28,7 +42,7 @@ router.get('/events/:id', rejectUnauthenticated, (req, res) => {
   console.log(id);
 
   const query = `SELECT * FROM events
-  WHERE events.profile_id = $1;`;
+  WHERE events.profile_id = $1 ORDER BY events.id DESC;`;
   pool
     .query(query, [id])
     .then((dbResponse) => {
@@ -37,6 +51,24 @@ router.get('/events/:id', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+});
+
+router.get('/days/:id', rejectUnauthenticated, (req, res) => {
+  const id = req.params.id;
+  const query = `SELECT days.num, events.id FROM "events"
+    JOIN frequency ON frequency.event_id = events.id
+    JOIN days ON frequency.day_id = days.id
+    WHERE events.profile_id = $1 GROUP BY events.id, days.num;`;
+
+  pool
+    .query(query, [id])
+    .then((dbResponse) => {
+      res.send(dbResponse.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
     });
 });
 
@@ -96,6 +128,60 @@ router.post('/self-add-routine', (req, res) => {
       winddown.recurring,
       winddown.profile_id,
     ])
+    .then((dbResponse) => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
+
+router.post('/new-event', (req, res) => {
+  console.log(req.body);
+  const newEvent = req.body;
+
+  const query = `INSERT INTO "events" ("event_type", "title", "details", "date", "start", "end", "recurring", "profile_id")
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
+
+  pool
+    .query(query, [
+      newEvent.type,
+      newEvent.title,
+      newEvent.details,
+      newEvent.startDate,
+      newEvent.start,
+      newEvent.end,
+      newEvent.recurring,
+      newEvent.profile_id,
+    ])
+    .then((dbReponse) => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
+
+router.post('/create-freq', (req, res) => {
+  const days = req.body;
+  console.log(days);
+  const dbdays = days.days.map((day, i) => {
+    return day;
+  });
+
+  const array = [];
+  dbdays.unshift(days.id);
+  const numStart = days.days.length;
+  queryNum(numStart, array);
+
+  const finalQuery = array.reverse().join(', ');
+  const query = `INSERT INTO "frequency" (event_id, day_id)
+  VALUES ${finalQuery};`;
+
+  pool
+    .query(query, dbdays)
     .then((dbResponse) => {
       res.sendStatus(201);
     })

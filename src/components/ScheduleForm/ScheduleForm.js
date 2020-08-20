@@ -51,6 +51,15 @@ class ScheduleForm extends Component {
       freq: '',
       repeat: false,
     },
+    byweekday: {
+      SU: false,
+      MO: false,
+      TU: false,
+      WE: false,
+      TH: false,
+      FR: false,
+      SA: false,
+    },
   };
 
   componentDidMount() {
@@ -76,7 +85,17 @@ class ScheduleForm extends Component {
   setRepeat = () => {
     this.setState({
       event: {
+        ...this.state.event,
         repeat: !this.state.event.repeat,
+      },
+    });
+  };
+
+  handleCheck = (day) => (event) => {
+    this.setState({
+      byweekday: {
+        ...this.state.byweekday,
+        [day]: !this.state.byweekday[day],
       },
     });
   };
@@ -106,14 +125,38 @@ class ScheduleForm extends Component {
   }
 
   handleNext = () => {
-    const data = { ...this.state.event };
+    const days = Object.keys(this.state.byweekday);
+    const daysToUse = days.filter((day) => {
+      return this.state.byweekday[day];
+    });
+    const realDays = this.setRecurring(daysToUse);
+    const data = { ...this.state.event, daysOfWeek: realDays };
     this.props.handleNext(data);
   };
 
-  setRecurring() {}
+  setRecurring(days) {
+    const newDays = days.map((day) => {
+      switch (day) {
+        case 'SU':
+          return 1;
+        case 'MO':
+          return 2;
+        case 'TU':
+          return 3;
+        case 'WE':
+          return 4;
+        case 'TH':
+          return 5;
+        case 'FR':
+          return 6;
+        case 'SA':
+          return 7;
+      }
+    });
+    return newDays;
+  }
 
   render() {
-    console.log(this.state.event);
     return (
       <div>
         <Container
@@ -169,9 +212,63 @@ class ScheduleForm extends Component {
                       </option>
                       <option value={'daily'}>Every Day</option>
                       <option value={'weekly'}>Every Week</option>
-                      <option value={'monthly'}>Every Month</option>
-                      <option value={'yearly'}>Every Year</option>
+                      {/* <option value={'monthly'}>Every Month</option>
+                      <option value={'yearly'}>Every Year</option> */}
                     </select>
+
+                    <h4>Or:</h4>
+
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="sun"
+                        onChange={this.handleCheck('SU')}
+                      ></input>
+                      <label htmlFor="sun">Sunday</label>
+                      <br />
+
+                      <input
+                        type="checkbox"
+                        id="mon"
+                        onClick={this.handleCheck('MO')}
+                      ></input>
+                      <label htmlFor="mon">Monday</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        id="tues"
+                        onClick={this.handleCheck('TU')}
+                      ></input>
+                      <label htmlFor="tues">Tuesday</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        id="wed"
+                        onClick={this.handleCheck('WE')}
+                      ></input>
+                      <label htmlFor="wed">Wednesday</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        id="thur"
+                        onClick={this.handleCheck('TH')}
+                      ></input>
+                      <label htmlFor="thur">Thursday</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        id="fri"
+                        onClick={this.handleCheck('FR')}
+                      ></input>
+                      <label htmlFor="fri">Friday</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        id="sat"
+                        onClick={this.handleCheck('SA')}
+                      ></input>
+                      <label htmlFor="sat">Saturday</label>
+                    </div>
                   </>
                 ) : (
                   <></>

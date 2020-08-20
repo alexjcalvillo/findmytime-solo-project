@@ -7,6 +7,7 @@ import google from './google.reducer';
 import googleCalendar from './googleCalendar.reducer';
 import eventsReducer from './events.reducer';
 import recurring from './recurring.reducer';
+import days from './days.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   googleCalendar, // holds imported calendar events
   eventsReducer, // for now holds initial routines
   recurring, // to set recurring rules for each form
+  days,
 });
 
 export default rootReducer;
