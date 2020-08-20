@@ -42,8 +42,8 @@ class SetUpConfirm extends Component {
             <ul>
               <li>
                 Routine Time:{' '}
-                {moment(this.props.store.wakeup.startDate).format('HH:mm')} -{' '}
-                {moment(this.props.store.wakeup.endDate).format('HH:mm')}
+                {moment(this.props.store.wakeup.start).format('HH:mm')} -{' '}
+                {moment(this.props.store.wakeup.end).format('HH:mm')}
               </li>
               <li>{this.props.store.wakeup.details}</li>
               {this.props.store.winddown.recurring && (
@@ -55,8 +55,8 @@ class SetUpConfirm extends Component {
             <ul>
               <li>
                 Routine:{' '}
-                {moment(this.props.store.winddown.startDate).format('HH:mm')} -{' '}
-                {moment(this.props.store.winddown.endDate).format('HH:mm')}
+                {moment(this.props.store.winddown.start).format('HH:mm')} -{' '}
+                {moment(this.props.store.winddown.end).format('HH:mm')}
               </li>
               <li>{this.props.store.winddown.details}</li>
               {this.props.store.winddown.recurring && <li>Frequency: Daily</li>}

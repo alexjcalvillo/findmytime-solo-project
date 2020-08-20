@@ -14,17 +14,7 @@ import { Grid, Container, Typography } from '@material-ui/core/';
 
 // steps 1 and 2 have similar setup with differences in reducers and titling
 class SetUpStep1 extends Component {
-  state = {
-    wakeup: {
-      type: 'wakeup',
-      startTime: '',
-      date: moment(new Date()).format('YYYY-MM-DD'),
-      endTime: '',
-      details: '',
-      recurring: this.props.store.recurring,
-      profile_id: this.props.store.user.id,
-    },
-  };
+  state = {};
 
   handleInput = (input) => (event) => {
     this.setState({

@@ -1,3 +1,6 @@
-.calendar {
-  width: 98.75%;
+.myCal {
+  padding: 6%;
+  border-radius: 4px;
+  border: 1px solid#d96055;
+  background-color: white;
 }

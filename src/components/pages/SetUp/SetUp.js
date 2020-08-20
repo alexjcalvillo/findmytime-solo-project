@@ -5,7 +5,13 @@ import mapStoreToProps from '../../../redux/mapStoreToProps';
 // navigation purposes
 import { Link } from 'react-router-dom';
 
+// import Material UI components
 import { Grid, Container, Typography } from '@material-ui/core/';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 // Google Import option starts here
 import GoogleBtn from '../../GoogleBtn/GoogleBtn';
@@ -22,12 +28,14 @@ class SetUp extends Component {
     lname: '',
     email: '',
     setupNeeded: false,
+    setOpen: false,
   };
 
   componentDidMount() {
     if (this.props.store.user.profile) {
       this.setState({
         setupNeeded: true,
+        setOpen: true,
       });
     }
   }
@@ -67,6 +75,18 @@ class SetUp extends Component {
     this.props.history.push('setup-1');
   };
 
+  handleClickOpen = () => {
+    this.setState({
+      setOpen: true,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      setOpen: false,
+    });
+  };
+
   render() {
     return (
       <Container maxWidth="md" className="setupForm">
@@ -85,11 +105,51 @@ class SetUp extends Component {
             style={{ borderBottom: '1px solid #888' }}
           >
             {this.props.store.user.profile ? (
-              <Typography variant="overline">
-                Your Profile is all set! Start with either our guided setup or
-                import your Google Events!
-              </Typography>
+              <Dialog
+                open={this.state.setOpen}
+                onClose={this.handleClose}
+                disableBackdropClick={true}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                style={{ border: '1px solid #d96055' }}
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {
+                    'Your profile has been created. How would you like to start scheduling?'
+                  }
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    We can guide you through some basic initial routines so you
+                    can learn how we schedule events.
+                  </DialogContentText>
+                  <br />
+                  <DialogActions>
+                    <button className="log-in" onClick={this.startGuided}>
+                      Begin Guided Setup
+                    </button>
+                  </DialogActions>
+                  <hr />
+                  <DialogContentText id="alert-dialog-description">
+                    Or let Google work to import your data from your calendar.
+                    Don't worry, if you still want to schedule some basic
+                    routines, we'll walk you through it afterwards!
+                  </DialogContentText>
+
+                  <DialogActions>
+                    <Typography variant="overline">
+                      Or let Google do the work:
+                    </Typography>
+                    <br />
+                    <GoogleBtn />
+                  </DialogActions>
+                </DialogContent>
+              </Dialog>
             ) : (
+              // <Typography variant="overline">
+              //   Your Profile is all set! Start with either our guided setup or
+              //   import your Google Events!
+              // </Typography>
               <Typography variant="overline">Account Setup</Typography>
             )}
             <br />

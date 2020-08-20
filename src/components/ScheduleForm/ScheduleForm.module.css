@@ -1,0 +1,88 @@
+.titleSched {
+  text-align: center;
+  border-bottom: 1px solid #d96055;
+  border-radius: 4px;
+}
+
+.innerForm {
+  margin: auto;
+  width: 80%;
+}
+
+.innerForm > * {
+  margin: 5% 0;
+}
+
+.inputSchedule {
+  width: 100%;
+  min-height: 40px;
+  padding: 5px 5px;
+  max-width: 100%;
+  font-size: 1.1rem;
+  border: none;
+  border: 1px solid white;
+  border-bottom: 1px solid #d96055;
+  border-radius: 4px;
+  border-bottom-left-radius: none;
+  border-bottom-right-radius: none;
+}
+
+.inputText {
+  width: 100%;
+  min-height: 40px;
+  padding: 5px 5px;
+  max-width: 98%;
+  font-size: 1.1rem;
+  border: none;
+  border: 1px solid white;
+  border-bottom: 1px solid #d96055;
+  border-radius: 4px;
+  border-bottom-left-radius: none;
+  border-bottom-right-radius: none;
+  height: 138px;
+}
+
+.inputSchedule:hover,
+.inputText:hover {
+  border: 1px solid #d96055;
+}
+
+.inputSchedule:focus,
+.inputText:focus {
+  outline: none;
+  border: 1px solid #d96055;
+  box-shadow: 1px 8px 6px rgba(0, 0, 0, 0.139);
+}
+
+.dateBtn {
+  background-color: #a1bcd300;
+  color: black;
+  height: 25px;
+  width: 150px;
+  padding: 3px 10px;
+  border: 1px solid #d96055;
+  border-radius: 4px;
+}
+
+.dateBtn:hover {
+  cursor: pointer;
+  background-color: #d96055;
+}
+
+.nextBtn {
+  background-color: #a1bcd300;
+  border: 1px solid #d96055;
+  border-width: 1px 1px 1px 1px;
+  border-radius: 4px;
+  color: black;
+  min-height: 50px;
+  min-width: 100px;
+  margin-left: 35%;
+  margin-top: 50px;
+  outline: 0;
+  cursor: pointer;
+}
+
+.nextBtn:hover {
+  background-color: #d96055;
+}

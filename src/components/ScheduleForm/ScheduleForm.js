@@ -1,31 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import mapStoreToProps from '../../../../redux/mapStoreToProps';
+import mapStoreToProps from '../../redux/mapStoreToProps';
 import moment from 'moment';
 
-import styles from './SetUpStepTest.module.css';
+import styles from './ScheduleForm.module.css';
 import { Grid, Container, Typography } from '@material-ui/core/';
 
 // import Container from '@material-ui/core/Container';
 // importing react-time-picker
-import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
-import RRuleSelector from '../../../RRuleSelector/RRuleSelector';
-import { RRule, RRuleSet, rrulestr } from 'rrule';
 import DatePicker from 'react-datepicker';
 
 // Events to be built using this example structure
 // {
-//   title: 'wakeup',
-//   startTime: '05:00:00',
-//   endTime: '06:15:00',
-//   allDay: false,
-//   borderColor: 'green',
-//   backgroundColor: 'blue',
-//   rrule:
-//     'DTSTART:20200816T100000Z RRULE:FREQ=DAILY;UNTIL=20200816T111500Z',
-//   duration: '01:15',
-// }
+//     title: event.title,
+//     startRecur: moment(event.date).format(
+//       'YYYY-MM-DD'
+//     ),
+//     startTime: moment(event.start).format('HH:mm:ss'),
+//     endTime: moment(event.end).format('HH:mm:ss'),
+//     // daysOfWeek: [1, 2, 3, 4, 5],
+//     backgroundColor: type(event.event_type),
+//     // rrule: event.recurring,
+//     duration,
+//   };
 
 // RULE creator
 // const rule = new RRule({
@@ -37,7 +35,7 @@ import DatePicker from 'react-datepicker';
 // });
 
 // steps 1 and 2 have similar setup with differences in reducers and titling
-class SetUpStepTest extends Component {
+class ScheduleForm extends Component {
   state = {
     event: {
       type: '',
@@ -51,6 +49,7 @@ class SetUpStepTest extends Component {
         ? this.props.store.user.profile
         : null,
       freq: '',
+      repeat: false,
     },
   };
 
@@ -74,6 +73,14 @@ class SetUpStepTest extends Component {
     });
   };
 
+  setRepeat = () => {
+    this.setState({
+      event: {
+        repeat: !this.state.event.repeat,
+      },
+    });
+  };
+
   setStartDate(date) {
     const newDate = moment(date).format('YYYY-MM-DD HH:mm');
     this.setState({
@@ -91,6 +98,7 @@ class SetUpStepTest extends Component {
     this.setState({
       event: {
         ...this.state.event,
+        endDate: moment(date).format('YYYY-MM-DD'),
         end: newDate,
         visualEnd: date,
       },
@@ -98,36 +106,11 @@ class SetUpStepTest extends Component {
   }
 
   handleNext = () => {
-    if (this.state.event.type === '' || undefined) {
-      alert('Please complete the event information');
-      return;
-    } else if (this.state.event.end === '' || undefined) {
-      alert('Please complete the event information');
-      return;
-    } else if (this.state.event.details === '' || undefined) {
-      alert('Please complete the event information');
-      return;
-    }
-    const recurring = this.setRecurring();
-    const data = { ...this.state.event, recurring };
+    const data = { ...this.state.event };
     this.props.handleNext(data);
   };
 
-  setRecurring() {
-    if (this.state.event.freq === '' || undefined) {
-      alert('Please select your frequency.');
-      return;
-    }
-    const rule = new RRule({
-      freq: this.state.event.freq,
-      interval: this.state.interval,
-      byweekday: [],
-      dtstart: this.state.event.visualStart || null,
-      until: this.state.event.visualEnd || null,
-    });
-    const recurring = rule.toString();
-    return recurring;
-  }
+  setRecurring() {}
 
   render() {
     console.log(this.state.event);
@@ -166,20 +149,33 @@ class SetUpStepTest extends Component {
                   onChange={this.handleInput('title')}
                 />
                 <br />
-                <label htmlFor="freq">Repeat: </label>
-                <select
-                  className={styles.inputSchedule}
-                  id="freq"
-                  onChange={this.handleInput('freq')}
-                >
-                  <option value={undefined}>
-                    Select how often this routine will be
-                  </option>
-                  <option value={RRule.DAILY}>Every Day</option>
-                  <option value={RRule.WEEKLY}>Every Week</option>
-                  <option value={RRule.MONTHLY}>Every Month</option>
-                  <option value={RRule.YEARLY}>Every Year</option>
-                </select>
+                <input
+                  type="checkbox"
+                  id="repeat"
+                  onClick={this.setRepeat}
+                ></input>
+                <label htmlFor="repeat"> Repeating Event?</label>
+                <br />
+                {this.state.event.repeat ? (
+                  <>
+                    <label htmlFor="freq">Repeat: </label>
+                    <select
+                      className={styles.inputSchedule}
+                      id="freq"
+                      onChange={this.handleInput('freq')}
+                    >
+                      <option value={undefined}>
+                        Select how often this routine will be
+                      </option>
+                      <option value={'daily'}>Every Day</option>
+                      <option value={'weekly'}>Every Week</option>
+                      <option value={'monthly'}>Every Month</option>
+                      <option value={'yearly'}>Every Year</option>
+                    </select>
+                  </>
+                ) : (
+                  <></>
+                )}
                 <br />
                 <div style={{ display: 'inline-block', width: '66%' }}>
                   <label htmlFor="start">Start Date/Time:*</label>
@@ -258,4 +254,4 @@ class SetUpStepTest extends Component {
 }
 
 // this allows us to use <App /> in index.js
-export default connect(mapStoreToProps)(withRouter(SetUpStepTest));
+export default connect(mapStoreToProps)(withRouter(ScheduleForm));

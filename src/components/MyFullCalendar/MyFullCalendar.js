@@ -25,18 +25,15 @@ class MyFullCalendar extends Component {
     console.log(this.props.events);
     console.log(this.props.googleEvents);
     return (
-      <div className={styles.calendar}>
-        <div className="formHeading">
-          <h1>Full Calendar</h1>
-        </div>
-        <div>
+      <div>
+        <div className={styles.myCal}>
           <FullCalendar
             plugins={[dayGridPlugin, listPlugin, rrulePlugin]}
-            initialView="listWeek"
+            initialView="dayGridMonth"
             headerToolbar={{
               start: 'today prev next',
               center: 'title',
-              end: 'dayGridMonth dayGridDay listWeek',
+              end: 'dayGridMonth listWeek dayGridDay',
             }}
             buttonText={{
               today: 'today',
