@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../redux/mapStoreToProps';
 import moment from 'moment';
+
+import profPic from '../MainView/profilepic.png';
 // Material UI imports
 import { Grid, Container, Typography, Box } from '@material-ui/core/';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -28,6 +30,10 @@ class MainView extends Component {
       type: 'POST_JUNCTION',
       payload: this.props.store.days,
     });
+    // this.props.dispatch({
+    //   type: 'GET_DAYS_BY_EVENTS',
+    //   payload: this.props.store.user.profile_id,
+    // });
     this.props.dispatch({
       type: 'GET_GOOGLE_EVENTS',
       payload: this.props.store.user.id,
@@ -67,6 +73,7 @@ class MainView extends Component {
       transitionDuration: '0.8s',
       transitionDelay: '0.03s',
     };
+
     return (
       <div style={this.state.onOpen ? movement : stop}>
         <Container
@@ -133,14 +140,22 @@ class MainView extends Component {
                   <Grid item lg={12}>
                     <Grid container alignItems="center" justify="center">
                       <img
-                        src={this.props.store.user.profile.profile_pic_path}
+                        src={
+                          this.props.store.user &&
+                          this.props.store.user.profile &&
+                          this.props.store.user.profile.profile_pic_path
+                        }
                         style={{ borderRadius: '50%' }}
                       />
                     </Grid>
                     <Grid container justify="center">
                       <Typography variant="h5">
-                        {this.props.user.profile.first_name}{' '}
-                        {this.props.user.profile.last_name}
+                        {this.props.user &&
+                          this.props.user.profile &&
+                          this.props.user.profile.first_name}{' '}
+                        {this.props.user &&
+                          this.props.user.profile &&
+                          this.props.user.profile.last_name}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -160,16 +175,17 @@ class MainView extends Component {
                           return (
                             <Grid
                               item
-                              lg={3}
+                              lg={12}
                               key={index}
-                              style={{ margin: '10px 5px' }}
-                              className={styles.itemToday}
+                              style={{
+                                margin: '2.5px 5px',
+                                boxShadow: '1px 0px 3px 0px',
+                                background:
+                                  'linear-gradient(to top, #05aff2, #9de3ff)',
+                              }}
                             >
                               <Typography variant="body2">
                                 {event.title}
-                              </Typography>
-                              <Typography variant="subtitle1">
-                                {event.details}
                               </Typography>
                             </Grid>
                           );
@@ -178,21 +194,21 @@ class MainView extends Component {
                     </Grid>
                   </Grid>
                   <hr />
-                  <Grid container>
-                    <Grid item lg={12}>
-                      <Typography variant="overline">
-                        Today's Habits:
-                      </Typography>
-                    </Grid>
+                  <Typography variant="overline">Today's Habits:</Typography>
+                  <Grid container spacing={2}>
                     {this.props.store.eventsReducer.map((event, index) => {
                       if (event.event_type === 'Habit') {
                         return (
                           <Grid
                             item
-                            lg={3}
+                            lg={12}
                             key={index}
-                            style={{ margin: '10px 5px' }}
-                            className={styles.itemToday}
+                            style={{
+                              margin: '2.5px 5px',
+                              boxShadow: '1px 0px 3px 0px',
+                              background:
+                                'linear-gradient(to top, #05aff2, #9de3ff)',
+                            }}
                           >
                             {event.title}
                             {event.details}
@@ -204,22 +220,28 @@ class MainView extends Component {
                   <hr />
                   <Grid item lg={12}>
                     <Typography variant="overline">Today's Tasks:</Typography>
-                    {this.props.store.eventsReducer.map((event, index) => {
-                      if (event.event_type === 'Task') {
-                        return (
-                          <Grid
-                            item
-                            lg={10}
-                            key={index}
-                            style={{ margin: '10px 5px' }}
-                            className={styles.itemToday}
-                          >
-                            {event.title}
-                            {event.details}
-                          </Grid>
-                        );
-                      }
-                    })}
+                    <Grid container spacing={2}>
+                      {this.props.store.eventsReducer.map((event, index) => {
+                        if (event.event_type === 'Task') {
+                          return (
+                            <Grid
+                              item
+                              lg={12}
+                              key={index}
+                              style={{
+                                margin: '2.5px 5px',
+                                boxShadow: '1px 0px 3px 0px',
+                                background:
+                                  'linear-gradient(to top, #05aff2, #9de3ff)',
+                              }}
+                            >
+                              {event.title}
+                              {event.details}
+                            </Grid>
+                          );
+                        }
+                      })}
+                    </Grid>
                     <hr />
                   </Grid>
                   <Grid container justify="center" spacing={0}>
@@ -264,63 +286,85 @@ class MainView extends Component {
                   <Grid item lg={12}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                       <Box className={styles.calBar2}>
-                        <MyFullCalendar
-                          hover={this.handleMouseOver}
-                          events={this.props.store.eventsReducer.map(
-                            (event, index) => {
-                              const end = moment(event.end).format('HH:mm:ss');
-                              const start = moment(event.start).format(
-                                'HH:mm:ss'
-                              );
-                              const time = moment(event.end).diff(
-                                moment(event.start)
-                              );
-                              const duration = time;
-                              const type = (color) => {
-                                switch (color) {
-                                  case 'Routine':
-                                    return 'blue';
-                                  case 'Task':
-                                    return 'green';
-                                  case 'Habit':
-                                    return 'black';
-                                  default:
-                                    return 'green';
-                                }
-                              };
-                              let daysOfWeek = this.props.store.days
-                                .filter((day) => {
-                                  if (day.id === event.id) {
-                                    return day.num;
-                                  }
-                                })
-                                .map((day) => {
-                                  return day.num;
-                                });
-                              if (daysOfWeek.length < 1) {
-                                daysOfWeek = undefined;
-                              }
-                              return {
-                                id: event.id,
-                                title: event.title,
-                                startRecur: moment(event.date).format(
-                                  'YYYY-MM-DD'
-                                ),
-                                startTime: moment(event.start).format(
+                        {this.props.store && this.props.store.days && (
+                          <MyFullCalendar
+                            hover={this.handleMouseOver}
+                            events={this.props.store.eventsReducer.map(
+                              (event, index) => {
+                                const end = moment(event.end).format(
                                   'HH:mm:ss'
-                                ),
-                                endTime: moment(event.end).format('HH:mm:ss'),
-                                daysOfWeek,
-                                backgroundColor: type(event.event_type),
-                                // rrule: event.recurring,
-                                duration,
-                                extendedProps: {
-                                  details: event.details,
-                                },
-                              };
-                            }
-                          )}
-                        />
+                                );
+                                const start = moment(event.start).format(
+                                  'HH:mm:ss'
+                                );
+                                const time = moment(event.end).diff(
+                                  moment(event.start)
+                                );
+                                const duration = time;
+                                const type = (color) => {
+                                  switch (color) {
+                                    case 'Routine':
+                                      return 'blue';
+                                    case 'Task':
+                                      return 'green';
+                                    case 'Habit':
+                                      return 'black';
+                                    default:
+                                      return 'green';
+                                  }
+                                };
+                                {
+                                  /* TODO: fix daysOfWeek variable filter */
+                                }
+                                let daysOfWeek = this.props.store.days
+                                  .filter((day) => {
+                                    if (day.id === event.id) {
+                                      return day.num;
+                                    }
+                                  })
+                                  .map((day) => {
+                                    console.log(day.num);
+                                    return day.num - 1;
+                                  });
+                                console.log(daysOfWeek, event.id);
+                                if (daysOfWeek.length < 1) {
+                                  daysOfWeek = undefined;
+                                }
+                                const endDate = moment(event.end).format(
+                                  'YYYY-MM-DD'
+                                );
+                                const startDate = moment(event.start).format(
+                                  'YYYY-MM-DD'
+                                );
+                                console.log(endDate, startDate);
+                                let endRecur;
+                                if (endDate !== startDate) {
+                                  endRecur = endDate;
+                                }
+                                console.log(endRecur);
+                                return {
+                                  id: event.id,
+                                  title: event.title,
+                                  startRecur: moment(event.date).format(
+                                    'YYYY-MM-DD'
+                                  ),
+                                  endRecur,
+                                  startTime: moment(event.start).format(
+                                    'HH:mm:ss'
+                                  ),
+                                  endTime: moment(event.end).format('HH:mm:ss'),
+                                  daysOfWeek: daysOfWeek,
+                                  backgroundColor: type(event.event_type),
+                                  // rrule: event.recurring,
+                                  duration,
+                                  extendedProps: {
+                                    details: event.details,
+                                  },
+                                };
+                              }
+                            )}
+                          />
+                        )}
                       </Box>
                     </Grid>
                   </Grid>

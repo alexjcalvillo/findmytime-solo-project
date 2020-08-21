@@ -5,6 +5,7 @@ import userSaga from './user.saga';
 import googleSaga from './google.saga';
 import routineSaga from './routines.saga';
 import eventsSaga from './events.saga';
+import daysSaga from './days.saga';
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -20,5 +21,6 @@ export default function* rootSaga() {
     googleSaga(),
     routineSaga(),
     eventsSaga(),
+    daysSaga(),
   ]);
 }

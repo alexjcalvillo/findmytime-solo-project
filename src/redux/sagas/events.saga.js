@@ -18,15 +18,8 @@ function* postEvent(action) {
   }
 }
 
-function* createJunction(action) {
-  // try {
-  //     yield axios.post('/api/calendar/create-freq', { days: action.payload, id: action.payload.id})
-  // }
-}
-
 function* eventsSaga() {
   yield takeLatest('POST_EVENT', postEvent);
-  yield takeLatest('POST_JUNCTION', createJunction);
 }
 
 export default eventsSaga;

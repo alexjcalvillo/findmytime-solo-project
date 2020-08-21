@@ -2,7 +2,7 @@
   /* margin-left: 15px; */
   padding: 15px;
   border-right: 1px solid #888;
-  box-shadow: 5px 0px 6px -4px rgb(0, 0, 0, 0.4);
+  box-shadow: 8px 0px 6px -2px rgb(0, 0, 0, 0.4);
 }
 
 .calBar {
@@ -20,7 +20,6 @@
   border-radius: 6px;
   background: linear-gradient(to top, #05aff2, #9de3ff);
   box-shadow: 1px 6px 3px rgb(0, 0, 0, 0.2);
-
   padding: 15px;
 }
 

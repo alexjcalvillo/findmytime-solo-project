@@ -8,6 +8,7 @@ import { Tooltip } from '@material-ui/core';
 // Full Calendar imports
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import rrulePlugin from '@fullcalendar/rrule';
 
@@ -39,24 +40,26 @@ class MyFullCalendar extends Component {
       <div>
         <div className={styles.myCal}>
           <FullCalendar
-            plugins={[dayGridPlugin, listPlugin, rrulePlugin]}
+            plugins={[dayGridPlugin, listPlugin, timeGridPlugin, rrulePlugin]}
             initialView="dayGridMonth"
             headerToolbar={{
               start: 'today prev next',
               center: 'title',
-              end: 'dayGridMonth listWeek dayGridDay',
+              end: 'dayGridMonth timeGridDay timeGridWeek',
             }}
             buttonText={{
               today: 'today',
               dayGridMonth: 'Month',
-              week: 'week',
+              week: 'Week',
               day: 'Day',
-              listWeek: 'Week',
             }}
             timeZone="local"
             // events={this.props.events}
             events={this.props.events}
-            eventMouseEnter={(task) => this.props.hover(task)}
+            // eventMouseEnter={(task) => this.props.hover(task)}
+            expandRows={false}
+            showNonCurrentDates={false}
+            nowIndicator={true}
           />
         </div>
       </div>

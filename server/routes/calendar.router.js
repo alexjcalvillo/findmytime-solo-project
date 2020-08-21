@@ -64,6 +64,7 @@ router.get('/days/:id', rejectUnauthenticated, (req, res) => {
   pool
     .query(query, [id])
     .then((dbResponse) => {
+      console.log(dbResponse.rows);
       res.send(dbResponse.rows);
     })
     .catch((err) => {

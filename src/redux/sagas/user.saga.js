@@ -38,8 +38,8 @@ function* fetchProfile(action) {
       payload: response.data.id,
     });
     yield put({
-      type: 'GET_EVENT_BY_DAYS',
-      payload: this.props.store.user.profile.id,
+      type: 'GET_DAYS_BY_EVENTS',
+      payload: response.data.id,
     });
   } catch (err) {
     console.log(err);
