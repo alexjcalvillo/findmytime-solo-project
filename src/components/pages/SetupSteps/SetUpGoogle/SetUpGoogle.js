@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
-
+import SwipeableTextMobileStepper from '../../../../components/EventStepper/EventStepper';
 import * as moment from 'moment';
 
 import styles from './SetUpGoogle.module.css';
@@ -55,6 +55,7 @@ class SetUpGoogle extends Component {
             Select the Events you would like to import to your FindMyTime
             Calendar
           </h3>
+          <SwipeableTextMobileStepper />
           <ul>
             {this.state.events.map((event, index) => {
               return (

@@ -31,6 +31,7 @@ import MainView from '../pages/MainView/MainView';
 import SetUpStepTest from '../pages/SetupSteps/SetUpStepTest/SetUpStepTest';
 import ProfileBuild from '../pages/ProfileBuild/ProfileBuild';
 import NewEvent from '../pages/NewEvent/NewEvent';
+import SwipeableTextMobileStepper from '../../components/EventStepper/EventStepper';
 
 class App extends Component {
   componentDidMount() {
@@ -73,6 +74,11 @@ class App extends Component {
               exact
               path="/setup-google"
               component={SetUpGoogle}
+            />
+            <ProtectedRoute
+              exact
+              path="/google-test"
+              component={SwipeableTextMobileStepper}
             />
             <ProtectedRoute
               exact
