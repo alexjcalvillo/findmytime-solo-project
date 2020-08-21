@@ -45,6 +45,7 @@ function* getGoogleEvents(action) {
     const response = yield axios.get(
       `/api/calendar/google_calendar/${action.payload}`
     );
+    console.log(response.data);
     yield put({
       type: 'UNSET_GOOGLE_EVENTS',
     });

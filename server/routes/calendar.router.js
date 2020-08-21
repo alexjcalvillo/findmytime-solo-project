@@ -83,13 +83,13 @@ router.post('/google_calendar/add-event', (req, res) => {
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
   pool
     .query(query, [
-      event.event_type,
-      event.event_title,
-      event.event_details,
-      event.event_date,
-      event.start_time,
-      event.end_time,
-      event.recurring,
+      event.type,
+      event.title,
+      event.details,
+      event.startDate,
+      event.start,
+      event.end,
+      event.recurring[0],
       event.profile_id,
     ])
     .then((dbResponse) => {

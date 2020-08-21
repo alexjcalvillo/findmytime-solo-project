@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
-import SwipeableTextMobileStepper from '../../../../components/EventStepper/EventStepper';
 import * as moment from 'moment';
-
+import EventStepper from '../../../../components/EventStepper/EventStepper';
 import styles from './SetUpGoogle.module.css';
 // navigation purposes
 import { Link } from 'react-router-dom';
+import { Grid, Container, Typography, Box } from '@material-ui/core/';
 
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
@@ -14,6 +14,19 @@ import { Link } from 'react-router-dom';
 class SetUpGoogle extends Component {
   state = {
     events: this.props.store.googleCalendar,
+    event: {
+      type: '',
+      title: '',
+      start: '',
+      startDate: '',
+      end: '',
+      details: '',
+      recurring: '',
+      profile_id: this.props.store.user.id
+        ? this.props.store.user.profile
+        : null,
+      freq: '',
+    },
   };
 
   componentDidMount() {}
@@ -23,20 +36,22 @@ class SetUpGoogle extends Component {
     const currentEvent = this.state.events[index];
 
     if (currentEvent.recurrence) {
+      const recurrence = currentEvent.recurrence[0];
     }
 
-    const event_date = moment(currentEvent.start.dateTime).format('YYYY-MM-DD');
-    const start_time = moment(currentEvent.start.dateTime).format('hh:mm');
-    const end_time = moment(currentEvent.end.dateTime).format('hh:mm');
+    const startDate = moment(currentEvent.start.dateTime).format('YYYY-MM-DD');
+    const start = moment(currentEvent.start.dateTime).format(
+      'YYYY-MM-DD HH:mm:ss'
+    );
+    const end = moment(currentEvent.end.dateTime).format('YYYY-MM-DD HH:mm:ss');
     const dataToAdd = {
-      event_type: 'Task/Event',
-      event_title: currentEvent.summary,
-      event_details: currentEvent.description,
-      event_date,
-      start_time,
-      end_time,
+      type: 'Task',
+      title: currentEvent.summary,
+      details: currentEvent.description,
+      startDate,
+      start,
+      end,
       recurring: currentEvent.recurrence || null,
-      recurring_event_id: 1,
       profile_id: this.props.store.user.profile.id,
     };
     this.props.dispatch({ type: 'ADD_GOOGLE_EVENT', payload: dataToAdd });
@@ -46,71 +61,29 @@ class SetUpGoogle extends Component {
     const date = new Date();
     console.log(date);
     return (
-      <div className="setupForm">
-        <div className="formHeading">
-          <h1>Welcome, {this.props.user.username} to the Setup Google</h1>
-        </div>
-        <div className={styles.innerGoogle}>
-          <h3>
-            Select the Events you would like to import to your FindMyTime
-            Calendar
-          </h3>
-          <SwipeableTextMobileStepper />
-          <ul>
-            {this.state.events.map((event, index) => {
-              return (
-                <li
-                  key={index}
-                  style={{
-                    listStyle: 'none',
-                    margin: '0 0 2.5% 0',
-                    padding: '1.5%',
-                    border: '1px solid #444',
-                    borderRadius: '4px',
-                    boxShadow: '1px 0px 4px',
-                  }}
-                >
-                  <p style={{ textDecoration: 'underline' }}>{event.summary}</p>
-                  <p
-                    style={{
-                      background: 'linear-gradient(90deg, #f2f2f2, #444)',
-                      opacity: '0.9',
-                    }}
-                  >
-                    Start:{' '}
-                    {moment(event.start.dateTime).format('DD-MM-YYYY hh:mm a')}
-                    <br />
-                    End:{' '}
-                    {moment(event.end.dateTime).format('DD-MM-YYYY hh:mm a')}
-                  </p>
-                  Details:
-                  <p
-                    style={{
-                      border: '1px solid #444',
-                      borderRadius: '4px',
-                      height: '150px',
-                      overflow: 'scroll',
-                    }}
-                  >
-                    {event.description}
-                  </p>
-                  <p>Recurring?</p>{' '}
-                  {event.recurrence ? <p>True</p> : <p>False</p>}
-                  <button className="log-in" onClick={this.addEvent(index)}>
-                    Add Event?
-                  </button>
-                  <hr />
-                </li>
-              );
-            })}
-          </ul>
-          <Link to="/google-confirm">
-            <button className="log-in">Looks Good!</button>
-          </Link>
-          <br />
-          <hr />
-        </div>
-      </div>
+      <Container maxWidth="lg">
+        <Grid container spacing={2} className="setupForm">
+          <Grid item lg={12} style={{ borderBottom: '1px solid #888' }}>
+            <Typography variant="h3">
+              Welcome, {this.props.user.username} to the Setup Google
+            </Typography>
+          </Grid>
+
+          <Grid container spacing={5} style={{ padding: '25px' }}>
+            <Grid item lg={7} className={styles.innerGoogle}>
+              <EventStepper
+                events={this.state.events}
+                addEvent={this.addEvent}
+              />
+            </Grid>
+            <Grid item lg={3} style={{ padding: '18%' }}>
+              <Link to="/google-confirm">
+                <button className="log-in">Looks Good!</button>
+              </Link>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
     );
   }
 }

@@ -38,6 +38,10 @@ function* fetchProfile(action) {
       payload: response.data.id,
     });
     yield put({
+      type: 'GET_GOOGLE_EVENTS',
+      payload: response.data.id,
+    });
+    yield put({
       type: 'GET_DAYS_BY_EVENTS',
       payload: response.data.id,
     });

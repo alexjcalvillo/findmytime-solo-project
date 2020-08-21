@@ -11,6 +11,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import styles from './MainView.module.css';
 // import React Big Calendar for use
 import MyFullCalendar from '../../MyFullCalendar/MyFullCalendar';
+import GoogleBtn from '../../GoogleBtn/GoogleBtn';
 // Basic class component structure for React with default state
 // value setup. When making a new component be sure to replace
 // the component name TemplateClass with the name for the new
@@ -18,7 +19,10 @@ import MyFullCalendar from '../../MyFullCalendar/MyFullCalendar';
 
 class MainView extends Component {
   state = {
-    myEventsList: [],
+    myEventsList: [
+      ...this.props.store.googleCalendar,
+      ...this.props.store.eventsReducer,
+    ],
     onOpen: true,
   };
 
@@ -34,12 +38,15 @@ class MainView extends Component {
     //   type: 'GET_DAYS_BY_EVENTS',
     //   payload: this.props.store.user.profile_id,
     // });
-    this.props.dispatch({
-      type: 'GET_GOOGLE_EVENTS',
-      payload: this.props.store.user.id,
-    });
+    // this.props.dispatch({
+    //   type: 'GET_GOOGLE_EVENTS',
+    //   payload: this.props.store.user.profile.id,
+    // });
     this.setState({
-      googleEvents: this.props.store.googleCalendar,
+      myEventsList: [
+        ...this.props.store.googleCalendar,
+        ...this.props.store.eventsReducer,
+      ],
     });
   }
 
@@ -59,6 +66,10 @@ class MainView extends Component {
   };
 
   render() {
+    const events = [
+      ...this.props.store.googleCalendar,
+      ...this.props.store.eventsReducer,
+    ];
     const todaysDate = moment(Date()).format('MMM Do, YYYY');
     const movement = {
       position: 'relative',
@@ -162,7 +173,7 @@ class MainView extends Component {
                   <hr />
                   <Grid item lg={12}>
                     <Typography variant="h5">
-                      {this.props.store.eventsReducer.length > 3
+                      {this.state.myEventsList.length > 3
                         ? 'Busy Day!'
                         : 'Plenty of time to try something new'}
                     </Typography>
@@ -170,7 +181,8 @@ class MainView extends Component {
                       Today's Routines:
                     </Typography>
                     <Grid container spacing={2}>
-                      {this.props.store.eventsReducer.map((event, index) => {
+                      {this.state.myEventsList.map((event, index) => {
+                        console.log(event);
                         if (event.event_type === 'Routine') {
                           return (
                             <Grid
@@ -196,7 +208,7 @@ class MainView extends Component {
                   <hr />
                   <Typography variant="overline">Today's Habits:</Typography>
                   <Grid container spacing={2}>
-                    {this.props.store.eventsReducer.map((event, index) => {
+                    {this.state.myEventsList.map((event, index) => {
                       if (event.event_type === 'Habit') {
                         return (
                           <Grid
@@ -221,7 +233,7 @@ class MainView extends Component {
                   <Grid item lg={12}>
                     <Typography variant="overline">Today's Tasks:</Typography>
                     <Grid container spacing={2}>
-                      {this.props.store.eventsReducer.map((event, index) => {
+                      {this.state.myEventsList.map((event, index) => {
                         if (event.event_type === 'Task') {
                           return (
                             <Grid
@@ -277,6 +289,8 @@ class MainView extends Component {
                       <button className="log-in" onClick={this.newEvent}>
                         New Event!
                       </button>
+                      <br />
+                      <GoogleBtn />
                     </Grid>
                   </Grid>
                 </Box>
@@ -286,11 +300,13 @@ class MainView extends Component {
                   <Grid item lg={12}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                       <Box className={styles.calBar2}>
-                        {this.props.store && this.props.store.days && (
-                          <MyFullCalendar
-                            hover={this.handleMouseOver}
-                            events={this.props.store.eventsReducer.map(
-                              (event, index) => {
+                        {this.props.store &&
+                          this.props.store.days &&
+                          this.props.store.eventsReducer &&
+                          this.props.store.googleCalendar && (
+                            <MyFullCalendar
+                              hover={this.handleMouseOver}
+                              events={events.map((event, index) => {
                                 const end = moment(event.end).format(
                                   'HH:mm:ss'
                                 );
@@ -361,10 +377,9 @@ class MainView extends Component {
                                     details: event.details,
                                   },
                                 };
-                              }
-                            )}
-                          />
-                        )}
+                              })}
+                            />
+                          )}
                       </Box>
                     </Grid>
                   </Grid>
