@@ -31,19 +31,83 @@ class SetUpGoogle extends Component {
 
   componentDidMount() {}
 
+  getDates(recurrence, test) {
+    let splitArr = recurrence.split(';');
+    console.log(splitArr);
+    let split2 = splitArr.filter((item, i) => {
+      return item.includes('UNTIL');
+    });
+    const index = function (arr) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].substring(0, 5) === 'UNTIL') {
+          return i;
+        }
+      }
+    };
+  }
+
+  setRecurring(days) {
+    const newDays = days.map((day) => {
+      switch (day) {
+        case 'SU':
+          return 1;
+        case 'MO':
+          return 2;
+        case 'TU':
+          return 3;
+        case 'WE':
+          return 4;
+        case 'TH':
+          return 5;
+        case 'FR':
+          return 6;
+        case 'SA':
+          return 7;
+      }
+    });
+    return newDays;
+  }
+
   addEvent = (index) => (event) => {
     console.log('adding event', index);
     const currentEvent = this.state.events[index];
-
+    console.log(currentEvent.recurrence);
+    let recurring = null;
+    let newDays;
+    let untilDate;
     if (currentEvent.recurrence) {
-      const recurrence = currentEvent.recurrence[0];
+      let recurrence = currentEvent.recurrence[0];
+      let splitArr = recurrence.split(';');
+      console.log(splitArr);
+      let split2 = splitArr.filter((item, i) => {
+        return item.includes('BYDAY');
+      });
+      const arr = split2[0].split('=');
+      console.log(arr);
+      const days = arr[1].split(',');
+      newDays = this.setRecurring(days);
+      let split3 = splitArr.filter((item, i) => {
+        return item.includes('UNTIL');
+      });
+      const arr2 = split3[0].split('=');
+      console.log(arr2);
+      untilDate = arr2[1];
     }
+    console.log(newDays);
 
     const startDate = moment(currentEvent.start.dateTime).format('YYYY-MM-DD');
     const start = moment(currentEvent.start.dateTime).format(
       'YYYY-MM-DD HH:mm:ss'
     );
-    const end = moment(currentEvent.end.dateTime).format('YYYY-MM-DD HH:mm:ss');
+    let end = moment(currentEvent.end.dateTime).format('YYYY-MM-DD HH:mm');
+    let endDate;
+    if (currentEvent.recurrence) {
+      endDate =
+        moment(untilDate).format('YYYY-MM-DD') +
+        ' ' +
+        moment(end).format('HH:mm:ss');
+      console.log(end);
+    }
     const dataToAdd = {
       type: 'Task',
       title: currentEvent.summary,
@@ -51,9 +115,12 @@ class SetUpGoogle extends Component {
       startDate,
       start,
       end,
-      recurring: currentEvent.recurrence || null,
+      endDate,
+      recurring,
       profile_id: this.props.store.user.profile.id,
+      daysOfWeek: newDays,
     };
+    console.log(dataToAdd);
     this.props.dispatch({ type: 'ADD_GOOGLE_EVENT', payload: dataToAdd });
   };
 

@@ -30,6 +30,7 @@ router.get('/google_calendar/:id', (req, res) => {
     .query(query, [profileId])
     .then((dbResponse) => {
       const events = dbResponse.rows;
+      console.log(events);
       res.send(events);
     })
     .catch((err) => {
@@ -53,6 +54,25 @@ router.get('/events/:id', rejectUnauthenticated, (req, res) => {
       console.log(err);
     });
 });
+// for google days
+router.get('/google-days/:id', rejectUnauthenticated, (req, res) => {
+  const id = req.params.id;
+  const query = `SELECT days.num, google_import.id FROM "google_import"
+    JOIN google_frequency ON google_frequency.event_id = google_import.id
+    JOIN days ON google_frequency.day_id = days.id
+    WHERE google_import.profile_id = $1 GROUP BY google_import.id, days.num;`;
+
+  pool
+    .query(query, [id])
+    .then((dbResponse) => {
+      console.log(dbResponse.rows);
+      res.send(dbResponse.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
 
 router.get('/days/:id', rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
@@ -72,15 +92,14 @@ router.get('/days/:id', rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-
 /**
  * POST route template
  */
 router.post('/google_calendar/add-event', (req, res) => {
   console.log('POSTING', req.body);
   const event = req.body.event;
-  const query = `INSERT INTO "google_import" ("event_type", "title", "details", "date", "start", "end", "recurring", "profile_id")
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
+  const query = `INSERT INTO "google_import" ("event_type", "title", "details", "date", "start", "end", "recurring", "profile_id", "endDate")
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
   pool
     .query(query, [
       event.type,
@@ -89,8 +108,9 @@ router.post('/google_calendar/add-event', (req, res) => {
       event.startDate,
       event.start,
       event.end,
-      event.recurring[0],
+      event.recurring,
       event.profile_id,
+      event.endDate,
     ])
     .then((dbResponse) => {
       console.log(dbResponse);
@@ -191,5 +211,31 @@ router.post('/create-freq', (req, res) => {
       res.sendStatus(500);
     });
 });
+// same as prior post, but with google_frequency table
+router.post('/create-google-freq', (req, res) => {
+  const days = req.body;
+  console.log(days);
+  const dbdays = days.days.map((day, i) => {
+    return day;
+  });
 
+  const array = [];
+  dbdays.unshift(days.id);
+  const numStart = days.days.length;
+  queryNum(numStart, array);
+
+  const finalQuery = array.reverse().join(', ');
+  const query = `INSERT INTO "google_frequency" (event_id, day_id)
+  VALUES ${finalQuery};`;
+
+  pool
+    .query(query, dbdays)
+    .then((dbResponse) => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
 module.exports = router;

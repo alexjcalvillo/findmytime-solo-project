@@ -35,6 +35,14 @@ function* postGoogleEvent(action) {
     yield axios.post('/api/calendar/google_calendar/add-event', {
       event: action.payload,
     });
+    const response = yield axios.get(
+      `/api/calendar/google_calendar/${action.payload.profile_id}`
+    );
+    console.log(response.data);
+    yield axios.post('/api/calendar/create-google-freq', {
+      days: action.payload.daysOfWeek,
+      id: response.data[0].id,
+    });
   } catch (err) {
     console.log(`yikes: ${err}`);
   }

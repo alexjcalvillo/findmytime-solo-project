@@ -8,10 +8,13 @@ import profPic from '../MainView/profilepic.png';
 import { Grid, Container, Typography, Box } from '@material-ui/core/';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
+// component specific styling
 import styles from './MainView.module.css';
-// import React Big Calendar for use
+
+// import FullCalendar Calendar for use
 import MyFullCalendar from '../../MyFullCalendar/MyFullCalendar';
 import GoogleBtn from '../../GoogleBtn/GoogleBtn';
+import { RRule, RRuleSet, rrulestr } from 'rrule';
 // Basic class component structure for React with default state
 // value setup. When making a new component be sure to replace
 // the component name TemplateClass with the name for the new
@@ -91,18 +94,21 @@ class MainView extends Component {
           maxWidth="lg"
           fixed
           disableGutters={true}
-          style={{ backgroundColor: '#f2f2f2', borderRadius: '4px' }}
+          className={styles.appHome}
         >
           <Box>
             <Grid container spacing={0}>
               <Grid
                 item
                 lg={4}
+                md={5}
+                sm={12}
                 style={{
                   padding: '5px',
-                  borderRight: '1px solid #888',
-                  borderBottom: '1px solid #888',
-                  backgroundColor: 'white',
+                  // borderRight: '1px solid #888',
+                  // borderBottom: '1px solid #888',
+                  backgroundColor: '#f2f2f29f',
+                  borderTopLeftRadius: '4px',
                 }}
               >
                 <Typography variant="h2" component="h2">
@@ -112,15 +118,17 @@ class MainView extends Component {
               <Grid
                 item
                 lg={4}
+                md={4}
+                sm={12}
                 style={{
-                  borderBottom: '1px solid #888',
-                  backgroundColor: 'white',
+                  // borderBottom: '1px solid #888',
+                  backgroundColor: '#f2f2f29f',
                 }}
               >
                 <Typography
                   variant="h4"
                   component="h2"
-                  style={{ padding: '2.5%', backgroundColor: 'white' }}
+                  style={{ padding: '2.5%' }}
                 >
                   Calendar
                 </Typography>
@@ -128,9 +136,12 @@ class MainView extends Component {
               <Grid
                 item
                 lg={4}
+                md={4}
+                sm={12}
                 style={{
-                  borderBottom: '1px solid #888',
-                  backgroundColor: 'white',
+                  // borderBottom: '1px solid #888',
+                  backgroundColor: '#f2f2f29f',
+                  borderTopRightRadius: '4px',
                 }}
               >
                 <Typography
@@ -144,12 +155,25 @@ class MainView extends Component {
               <Grid
                 item
                 lg={4}
-                style={{ backgroundColor: 'white' }}
+                md={12}
+                sm={12}
+                style={{
+                  backgroundColor: '#f2f2f29f',
+                  borderBottomLeftRadius: '4px',
+                }}
                 className={styles.sideBar}
               >
                 <Box>
-                  <Grid item lg={12}>
-                    <Grid container alignItems="center" justify="center">
+                  <Grid
+                    item
+                    lg={12}
+                    style={{
+                      backgroundColor: 'white',
+                      paddingTop: '4%',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    <Grid container justify="center">
                       <img
                         src={
                           this.props.store.user &&
@@ -171,7 +195,15 @@ class MainView extends Component {
                     </Grid>
                   </Grid>
                   <hr />
-                  <Grid item lg={12}>
+                  <Grid
+                    item
+                    lg={12}
+                    style={{
+                      backgroundColor: '#d96055c2',
+                      padding: '4%',
+                      borderRadius: '4px',
+                    }}
+                  >
                     <Typography variant="h5">
                       {this.state.myEventsList.length > 3
                         ? 'Busy Day!'
@@ -180,21 +212,26 @@ class MainView extends Component {
                     <Typography variant="overline">
                       Today's Routines:
                     </Typography>
-                    <Grid container spacing={2}>
-                      {this.state.myEventsList.map((event, index) => {
+                    <Grid
+                      container
+                      justify="center"
+                      spacing={2}
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: '6px',
+                        padding: '2%',
+                      }}
+                    >
+                      {events.map((event, index) => {
                         console.log(event);
                         if (event.event_type === 'Routine') {
                           return (
                             <Grid
                               item
-                              lg={12}
+                              lg={10}
                               key={index}
-                              style={{
-                                margin: '2.5px 5px',
-                                boxShadow: '1px 0px 3px 0px',
-                                background:
-                                  'linear-gradient(to top, #05aff2, #9de3ff)',
-                              }}
+                              className={styles.itemToday}
+                              style={{ marginTop: '2%' }}
                             >
                               <Typography variant="body2">
                                 {event.title}
@@ -206,21 +243,24 @@ class MainView extends Component {
                     </Grid>
                   </Grid>
                   <hr />
-                  <Typography variant="overline">Today's Habits:</Typography>
-                  <Grid container spacing={2}>
-                    {this.state.myEventsList.map((event, index) => {
+                  <Grid
+                    item
+                    lg={12}
+                    style={{
+                      backgroundColor: '#d96055c2',
+                      padding: '4%',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    <Typography variant="overline">Today's Habits:</Typography>
+                    {events.map((event, index) => {
                       if (event.event_type === 'Habit') {
                         return (
                           <Grid
                             item
                             lg={12}
                             key={index}
-                            style={{
-                              margin: '2.5px 5px',
-                              boxShadow: '1px 0px 3px 0px',
-                              background:
-                                'linear-gradient(to top, #05aff2, #9de3ff)',
-                            }}
+                            className={styles.itemToday}
                           >
                             {event.title}
                             {event.details}
@@ -230,33 +270,48 @@ class MainView extends Component {
                     })}
                   </Grid>
                   <hr />
-                  <Grid item lg={12}>
+
+                  <Grid
+                    item
+                    lg={12}
+                    style={{
+                      backgroundColor: '#d96055c2',
+                      padding: '4%',
+                      borderRadius: '4px',
+                    }}
+                  >
                     <Typography variant="overline">Today's Tasks:</Typography>
-                    <Grid container spacing={2}>
-                      {this.state.myEventsList.map((event, index) => {
-                        if (event.event_type === 'Task') {
-                          return (
-                            <Grid
-                              item
-                              lg={12}
-                              key={index}
-                              style={{
-                                margin: '2.5px 5px',
-                                boxShadow: '1px 0px 3px 0px',
-                                background:
-                                  'linear-gradient(to top, #05aff2, #9de3ff)',
-                              }}
-                            >
-                              {event.title}
-                              {event.details}
-                            </Grid>
-                          );
-                        }
-                      })}
-                    </Grid>
-                    <hr />
+                    {events.map((event, index) => {
+                      const checkstart = moment(event.start).format(
+                        'YYYY-MM-DD'
+                      );
+                      const today = moment(todaysDate).format('YYYY-MM-DD');
+                      if (event.event_type === 'Task' && checkstart === today) {
+                        return (
+                          <Grid
+                            item
+                            lg={10}
+                            key={index}
+                            className={styles.itemToday}
+                          >
+                            {event.title}
+                            {event.details}
+                          </Grid>
+                        );
+                      }
+                    })}
                   </Grid>
-                  <Grid container justify="center" spacing={0}>
+                  <hr />
+                  <Grid
+                    container
+                    justify="center"
+                    spacing={0}
+                    style={{
+                      backgroundColor: '#d96055c2',
+                      padding: '4%',
+                      borderRadius: '4px',
+                    }}
+                  >
                     <Grid item lg={8} className={styles.keyBadge}>
                       <FiberManualRecordIcon
                         style={{
@@ -295,8 +350,13 @@ class MainView extends Component {
                   </Grid>
                 </Box>
               </Grid>
-              <Grid item lg={8} className={styles.calBar}>
-                <Box alignItems="center" justify="center">
+              <Grid
+                item
+                lg={8}
+                className={styles.calBar}
+                style={{ borderBottomRightRadius: '4px' }}
+              >
+                <Box justify="center">
                   <Grid item lg={12}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                       <Box className={styles.calBar2}>
@@ -342,9 +402,21 @@ class MainView extends Component {
                                     console.log(day.num);
                                     return day.num - 1;
                                   });
+                                let rrule;
                                 console.log(daysOfWeek, event.id);
                                 if (daysOfWeek.length < 1) {
                                   daysOfWeek = undefined;
+                                }
+                                if (event.recurring === 'every day') {
+                                  daysOfWeek = [0, 1, 2, 3, 4, 5, 6, 7];
+                                }
+                                if (
+                                  daysOfWeek === undefined &&
+                                  event.recurring !== 'every day' &&
+                                  event.recurring !== null
+                                ) {
+                                  console.log(event.recurring);
+                                  rrule = event.recurring;
                                 }
                                 const endDate = moment(event.end).format(
                                   'YYYY-MM-DD'
@@ -371,7 +443,7 @@ class MainView extends Component {
                                   endTime: moment(event.end).format('HH:mm:ss'),
                                   daysOfWeek: daysOfWeek,
                                   backgroundColor: type(event.event_type),
-                                  // rrule: event.recurring,
+                                  // rrule,
                                   duration,
                                   extendedProps: {
                                     details: event.details,

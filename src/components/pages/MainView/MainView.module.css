@@ -1,31 +1,39 @@
+.appHome {
+  background-color: #f2f2f29f;
+  border-radius: 4px;
+}
+
 .sideBar {
   /* margin-left: 15px; */
   padding: 15px;
-  border-right: 1px solid #888;
-  box-shadow: 8px 0px 6px -2px rgb(0, 0, 0, 0.4);
+  /* border-right: 1px solid #888; */
+  /* box-shadow: 8px 0px 6px -2px rgb(0, 0, 0, 0.4); */
 }
 
 .calBar {
-  background-color: #bdc3c49f;
+  background-color: #f2f2f29f;
 }
 
 .calBar2 {
-  padding: 6%;
+  padding: 2% 6%;
 }
 
 .itemToday {
-  margin-top: 100px;
-  margin-left: 5px;
+  margin-top: 15px;
+  /* background: linear-gradient(to top, #05aff2, #05afe1); */
+  border-radius: 6px;
+  border: 0.4px solid #999;
+}
+
+.itemToday:hover {
   border: none;
   border-radius: 6px;
   background: linear-gradient(to top, #05aff2, #9de3ff);
   box-shadow: 1px 6px 3px rgb(0, 0, 0, 0.2);
   padding: 15px;
-}
-
-.itemToday:hover {
-  border: 1px solid;
-  border-color: #d96055;
+  /* border: 1px solid; */
+  /* border-color: #d96055c2;  */
+  transition: all 0.6s ease-in;
 }
 
 .keyBadge {
