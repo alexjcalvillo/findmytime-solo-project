@@ -1,7 +1,15 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0px;
-  background-color: #034c8c;
+  background-image: linear-gradient(to top, #05c7f2 75%, #d96055),
+    url('https://images.unsplash.com/photo-1486520299386-6d106b22014b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80');
+  background-blend-mode: luminosity;
+  background-repeat: no-repeat;
+  height: 100%;
+
+  min-height: calc(100vh);
+
+  /* background-color: #05c7f2; */
   /* background: linear-gradient(
     135deg,
     #3071aadd,

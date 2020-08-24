@@ -7,7 +7,7 @@ import profPic from '../MainView/profilepic.png';
 // Material UI imports
 import { Grid, Container, Typography, Box } from '@material-ui/core/';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-
+import AddIcon from '@material-ui/icons/Add';
 // component specific styling
 import styles from './MainView.module.css';
 
@@ -27,6 +27,11 @@ class MainView extends Component {
       ...this.props.store.eventsReducer,
     ],
     onOpen: true,
+    tabs: {
+      routineTab: true,
+      habitTab: false,
+      taskTab: false,
+    },
   };
 
   componentDidMount() {
@@ -58,14 +63,39 @@ class MainView extends Component {
     this.props.history.push('/new-event');
   };
 
-  handleMouseOver = (task) => {
-    console.log(task);
-    console.log(task.event.extendedProps.details);
-    return (
-      <div style="background-color: white; color: black;">
-        {task.event.extendedProps.details}
-      </div>
-    );
+  handleTab = (key) => (event) => {
+    console.log('in tab', key, this.state.tabs);
+    switch (key) {
+      case 'routine':
+        this.setState({
+          tabs: {
+            routineTab: true,
+            habitTab: false,
+            taskTab: false,
+          },
+        });
+        return;
+      case 'habit':
+        this.setState({
+          tabs: {
+            routineTab: false,
+            habitTab: true,
+            taskTab: false,
+          },
+        });
+        return;
+      case 'task':
+        this.setState({
+          tabs: {
+            routineTab: false,
+            habitTab: false,
+            taskTab: true,
+          },
+        });
+        return;
+      default:
+        return this.state.tabs;
+    }
   };
 
   render() {
@@ -88,6 +118,18 @@ class MainView extends Component {
       transitionDelay: '0.03s',
     };
 
+    const activeTab = {
+      background: 'linear-gradient(to top, #05aff2, #9de3ff)',
+    };
+    const non = {
+      background: 'none',
+    };
+
+    const tabs = Object.keys(this.state.tabs);
+    const openTab = tabs.filter((tab) => {
+      return this.state.tabs[tab];
+    });
+    console.log(openTab);
     return (
       <div style={this.state.onOpen ? movement : stop}>
         <Container
@@ -100,29 +142,17 @@ class MainView extends Component {
             <Grid container spacing={0}>
               <Grid
                 item
-                lg={4}
-                md={5}
+                lg={6}
+                md={6}
                 sm={12}
+                xs={12}
                 style={{
                   padding: '5px',
                   // borderRight: '1px solid #888',
                   // borderBottom: '1px solid #888',
-                  backgroundColor: '#f2f2f29f',
+                  backgroundColor: '#f2f2f246',
                   borderTopLeftRadius: '4px',
-                }}
-              >
-                <Typography variant="h2" component="h2">
-                  The Main View
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                lg={4}
-                md={4}
-                sm={12}
-                style={{
-                  // borderBottom: '1px solid #888',
-                  backgroundColor: '#f2f2f29f',
+                  placeItems: 'center',
                 }}
               >
                 <Typography
@@ -133,21 +163,28 @@ class MainView extends Component {
                   Calendar
                 </Typography>
               </Grid>
+
               <Grid
                 item
-                lg={4}
-                md={4}
+                lg={6}
+                md={6}
                 sm={12}
+                xs={12}
                 style={{
                   // borderBottom: '1px solid #888',
-                  backgroundColor: '#f2f2f29f',
+                  backgroundColor: '#f2f2f246',
                   borderTopRightRadius: '4px',
                 }}
               >
                 <Typography
-                  variant="h4"
+                  variant="h5"
                   component="h2"
-                  style={{ padding: '2.5%', textAlign: 'right' }}
+                  style={{
+                    padding: '2.5%',
+                    textAlign: 'right',
+                    borderRadius: '4px',
+                    textDecoration: 'underline',
+                  }}
                 >
                   Today is {todaysDate}
                 </Typography>
@@ -157,8 +194,9 @@ class MainView extends Component {
                 lg={4}
                 md={12}
                 sm={12}
+                xs={12}
                 style={{
-                  backgroundColor: '#f2f2f29f',
+                  backgroundColor: '#f2f2f246',
                   borderBottomLeftRadius: '4px',
                 }}
                 className={styles.sideBar}
@@ -198,20 +236,200 @@ class MainView extends Component {
                   <Grid
                     item
                     lg={12}
+                    md={12}
+                    sm={12}
+                    xs={12}
+                    style={{
+                      backgroundColor: '#d96055c2',
+                      padding: '3%',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    <Grid
+                      container
+                      justify="center"
+                      spacing={0}
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: '6px',
+                        padding: '2%',
+                      }}
+                    >
+                      <Grid
+                        item
+                        lg={4}
+                        md={4}
+                        sm={4}
+                        xs={4}
+                        onClick={this.handleTab('routine')}
+                        style={this.state.tabs.routineTab ? activeTab : non}
+                      >
+                        <Box className={styles.displayEvents}>
+                          <Typography variant="overline">Routines</Typography>
+                        </Box>
+                      </Grid>
+                      <Grid
+                        item
+                        lg={4}
+                        md={4}
+                        sm={4}
+                        xs={4}
+                        onClick={this.handleTab('habit')}
+                        style={this.state.tabs.habitTab ? activeTab : non}
+                      >
+                        <Box className={styles.displayEvents}>
+                          <Typography variant="overline">Habits</Typography>
+                        </Box>
+                      </Grid>
+                      <Grid
+                        item
+                        lg={4}
+                        md={4}
+                        sm={4}
+                        xs={4}
+                        onClick={this.handleTab('task')}
+                        style={this.state.tabs.taskTab ? activeTab : non}
+                      >
+                        <Box className={styles.displayEvents}>
+                          <Typography variant="overline">Tasks</Typography>
+                        </Box>
+                      </Grid>
+                      {/* TODO: conditionally render based on tab selected {this.state.tabs}
+                        openTab
+                      */}
+                      {openTab[0] === 'routineTab' &&
+                        events.map((event, index) => {
+                          if (event.event_type === 'Routine') {
+                            return (
+                              <Grid
+                                item
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
+                                key={index}
+                                // className={styles.itemToday}
+                                style={{
+                                  borderBottom:
+                                    '0.004rem solid rgba(136, 136, 136, 0.693)',
+                                  margin: '5px 0',
+                                  padding: '5px 0',
+                                }}
+                              >
+                                <Grid item lg={4}>
+                                  <Typography
+                                    variant="body2"
+                                    style={{ display: 'inline-block' }}
+                                  >
+                                    {event.title}
+                                  </Typography>
+                                </Grid>
+                                <Grid
+                                  item
+                                  lg={5}
+                                  style={{
+                                    display: 'inline-block',
+                                    textAlign: 'right',
+                                  }}
+                                >
+                                  <Typography variant="caption">
+                                    {event.recurring}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            );
+                          }
+                        })}
+                      {openTab[0] === 'habitTab' &&
+                        events.map((event, index) => {
+                          const checkstart = moment(event.start).format(
+                            'MMM Do, YYYY'
+                          );
+                          if (event.event_type === 'Habit') {
+                            return (
+                              <Grid
+                                item
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
+                                key={index}
+                                className={styles.itemToday}
+                              >
+                                <Typography variant="body2">
+                                  {event.title}
+                                </Typography>
+                              </Grid>
+                            );
+                          }
+                        })}
+                      {openTab[0] === 'taskTab' &&
+                        events.map((event, index) => {
+                          const checkstart = moment(event.start).format(
+                            'MMM Do, YYYY'
+                          );
+                          // const today = moment(todaysDate).format('YYYY-MM-DD');
+                          console.log(checkstart, todaysDate);
+                          if (event.event_type === 'Task') {
+                            return (
+                              <Grid
+                                item
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
+                                key={index}
+                                className={styles.itemToday}
+                                style={{
+                                  borderBottom:
+                                    '0.004rem solid rgba(136, 136, 136, 0.693)',
+                                  margin: '10px 0',
+                                }}
+                              >
+                                <Typography variant="body2">
+                                  {event.title}
+                                </Typography>
+                              </Grid>
+                            );
+                          }
+                        })}
+                      <Grid item lg={4}>
+                        <button
+                          className={styles.addBtn}
+                          onClick={this.newEvent}
+                        >
+                          <Grid item lg={12}>
+                            <AddIcon
+                              fontSize="small"
+                              style={{
+                                verticalAlign: 'middle',
+                                display: 'inline-block',
+                              }}
+                            />
+                            <Typography
+                              variant="caption"
+                              style={{ verticalAlign: 'middle' }}
+                            >
+                              Add an Event
+                            </Typography>
+                          </Grid>
+                        </button>
+                      </Grid>
+                      <Grid item lg={8}>
+                        <GoogleBtn style={{ display: 'inline-block' }} />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  {/* <Grid
+                    item
+                    lg={12}
                     style={{
                       backgroundColor: '#d96055c2',
                       padding: '4%',
                       borderRadius: '4px',
                     }}
                   >
-                    <Typography variant="h5">
-                      {this.state.myEventsList.length > 3
-                        ? 'Busy Day!'
-                        : 'Plenty of time to try something new'}
-                    </Typography>
-                    <Typography variant="overline">
-                      Today's Routines:
-                    </Typography>
                     <Grid
                       container
                       justify="center"
@@ -222,52 +440,32 @@ class MainView extends Component {
                         padding: '2%',
                       }}
                     >
+                      <Typography
+                        variant="overline"
+                        style={{
+                          borderBottom:
+                            '0.004rem solid rgba(136, 136, 136, 0.693)',
+                        }}
+                      >
+                        | Today's Habits |
+                      </Typography>
+
                       {events.map((event, index) => {
-                        console.log(event);
-                        if (event.event_type === 'Routine') {
+                        if (event.event_type === 'Habit') {
                           return (
                             <Grid
                               item
-                              lg={10}
+                              lg={12}
                               key={index}
                               className={styles.itemToday}
-                              style={{ marginTop: '2%' }}
                             >
-                              <Typography variant="body2">
-                                {event.title}
-                              </Typography>
+                              {event.title}
+                              {event.details}
                             </Grid>
                           );
                         }
                       })}
                     </Grid>
-                  </Grid>
-                  <hr />
-                  <Grid
-                    item
-                    lg={12}
-                    style={{
-                      backgroundColor: '#d96055c2',
-                      padding: '4%',
-                      borderRadius: '4px',
-                    }}
-                  >
-                    <Typography variant="overline">Today's Habits:</Typography>
-                    {events.map((event, index) => {
-                      if (event.event_type === 'Habit') {
-                        return (
-                          <Grid
-                            item
-                            lg={12}
-                            key={index}
-                            className={styles.itemToday}
-                          >
-                            {event.title}
-                            {event.details}
-                          </Grid>
-                        );
-                      }
-                    })}
                   </Grid>
                   <hr />
 
@@ -280,26 +478,99 @@ class MainView extends Component {
                       borderRadius: '4px',
                     }}
                   >
-                    <Typography variant="overline">Today's Tasks:</Typography>
-                    {events.map((event, index) => {
-                      const checkstart = moment(event.start).format(
-                        'YYYY-MM-DD'
-                      );
-                      const today = moment(todaysDate).format('YYYY-MM-DD');
-                      if (event.event_type === 'Task' && checkstart === today) {
-                        return (
-                          <Grid
-                            item
-                            lg={10}
-                            key={index}
-                            className={styles.itemToday}
-                          >
-                            {event.title}
-                            {event.details}
-                          </Grid>
+                    <Grid
+                      container
+                      justify="center"
+                      spacing={2}
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: '6px',
+                        padding: '2%',
+                      }}
+                    >
+                      <Typography
+                        variant="overline"
+                        style={{
+                          borderBottom:
+                            '0.004rem solid rgba(136, 136, 136, 0.693)',
+                        }}
+                      >
+                        Today's Tasks
+                      </Typography>
+                      {events.map((event, index) => {
+                        const checkstart = moment(event.start).format(
+                          'YYYY-MM-DD'
                         );
-                      }
-                    })}
+                        const today = moment(todaysDate).format('YYYY-MM-DD');
+                        if (
+                          event.event_type === 'Task' &&
+                          checkstart === today
+                        ) {
+                          return (
+                            <Grid
+                              item
+                              lg={10}
+                              key={index}
+                              className={styles.itemToday}
+                            >
+                              {event.title}
+                              {event.details}
+                            </Grid>
+                          );
+                        }
+                      })}
+                    </Grid>
+                  </Grid>
+                  <hr /> */}
+                  <Grid
+                    container
+                    justify="center"
+                    spacing={0}
+                    style={{
+                      backgroundColor: '#d96055c2',
+                      padding: '3%',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    <Grid
+                      container
+                      justify="center"
+                      spacing={0}
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: '6px',
+                        padding: '2%',
+                      }}
+                    >
+                      <Grid item lg={8} className={styles.keyBadge}>
+                        <FiberManualRecordIcon
+                          style={{
+                            display: 'inline-block',
+                            verticalAlign: 'middle',
+                          }}
+                        />{' '}
+                        - Habit
+                        <br />
+                        <FiberManualRecordIcon
+                          style={{
+                            color: 'blue',
+                            display: 'inline-block',
+                            verticalAlign: 'middle',
+                          }}
+                        />{' '}
+                        - Routine
+                        <br />
+                        <FiberManualRecordIcon
+                          style={{
+                            color: 'green',
+                            display: 'inline-block',
+                            verticalAlign: 'middle',
+                          }}
+                        />{' '}
+                        - Task
+                        <br />
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <hr />
                   <Grid
@@ -308,44 +579,78 @@ class MainView extends Component {
                     spacing={0}
                     style={{
                       backgroundColor: '#d96055c2',
-                      padding: '4%',
+                      padding: '3%',
                       borderRadius: '4px',
                     }}
                   >
-                    <Grid item lg={8} className={styles.keyBadge}>
-                      <FiberManualRecordIcon
-                        style={{
-                          display: 'inline-block',
-                          verticalAlign: 'middle',
-                        }}
-                      />{' '}
-                      - Habit
-                      <br />
-                      <FiberManualRecordIcon
-                        style={{
-                          color: 'blue',
-                          display: 'inline-block',
-                          verticalAlign: 'middle',
-                        }}
-                      />{' '}
-                      - Routine
-                      <br />
-                      <FiberManualRecordIcon
-                        style={{
-                          color: 'green',
-                          display: 'inline-block',
-                          verticalAlign: 'middle',
-                        }}
-                      />{' '}
-                      - Task
-                      <br />
-                    </Grid>
-                    <Grid item lg={12} style={{ marginTop: '25px' }}>
-                      <button className="log-in" onClick={this.newEvent}>
-                        New Event!
-                      </button>
-                      <br />
-                      <GoogleBtn />
+                    <Grid
+                      container
+                      justify="center"
+                      spacing={0}
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: '6px',
+                        padding: '2%',
+                      }}
+                    >
+                      <Grid item lg={12}>
+                        <Grid
+                          item
+                          lg={12}
+                          style={{
+                            margin: '5px 0',
+                            padding: '5px 0',
+                            borderBottom:
+                              '0.004rem solid rgba(136, 136, 136, 0.693)',
+                          }}
+                        >
+                          <Typography variant="overline">Resources:</Typography>
+                          <br />
+                          <a
+                            href="https://slowgrowth.com/"
+                            className={styles.links}
+                          >
+                            {' '}
+                            Slow Growth Academy by Matt D'Avella
+                          </a>
+                        </Grid>
+                        <Grid
+                          item
+                          lg={12}
+                          style={{
+                            margin: '5px 0',
+                            padding: '5px 0',
+                            borderBottom:
+                              '0.004rem solid rgba(136, 136, 136, 0.693)',
+                          }}
+                        >
+                          <a
+                            href="https://aliabdaal.com/"
+                            className={styles.links}
+                          >
+                            {' '}
+                            Ali Abdaal - A doctor, Youtuber, Podcaster
+                          </a>
+                        </Grid>
+                        <Grid
+                          item
+                          lg={12}
+                          style={{
+                            margin: '5px 0',
+                            padding: '5px 0',
+                            borderBottom:
+                              '0.004rem solid rgba(136, 136, 136, 0.693)',
+                          }}
+                        >
+                          <a
+                            href="https://www.garyvaynerchuk.com/"
+                            className={styles.links}
+                          >
+                            {' '}
+                            Gary Vaynerchuck
+                          </a>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Box>
@@ -399,11 +704,9 @@ class MainView extends Component {
                                     }
                                   })
                                   .map((day) => {
-                                    console.log(day.num);
                                     return day.num - 1;
                                   });
                                 let rrule;
-                                console.log(daysOfWeek, event.id);
                                 if (daysOfWeek.length < 1) {
                                   daysOfWeek = undefined;
                                 }
@@ -415,7 +718,6 @@ class MainView extends Component {
                                   event.recurring !== 'every day' &&
                                   event.recurring !== null
                                 ) {
-                                  console.log(event.recurring);
                                   rrule = event.recurring;
                                 }
                                 const endDate = moment(event.end).format(
@@ -424,12 +726,10 @@ class MainView extends Component {
                                 const startDate = moment(event.start).format(
                                   'YYYY-MM-DD'
                                 );
-                                console.log(endDate, startDate);
                                 let endRecur;
                                 if (endDate !== startDate) {
                                   endRecur = endDate;
                                 }
-                                console.log(endRecur);
                                 return {
                                   id: event.id,
                                   title: event.title,

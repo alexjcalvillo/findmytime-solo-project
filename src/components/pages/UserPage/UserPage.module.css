@@ -1,7 +1,18 @@
+.profile {
+  background: linear-gradient(to top, white 50%, #05c7f2 50%);
+}
+
+.profileInfo {
+  background-color: #f2f2f2;
+  border-radius: 6px;
+  padding: 6%;
+  margin: 3%;
+}
+
 .innerUser {
   /* margin: auto;
   width: 50%; */
-  padding: 0 10% 1.5%;
+  padding: 0 10% 6%;
 }
 
 .infoBadge {
