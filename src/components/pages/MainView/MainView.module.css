@@ -7,9 +7,9 @@
 
 .sideBar {
   /* margin-left: 15px; */
-  padding: 15px;
+  padding: 12px;
   /* border-right: 1px solid rgba(136, 136, 136, 0.693); */
-  /* box-shadow: 8px 0px 6px -2px rgb(0, 0, 0, 0.4); */
+  /* box-shadow: 2px 0px 6px -2px rgb(0, 0, 0, 0.4); */
 }
 
 .calBar {
@@ -17,7 +17,7 @@
 }
 
 .calBar2 {
-  padding: 2% 2%;
+  padding: 1.5% 2%;
 }
 
 .displayEvents {
@@ -36,7 +36,7 @@
 }
 
 .displayEvents:active {
-  background: linear-gradient(to top, #05aff2, #9de3ff);
+  background: linear-gradient(to top, #05c7f2, #9de3ff);
 }
 
 .displayEvents:nth-child(1) {
@@ -46,8 +46,8 @@
 .keyBadge {
   border: none;
   border-radius: 4px;
-  background: linear-gradient(to top, #05aff2, #9de3ff);
-  box-shadow: 1px 6px 3px rgb(0, 0, 0, 0.2);
+  background: linear-gradient(to top, #05c7f2, #9de3ff);
+  box-shadow: 1px 2px 2px 1px rgb(0, 0, 0, 0.2);
 }
 
 .addBtn {

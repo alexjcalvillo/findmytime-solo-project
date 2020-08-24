@@ -4,6 +4,8 @@ import mapStoreToProps from '../../../redux/mapStoreToProps';
 
 import './LandingPage.css';
 import logo from '../LandingPage/watchblue.png';
+import { Grid, Container, Typography, Box } from '@material-ui/core/';
+
 // CUSTOM COMPONENTS
 import RegisterForm from '../../RegisterForm/RegisterForm';
 
@@ -19,42 +21,39 @@ class LandingPage extends Component {
   render() {
     return (
       <div className="container">
-        <h2>{this.state.heading}</h2>
-
         <div className="grid">
           <div className="grid-col grid-col_8">
-            <img src={logo} className="icon" />
-            <p>
-              . Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Curabitur id felis metus. Vestibulum et pulvinar tortor. Morbi
-              pharetra lacus ut ex molestie blandit. Etiam et turpis sit amet
-              risus mollis interdum. Suspendisse et justo vitae metus bibendum
-              fringilla sed sed justo. Aliquam sollicitudin dapibus lectus,
-              vitae consequat odio elementum eget. Praesent efficitur eros vitae
-              nunc interdum, eu interdum justo facilisis. Sed pulvinar nulla ac
-              dignissim efficitur. Quisque eget eros metus. Vestibulum bibendum
-              fringilla nibh a luctus. Duis a sapien metus.
-            </p>
-
-            <p>
-              Praesent consectetur orci dui, id elementum eros facilisis id. Sed
-              id dolor in augue porttitor faucibus eget sit amet ante. Nunc
-              consectetur placerat pharetra. Aenean gravida ex ut erat commodo,
-              ut finibus metus facilisis. Nullam eget lectus non urna rhoncus
-              accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
-              euismod, augue at condimentum rhoncus, massa lorem semper lacus,
-              sed lobortis augue mi vel felis. Duis ultrices sapien at est
-              convallis congue.
-            </p>
-
-            <p>
-              Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.
-              Suspendisse posuere dapibus maximus. Aliquam vitae felis libero.
-              In vehicula sapien at semper ultrices. Vivamus sed feugiat libero.
-              Sed sagittis neque id diam euismod, ut egestas felis ultricies.
-              Nullam non fermentum mauris. Sed in enim ac turpis faucibus
-              pretium in sit amet nisi.
-            </p>
+            {/* <img src={logo} className="icon" /> */}
+            <center
+              style={{
+                textAlign: 'left',
+                color: 'white',
+                borderRadius: '4px',
+                border: '2px solid #d96055',
+                background: 'linear-gradient(to top, white 50%, #05c7f2 50%)',
+                height: '500px',
+                padding: '6%',
+              }}
+            >
+              <Typography variant="h3">
+                A simple tool to help you do the things you've always wanted to,
+                <br />
+                but have been too{' '}
+                <span style={{ color: '#d96055', textDecoration: 'italicize' }}>
+                  "busy"
+                </span>{' '}
+                to do.
+              </Typography>
+              <Typography variant="h6">
+                A calendar that breaks things down for you. Your time is yours!
+              </Typography>
+              <div>
+                <img
+                  src="https://images.unsplash.com/photo-1490724500206-cd5482e02b9e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                  className="stock"
+                />
+              </div>
+            </center>
           </div>
           <div className="grid-col grid-col_4">
             <RegisterForm />

@@ -35,6 +35,10 @@ class MainView extends Component {
   };
 
   componentDidMount() {
+    this.interval = setInterval(
+      () => this.setState({ time: Date.now() }),
+      1000
+    );
     this.setState({
       onOpen: false,
     });
@@ -56,6 +60,10 @@ class MainView extends Component {
         ...this.props.store.eventsReducer,
       ],
     });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   newEvent = () => {
@@ -103,7 +111,10 @@ class MainView extends Component {
       ...this.props.store.googleCalendar,
       ...this.props.store.eventsReducer,
     ];
-    const todaysDate = moment(Date()).format('MMM Do, YYYY');
+    // const todaysDate = moment(Date()).format('MMMM Do, YYYY, h:mm:ss a');
+    const todaysDate = moment(this.state.time).format(
+      'MMMM Do, YYYY, h:mm:ss a'
+    );
     const movement = {
       position: 'relative',
       top: '80px',
@@ -119,7 +130,7 @@ class MainView extends Component {
     };
 
     const activeTab = {
-      background: 'linear-gradient(to top, #05aff2, #9de3ff)',
+      background: 'linear-gradient(to top, #05c7f2, #9de3ff)',
     };
     const non = {
       background: 'none',
@@ -130,6 +141,72 @@ class MainView extends Component {
       return this.state.tabs[tab];
     });
     console.log(openTab);
+
+    const eventsList = events.map((event, index) => {
+      const end = moment(event.end).format('HH:mm:ss');
+      const start = moment(event.start).format('HH:mm:ss');
+      const time = moment(event.end).diff(moment(event.start));
+      const duration = time;
+      const type = (color) => {
+        switch (color) {
+          case 'Routine':
+            return 'blue';
+          case 'Task':
+            return 'green';
+          case 'Habit':
+            return 'black';
+          default:
+            return 'green';
+        }
+      };
+      {
+        /* TODO: fix daysOfWeek variable filter */
+      }
+      let daysOfWeek = this.props.store.days
+        .filter((day) => {
+          if (day.id === event.id) {
+            return day.num;
+          }
+        })
+        .map((day) => {
+          return day.num - 1;
+        });
+      let rrule;
+      if (daysOfWeek.length < 1) {
+        daysOfWeek = undefined;
+      }
+      if (event.recurring === 'every day') {
+        daysOfWeek = [0, 1, 2, 3, 4, 5, 6, 7];
+      }
+      if (
+        daysOfWeek === undefined &&
+        event.recurring !== 'every day' &&
+        event.recurring !== null
+      ) {
+        rrule = event.recurring;
+      }
+      const endDate = moment(event.end).format('YYYY-MM-DD');
+      const startDate = moment(event.start).format('YYYY-MM-DD');
+      let endRecur;
+      if (endDate !== startDate) {
+        endRecur = endDate;
+      }
+      return {
+        id: event.id,
+        title: event.title,
+        startRecur: moment(event.date).format('YYYY-MM-DD'),
+        endRecur,
+        startTime: moment(event.start).format('HH:mm:ss'),
+        endTime: moment(event.end).format('HH:mm:ss'),
+        daysOfWeek: daysOfWeek,
+        backgroundColor: type(event.event_type),
+        // rrule,
+        duration,
+        extendedProps: {
+          details: event.details,
+        },
+      };
+    });
     return (
       <div style={this.state.onOpen ? movement : stop}>
         <Container
@@ -201,35 +278,55 @@ class MainView extends Component {
                 }}
                 className={styles.sideBar}
               >
-                <Box>
+                <Box
+                  style={{
+                    backgroundColor: 'white',
+                    padding: '3%',
+                    borderRadius: '4px',
+                  }}
+                >
                   <Grid
                     item
                     lg={12}
+                    md={12}
+                    sm={12}
+                    xs={12}
                     style={{
-                      backgroundColor: 'white',
-                      paddingTop: '4%',
+                      backgroundColor: '#d96055c2',
+                      padding: '3%',
                       borderRadius: '4px',
                     }}
                   >
-                    <Grid container justify="center">
-                      <img
-                        src={
-                          this.props.store.user &&
-                          this.props.store.user.profile &&
-                          this.props.store.user.profile.profile_pic_path
-                        }
-                        style={{ borderRadius: '50%' }}
-                      />
-                    </Grid>
-                    <Grid container justify="center">
-                      <Typography variant="h5">
-                        {this.props.user &&
-                          this.props.user.profile &&
-                          this.props.user.profile.first_name}{' '}
-                        {this.props.user &&
-                          this.props.user.profile &&
-                          this.props.user.profile.last_name}
-                      </Typography>
+                    <Grid
+                      item
+                      lg={12}
+                      style={{
+                        backgroundColor: 'white',
+                        paddingTop: '4%',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      <Grid container justify="center">
+                        <img
+                          src={
+                            this.props.store.user &&
+                            this.props.store.user.profile &&
+                            this.props.store.user.profile.profile_pic_path
+                          }
+                          style={{ borderRadius: '50%' }}
+                        />
+                      </Grid>
+
+                      <Grid container justify="center">
+                        <Typography variant="h5">
+                          {this.props.user &&
+                            this.props.user.profile &&
+                            this.props.user.profile.first_name}{' '}
+                          {this.props.user &&
+                            this.props.user.profile &&
+                            this.props.user.profile.last_name}
+                        </Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
                   <hr />
@@ -298,8 +395,8 @@ class MainView extends Component {
                         openTab
                       */}
                       {openTab[0] === 'routineTab' &&
-                        events.map((event, index) => {
-                          if (event.event_type === 'Routine') {
+                        eventsList.map((event, index) => {
+                          if (event.backgroundColor === 'blue') {
                             return (
                               <Grid
                                 item
@@ -333,7 +430,7 @@ class MainView extends Component {
                                   }}
                                 >
                                   <Typography variant="caption">
-                                    {event.recurring}
+                                    Every day
                                   </Typography>
                                 </Grid>
                               </Grid>
@@ -341,36 +438,11 @@ class MainView extends Component {
                           }
                         })}
                       {openTab[0] === 'habitTab' &&
-                        events.map((event, index) => {
+                        eventsList.map((event, index) => {
                           const checkstart = moment(event.start).format(
                             'MMM Do, YYYY'
                           );
-                          if (event.event_type === 'Habit') {
-                            return (
-                              <Grid
-                                item
-                                lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}
-                                key={index}
-                                className={styles.itemToday}
-                              >
-                                <Typography variant="body2">
-                                  {event.title}
-                                </Typography>
-                              </Grid>
-                            );
-                          }
-                        })}
-                      {openTab[0] === 'taskTab' &&
-                        events.map((event, index) => {
-                          const checkstart = moment(event.start).format(
-                            'MMM Do, YYYY'
-                          );
-                          // const today = moment(todaysDate).format('YYYY-MM-DD');
-                          console.log(checkstart, todaysDate);
-                          if (event.event_type === 'Task') {
+                          if (event.backgroundColor === 'black') {
                             return (
                               <Grid
                                 item
@@ -383,7 +455,8 @@ class MainView extends Component {
                                 style={{
                                   borderBottom:
                                     '0.004rem solid rgba(136, 136, 136, 0.693)',
-                                  margin: '10px 0',
+                                  margin: '5px 0',
+                                  padding: '5px 0',
                                 }}
                               >
                                 <Typography variant="body2">
@@ -393,7 +466,38 @@ class MainView extends Component {
                             );
                           }
                         })}
-                      <Grid item lg={4}>
+                      {openTab[0] === 'taskTab' &&
+                        eventsList.map((event, index) => {
+                          const checkstart = moment(event.start).format(
+                            'MMM Do, YYYY'
+                          );
+                          // const today = moment(todaysDate).format('YYYY-MM-DD');
+                          console.log(checkstart, todaysDate);
+                          if (event.backgroundColor === 'green') {
+                            return (
+                              <Grid
+                                item
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
+                                key={index}
+                                className={styles.itemToday}
+                                style={{
+                                  borderBottom:
+                                    '0.004rem solid rgba(136, 136, 136, 0.693)',
+                                  margin: '5px 0',
+                                  padding: '5px 0',
+                                }}
+                              >
+                                <Typography variant="body2">
+                                  {event.title}
+                                </Typography>
+                              </Grid>
+                            );
+                          }
+                        })}
+                      <Grid item lg={4} style={{ marginTop: '2%' }}>
                         <button
                           className={styles.addBtn}
                           onClick={this.newEvent}
@@ -542,7 +646,10 @@ class MainView extends Component {
                         padding: '2%',
                       }}
                     >
-                      <Grid item lg={8} className={styles.keyBadge}>
+                      <Grid item lg={12}>
+                        <Typography variant="overline">Key</Typography>
+                      </Grid>
+                      <Grid item lg={10} className={styles.keyBadge}>
                         <FiberManualRecordIcon
                           style={{
                             display: 'inline-block',
@@ -625,11 +732,11 @@ class MainView extends Component {
                           }}
                         >
                           <a
-                            href="https://aliabdaal.com/"
+                            href="https://jamesclear.com/"
                             className={styles.links}
                           >
                             {' '}
-                            Ali Abdaal - A doctor, Youtuber, Podcaster
+                            Atomic Habits & more - James Clear
                           </a>
                         </Grid>
                         <Grid
@@ -642,12 +749,9 @@ class MainView extends Component {
                               '0.004rem solid rgba(136, 136, 136, 0.693)',
                           }}
                         >
-                          <a
-                            href="https://www.garyvaynerchuk.com/"
-                            className={styles.links}
-                          >
+                          <a href="https://tim.blog/" className={styles.links}>
                             {' '}
-                            Gary Vaynerchuck
+                            Tim Ferris
                           </a>
                         </Grid>
                       </Grid>
@@ -671,85 +775,7 @@ class MainView extends Component {
                           this.props.store.googleCalendar && (
                             <MyFullCalendar
                               hover={this.handleMouseOver}
-                              events={events.map((event, index) => {
-                                const end = moment(event.end).format(
-                                  'HH:mm:ss'
-                                );
-                                const start = moment(event.start).format(
-                                  'HH:mm:ss'
-                                );
-                                const time = moment(event.end).diff(
-                                  moment(event.start)
-                                );
-                                const duration = time;
-                                const type = (color) => {
-                                  switch (color) {
-                                    case 'Routine':
-                                      return 'blue';
-                                    case 'Task':
-                                      return 'green';
-                                    case 'Habit':
-                                      return 'black';
-                                    default:
-                                      return 'green';
-                                  }
-                                };
-                                {
-                                  /* TODO: fix daysOfWeek variable filter */
-                                }
-                                let daysOfWeek = this.props.store.days
-                                  .filter((day) => {
-                                    if (day.id === event.id) {
-                                      return day.num;
-                                    }
-                                  })
-                                  .map((day) => {
-                                    return day.num - 1;
-                                  });
-                                let rrule;
-                                if (daysOfWeek.length < 1) {
-                                  daysOfWeek = undefined;
-                                }
-                                if (event.recurring === 'every day') {
-                                  daysOfWeek = [0, 1, 2, 3, 4, 5, 6, 7];
-                                }
-                                if (
-                                  daysOfWeek === undefined &&
-                                  event.recurring !== 'every day' &&
-                                  event.recurring !== null
-                                ) {
-                                  rrule = event.recurring;
-                                }
-                                const endDate = moment(event.end).format(
-                                  'YYYY-MM-DD'
-                                );
-                                const startDate = moment(event.start).format(
-                                  'YYYY-MM-DD'
-                                );
-                                let endRecur;
-                                if (endDate !== startDate) {
-                                  endRecur = endDate;
-                                }
-                                return {
-                                  id: event.id,
-                                  title: event.title,
-                                  startRecur: moment(event.date).format(
-                                    'YYYY-MM-DD'
-                                  ),
-                                  endRecur,
-                                  startTime: moment(event.start).format(
-                                    'HH:mm:ss'
-                                  ),
-                                  endTime: moment(event.end).format('HH:mm:ss'),
-                                  daysOfWeek: daysOfWeek,
-                                  backgroundColor: type(event.event_type),
-                                  // rrule,
-                                  duration,
-                                  extendedProps: {
-                                    details: event.details,
-                                  },
-                                };
-                              })}
+                              events={eventsList}
                             />
                           )}
                       </Box>
