@@ -14,7 +14,7 @@ import styles from './MainView.module.css';
 // import FullCalendar Calendar for use
 import MyFullCalendar from '../../MyFullCalendar/MyFullCalendar';
 import GoogleBtn from '../../GoogleBtn/GoogleBtn';
-import { RRule, RRuleSet, rrulestr } from 'rrule';
+// import { RRule, RRuleSet, rrulestr } from 'rrule';
 // Basic class component structure for React with default state
 // value setup. When making a new component be sure to replace
 // the component name TemplateClass with the name for the new
