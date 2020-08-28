@@ -67,12 +67,10 @@ class MainView extends Component {
   }
 
   newEvent = () => {
-    console.log('in new event');
     this.props.history.push('/new-event');
   };
 
   handleTab = (key) => (event) => {
-    console.log('in tab', key, this.state.tabs);
     switch (key) {
       case 'routine':
         this.setState({
@@ -142,71 +140,74 @@ class MainView extends Component {
     });
     console.log(openTab);
 
-    const eventsList = events.map((event, index) => {
-      const end = moment(event.end).format('HH:mm:ss');
-      const start = moment(event.start).format('HH:mm:ss');
-      const time = moment(event.end).diff(moment(event.start));
-      const duration = time;
-      const type = (color) => {
-        switch (color) {
-          case 'Routine':
-            return 'blue';
-          case 'Task':
-            return 'green';
-          case 'Habit':
-            return 'black';
-          default:
-            return 'green';
-        }
-      };
-      {
-        /* TODO: fix daysOfWeek variable filter */
-      }
-      let daysOfWeek = this.props.store.days
-        .filter((day) => {
-          if (day.id === event.id) {
-            return day.num;
+    const eventsList =
+      this.props.store &&
+      this.props.store.days &&
+      events.map((event, index) => {
+        const end = moment(event.end).format('HH:mm:ss');
+        const start = moment(event.start).format('HH:mm:ss');
+        const time = moment(event.end).diff(moment(event.start));
+        const duration = time;
+        const type = (color) => {
+          switch (color) {
+            case 'Routine':
+              return 'blue';
+            case 'Task':
+              return 'green';
+            case 'Habit':
+              return 'black';
+            default:
+              return 'green';
           }
-        })
-        .map((day) => {
-          return day.num - 1;
-        });
-      let rrule;
-      if (daysOfWeek.length < 1) {
-        daysOfWeek = undefined;
-      }
-      if (event.recurring === 'every day') {
-        daysOfWeek = [0, 1, 2, 3, 4, 5, 6, 7];
-      }
-      if (
-        daysOfWeek === undefined &&
-        event.recurring !== 'every day' &&
-        event.recurring !== null
-      ) {
-        rrule = event.recurring;
-      }
-      const endDate = moment(event.end).format('YYYY-MM-DD');
-      const startDate = moment(event.start).format('YYYY-MM-DD');
-      let endRecur;
-      if (endDate !== startDate) {
-        endRecur = endDate;
-      }
-      return {
-        id: event.id,
-        title: event.title,
-        startRecur: moment(event.date).format('YYYY-MM-DD'),
-        endRecur,
-        startTime: moment(event.start).format('HH:mm:ss'),
-        endTime: moment(event.end).format('HH:mm:ss'),
-        daysOfWeek: daysOfWeek,
-        backgroundColor: type(event.event_type),
-        // rrule,
-        duration,
-        extendedProps: {
-          details: event.details,
-        },
-      };
-    });
+        };
+        {
+          /* TODO: fix daysOfWeek variable filter */
+        }
+        let daysOfWeek = this.props.store.days
+          .filter((day) => {
+            if (day.id === event.id) {
+              return day.num;
+            }
+          })
+          .map((day) => {
+            return day.num - 1;
+          });
+        let rrule;
+        if (daysOfWeek.length < 1) {
+          daysOfWeek = undefined;
+        }
+        if (event.recurring === 'every day') {
+          daysOfWeek = [0, 1, 2, 3, 4, 5, 6, 7];
+        }
+        if (
+          daysOfWeek === undefined &&
+          event.recurring !== 'every day' &&
+          event.recurring !== null
+        ) {
+          rrule = event.recurring;
+        }
+        const endDate = moment(event.end).format('YYYY-MM-DD');
+        const startDate = moment(event.start).format('YYYY-MM-DD');
+        let endRecur;
+        if (endDate !== startDate) {
+          endRecur = endDate;
+        }
+        return {
+          id: event.id,
+          title: event.title,
+          startRecur: moment(event.date).format('YYYY-MM-DD'),
+          endRecur,
+          startTime: moment(event.start).format('HH:mm:ss'),
+          endTime: moment(event.end).format('HH:mm:ss'),
+          daysOfWeek: daysOfWeek,
+          backgroundColor: type(event.event_type),
+          // rrule,
+          duration,
+          extendedProps: {
+            details: event.details,
+          },
+        };
+      });
     return (
       <div style={this.state.onOpen ? movement : stop}>
         <Container

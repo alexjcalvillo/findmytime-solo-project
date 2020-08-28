@@ -35,7 +35,6 @@ class MyFullCalendar extends Component {
   };
   render() {
     console.log(this.props.events);
-    console.log(this.props.googleEvents);
     return (
       <div>
         <div className={styles.myCal}>
