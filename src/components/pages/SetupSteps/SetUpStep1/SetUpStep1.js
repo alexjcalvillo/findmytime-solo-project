@@ -8,8 +8,8 @@ import SetUpStepTest from '../SetUpStepTest/SetUpStepTest';
 import styles from './SetUpStep1.module.css';
 
 // importing react-time-picker
-import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
-import RRuleSelector from '../../../RRuleSelector/RRuleSelector';
+// import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+// import RRuleSelector from '../../../RRuleSelector/RRuleSelector';
 import { Grid, Container, Typography } from '@material-ui/core/';
 
 // steps 1 and 2 have similar setup with differences in reducers and titling

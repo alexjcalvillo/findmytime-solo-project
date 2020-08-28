@@ -9,7 +9,7 @@ import styles from './UserPage.module.css';
 import { Grid, Container, Typography, Box } from '@material-ui/core/';
 import LaunchIcon from '@material-ui/icons/Launch';
 
-import RRuleSelector from '../../RRuleSelector/RRuleSelector';
+// import RRuleSelector from '../../RRuleSelector/RRuleSelector';
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
 // and then instead of `props.user.username` you could use `user.username`

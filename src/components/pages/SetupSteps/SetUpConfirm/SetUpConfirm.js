@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../../../redux/mapStoreToProps';
 
-import { RRule, RRuleSet, rrulestr } from 'rrule';
+// import { RRule, RRuleSet, rrulestr } from 'rrule';
 import moment from 'moment';
 
 import styles from './SetUpConfirm.module.css';
@@ -24,10 +24,10 @@ class SetUpConfirm extends Component {
     });
   };
   render() {
-    console.log(this.props.store.wakeup);
-    const recurring = rrulestr(this.props.store.winddown.recurring);
-    const recurringText = recurring.toText();
-    console.log(recurringText);
+    // console.log(this.props.store.wakeup);
+    // const recurring = rrulestr(this.props.store.winddown.recurring);
+    // const recurringText = recurring.toText();
+    // console.log(recurringText);
     return (
       <Container maxWidth="sm" className={styles.headingBox}>
         <Grid container spacing={8}>
