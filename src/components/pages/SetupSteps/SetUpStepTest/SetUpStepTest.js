@@ -11,7 +11,7 @@ import { Grid, Container, Typography } from '@material-ui/core/';
 // importing react-time-picker
 // import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 // import RRuleSelector from '../../../RRuleSelector/RRuleSelector';
-import { RRule, RRuleSet, rrulestr } from 'rrule';
+// import { RRule, RRuleSet, rrulestr } from 'rrule';
 import DatePicker from 'react-datepicker';
 
 // Events to be built using this example structure
