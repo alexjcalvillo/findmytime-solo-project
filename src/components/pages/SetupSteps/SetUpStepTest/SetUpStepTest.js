@@ -8,10 +8,7 @@ import styles from './SetUpStepTest.module.css';
 import { Grid, Container, Typography } from '@material-ui/core/';
 
 // import Container from '@material-ui/core/Container';
-// importing react-time-picker
-// import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
-// import RRuleSelector from '../../../RRuleSelector/RRuleSelector';
-// import { RRule, RRuleSet, rrulestr } from 'rrule';
+import { RRule, RRuleSet, rrulestr } from 'rrule';
 import DatePicker from 'react-datepicker';
 
 // Events to be built using this example structure
