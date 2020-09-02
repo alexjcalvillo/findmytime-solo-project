@@ -8,6 +8,10 @@ A tool to help you find the time in your schedule where you might normally say y
 
 ## Screen Shot
 
+![Screen Shot Landing Page](wireframes/LandingPage.png)
+![Screen Shot Account Page](wireframes/AccountPage.png)
+![Screen Shot Dashboard View](wireframes/DashboardView.png)
+
 ### Prerequisites
 
 - [React.js](https://reactjs.org)
