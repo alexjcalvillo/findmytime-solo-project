@@ -138,7 +138,6 @@ class MainView extends Component {
     const openTab = tabs.filter((tab) => {
       return this.state.tabs[tab];
     });
-    console.log(openTab);
 
     const eventsList =
       this.props.store &&

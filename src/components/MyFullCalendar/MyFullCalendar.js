@@ -25,8 +25,6 @@ rrule: {
 
 class MyFullCalendar extends Component {
   handleMouseOver = (task) => {
-    console.log(task);
-    console.log(task.event.extendedProps.details);
     return (
       <div style="position:absolute; width:100%; height:100%; top:-1px; text-align:right; z-index:100">
         {task.event.extendedProps.details}
@@ -34,7 +32,6 @@ class MyFullCalendar extends Component {
     );
   };
   render() {
-    console.log(this.props.events);
     return (
       <div>
         <div className={styles.myCal}>

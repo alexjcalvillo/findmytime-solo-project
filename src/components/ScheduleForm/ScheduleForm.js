@@ -10,6 +10,7 @@ import { Grid, Container, Typography } from '@material-ui/core/';
 // import Container from '@material-ui/core/Container';
 // importing react-time-picker
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 // Events to be built using this example structure
 // {
