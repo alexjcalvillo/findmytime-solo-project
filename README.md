@@ -56,4 +56,4 @@ A tool to help you find the time in your schedule where you might normally say y
 
 ## Acknowledgement
 
-Thanks to Myron, Scott, and Rachael for supporting me through this process of developing my first solo application. I learned a lot!
+Thanks to Myron, Scott, and Rachael for supporting me through this process of developing my first solo application. My Apis Cohort group for supporting me and listening to me gripe when things didn't work, and "hoorayed" with me when things did work! I learned a lot!
